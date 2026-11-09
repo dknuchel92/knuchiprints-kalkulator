@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Knuchi Prints – Kalkulator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg:       #0d0d14;
@@ -15,1179 +15,1275 @@
       --border:   rgba(0,191,255,.10);
       --border2:  rgba(0,191,255,.22);
       --accent:   #00BFFF;
-      --accent-d: #0099CC;
-      --accent-s: rgba(0,191,255,.07);
+      --accent-s: rgba(0,191,255,.08);
+      --accent-m: rgba(0,191,255,.16);
       --accent-g: rgba(0,191,255,.35);
       --fg:       #f0f0f0;
       --fg2:      #a3b1c2;
       --fg3:      #64748b;
       --red:      #F05252;
       --warn:     #F2C94C;
-      --r:        10px;
+      --r:        12px;
       --font:     'Space Grotesk', system-ui, sans-serif;
+      --side:     236px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+    html { scroll-behavior: smooth; }
     body {
       background: var(--bg);
       color: var(--fg);
       font-family: var(--font);
-      font-size: 13px;
+      font-size: 14px;
       line-height: 1.5;
       min-height: 100vh;
     }
-
-    /* ── Scrollbar ── */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    button { font-family: inherit; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg2); }
-    ::-webkit-scrollbar-thumb { background: var(--fg3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: #2a2a3e; border-radius: 4px; }
 
-    /* ── Header ── */
-    .topbar {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(13,13,20,.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px;
-      height: 54px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .logo-svg { width: 30px; height: 30px; flex-shrink: 0; }
-    .topbar-title { font-size: 15px; font-weight: 700; color: var(--fg); }
-    .topbar-sub { font-size: 11px; color: var(--fg3); margin-top: 1px; }
-    .topbar-gap { flex: 1; }
-    .topbar-ref {
-      font-size: 12px; color: var(--fg2);
-      text-align: right; line-height: 1.4;
-    }
-    .topbar-ref strong { color: var(--accent); font-size: 14px; font-weight: 600; }
+    /* ── App shell ── */
+    .app { display: grid; grid-template-columns: var(--side) 1fr; min-height: 100vh; }
 
-    /* ── Wrap ── */
-    .wrap {
-      max-width: 1360px;
-      margin: 0 auto;
-      padding: 20px 20px 60px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .sidebar {
+      position: sticky; top: 0; height: 100vh;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      padding: 20px 14px;
+      gap: 24px;
     }
+    .brand { display: flex; align-items: center; gap: 11px; padding: 0 6px; }
+    .brand svg { width: 34px; height: 34px; flex-shrink: 0; }
+    .brand-name { font-weight: 700; font-size: 15px; line-height: 1.2; }
+    .brand-sub { font-size: 11px; color: var(--fg3); }
 
-    /* ── Section card ── */
-    .section {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      overflow: hidden;
+    .nav { display: flex; flex-direction: column; gap: 4px; }
+    .nav-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--fg3); padding: 0 10px 6px;
     }
-    .sec-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 11px 18px;
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      user-select: none;
-      transition: background .15s;
+    .nav-item {
+      display: flex; align-items: center; gap: 11px;
+      padding: 10px 12px; border-radius: 9px;
+      background: none; border: 1px solid transparent;
+      color: var(--fg2); font-size: 14px; font-weight: 500;
+      cursor: pointer; text-align: left; width: 100%;
+      transition: background .15s, color .15s, border-color .15s;
     }
-    .sec-head:hover { background: var(--accent-s); }
-    .sec-head-static { cursor: default; }
-    .sec-head-static:hover { background: transparent; }
-    .sec-label {
-      font-size: 10px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: .1em;
-      color: var(--accent);
+    .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .nav-item:hover { background: var(--accent-s); color: var(--fg); }
+    .nav-item.active { background: var(--accent-m); color: var(--accent); border-color: var(--border2); }
+    .nav-badge {
+      margin-left: auto; min-width: 22px; padding: 1px 7px;
+      border-radius: 20px; background: var(--card2); color: var(--fg2);
+      font-size: 11px; font-weight: 600; text-align: center;
     }
-    .sec-chevron {
-      font-size: 10px; color: var(--fg3);
-      transition: transform .2s;
-    }
-    .sec-chevron.open { transform: rotate(180deg); }
-    .sec-body { padding: 20px; }
-    .sec-body.collapsed { display: none; }
+    .nav-item.active .nav-badge { background: var(--accent); color: #000; }
 
-    /* ── Meta grid ── */
-    .meta-row {
-      display: grid;
-      grid-template-columns: 1fr 160px 140px;
-      gap: 14px;
+    .side-foot {
+      margin-top: auto;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px;
     }
-    .field label {
-      display: block;
-      font-size: 10px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: .07em;
-      color: var(--fg3);
-      margin-bottom: 5px;
-    }
+    .side-foot-label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--fg3); }
+    .side-foot-ref { font-size: 13px; color: var(--fg2); margin-top: 2px; }
+    .side-foot-total { font-size: 20px; font-weight: 700; color: var(--accent); margin-top: 6px; font-variant-numeric: tabular-nums; }
 
-    /* ── Settings ── */
-    .settings-cols {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 400px));
-      gap: 48px;
-    }
-    .sg-label {
-      font-size: 10px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .08em; color: var(--fg3);
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border2);
-    }
-    .sg-row {
-      display: flex; align-items: center;
-      justify-content: space-between; gap: 12px;
-      padding: 6px 4px;
-      border-bottom: 1px solid var(--border);
-      transition: background .1s;
-    }
-    .sg-row:hover { background: var(--accent-s); }
-    .sg-row label { font-size: 12px; color: var(--fg2); white-space: nowrap; }
-    .sg-row input { width: 100px; padding: 5px 10px; }
+    /* ── Main ── */
+    .main { padding: 32px 40px 64px; min-width: 0; }
+    .view { display: none; max-width: 1180px; animation: fade .25s ease; }
+    .view.active { display: block; }
+    @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
-    /* ── Inputs ── */
+    .view-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+    .view-title { font-size: 26px; font-weight: 700; letter-spacing: -.01em; }
+    .view-sub { color: var(--fg3); font-size: 14px; margin-top: 4px; }
+
+    /* ── Cards ── */
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); }
+    .card-pad { padding: 22px; }
+    .card-title { font-size: 15px; font-weight: 600; }
+    .card-desc { font-size: 13px; color: var(--fg3); margin-top: 2px; }
+    .card-head { padding: 18px 22px; border-bottom: 1px solid var(--border); }
+
+    /* ── Stat tiles ── */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+    .stat { padding: 16px 18px; }
+    .stat-label { font-size: 12px; color: var(--fg3); }
+    .stat-val { font-size: 22px; font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums; }
+    .stat-val.accent { color: var(--accent); }
+
+    /* ── Form ── */
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field > label { font-size: 13px; font-weight: 500; color: var(--fg2); }
+    .field .hint { font-size: 12px; color: var(--fg3); }
     input, select {
       background: var(--bg);
       border: 1px solid var(--border2);
-      border-radius: 6px;
+      border-radius: 8px;
       color: var(--fg);
-      padding: 7px 11px;
-      font-size: 13px;
-      font-family: var(--font);
+      padding: 10px 12px;
+      font-size: 14px; font-family: var(--font);
+      outline: none; width: 100%;
       transition: border-color .15s, box-shadow .15s;
-      outline: none;
     }
-    input:focus, select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(0,191,255,.14);
-    }
-    input::placeholder { color: var(--fg3); }
-    input[type=number] { -moz-appearance: textfield; text-align: right; }
+    input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,191,255,.14); }
+    input::placeholder { color: #3e4a5c; }
+    input[type=number] { -moz-appearance: textfield; }
     input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button { opacity: 0; }
+    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=date]::-webkit-calendar-picker-indicator { filter: invert(.7); }
 
-    /* ── Drop zone ── */
-    .dropzone {
-      border: 1.5px dashed var(--border2);
-      border-radius: 8px;
-      padding: 22px 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color .2s, background .2s;
-      position: relative;
-    }
-    .dropzone:hover, .dropzone.drag-over {
-      border-color: var(--accent);
-      background: var(--accent-s);
-    }
-    .dropzone input[type=file] {
-      position: absolute; inset: 0;
-      opacity: 0; cursor: pointer;
-      width: 100%; height: 100%;
-      border: none; background: none;
-      padding: 0;
-    }
-    .dz-icon { font-size: 22px; margin-bottom: 6px; }
-    .dz-title { font-size: 13px; font-weight: 600; color: var(--fg); }
-    .dz-sub { font-size: 11px; color: var(--fg3); margin-top: 2px; }
-    .dz-tags { display: flex; gap: 6px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
-    .dz-tag {
-      font-size: 10px; font-weight: 600; padding: 2px 8px;
-      border-radius: 20px; border: 1px solid var(--border2); color: var(--fg3);
-      text-transform: uppercase; letter-spacing: .05em;
-    }
-    .dz-tag.ok { border-color: var(--accent); color: var(--accent); }
-
-    /* Parse result pill */
-    .parse-result {
-      display: none;
-      background: var(--card2);
-      border: 1px solid var(--border2);
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin-top: 10px;
-      font-size: 12px;
-    }
-    .parse-result.show { display: block; }
-    .pr-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .pr-file { font-weight: 600; color: var(--accent); font-size: 12px; }
-    .pr-chip {
-      background: var(--accent-s); border: 1px solid var(--border2);
-      border-radius: 20px; padding: 2px 10px;
-      font-size: 11px; color: var(--fg2);
-    }
-    .pr-chip strong { color: var(--accent); }
-    .pr-warn { color: var(--warn); font-size: 11px; }
-    .pr-gap { flex: 1; }
-
-    /* ── Positions table ── */
-    .tbl-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 12px; }
-
-    thead th {
-      background: var(--bg2);
-      color: var(--fg3);
-      font-size: 10px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: .06em;
-      padding: 9px 8px;
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-    }
-    thead th.al { text-align: left; }
-    thead th.ar { text-align: right; }
-    thead th.ac { text-align: center; }
-
-    tbody tr {
-      border-bottom: 1px solid var(--border);
-      transition: background .1s;
-    }
-    tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: var(--accent-s); }
-
-    td { padding: 7px 8px; vertical-align: middle; }
-    td.ar { text-align: right; }
-    td.ac { text-align: center; }
-
-    /* Input cells */
-    td input, td select { width: 100%; }
-    .td-desc input { min-width: 170px; }
-    .td-num input { width: 68px; text-align: right; }
-    .td-mat select { min-width: 68px; }
-
-    /* Row number */
-    .rn { color: var(--fg3); font-size: 11px; width: 24px; text-align: center; }
-
-    /* File badge on row */
-    .file-badge {
-      display: inline-block;
-      width: 16px; height: 16px;
-      background: var(--accent-s);
-      border: 1px solid var(--accent);
-      border-radius: 3px;
-      text-align: center;
-      font-size: 9px; line-height: 16px;
-      color: var(--accent);
-      cursor: default;
-      flex-shrink: 0;
+    .ig { position: relative; display: flex; align-items: center; }
+    .ig input { padding-right: 64px; text-align: right; font-variant-numeric: tabular-nums; }
+    .ig .unit {
+      position: absolute; right: 12px; font-size: 12px; color: var(--fg3);
+      pointer-events: none;
     }
 
-    /* Calculated value */
-    .cv {
-      font-variant-numeric: tabular-nums;
-      color: var(--fg3);
-      display: block;
-      text-align: right;
-      padding: 0 2px;
-      white-space: nowrap;
-    }
-    .cv.hl { color: var(--fg); }
-    .cv.big { color: var(--accent); font-weight: 600; font-size: 13px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .form-grid .full { grid-column: 1 / -1; }
+    .time-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
-    /* Detail row */
-    .detail-row { display: none; }
-    .detail-row.open { display: table-row; }
-    .detail-row td { background: var(--bg2); padding: 8px 12px 10px 36px; }
-    .detail-grid {
-      display: flex; gap: 20px; flex-wrap: wrap;
-      font-size: 11px; color: var(--fg3);
+    /* Material segmented */
+    .seg { display: flex; flex-wrap: wrap; gap: 8px; }
+    .seg-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 14px; border-radius: 8px;
+      background: var(--bg); border: 1px solid var(--border2);
+      color: var(--fg2); font-size: 13px; font-weight: 600; cursor: pointer;
+      transition: border-color .15s, background .15s, color .15s;
     }
-    .detail-grid span strong { color: var(--fg2); }
-
-    /* Toggle detail button */
-    .btn-detail {
-      background: none; border: none;
-      color: var(--fg3); cursor: pointer;
-      padding: 2px 4px; border-radius: 4px;
-      font-size: 10px;
-      transition: color .1s;
-    }
-    .btn-detail:hover { color: var(--accent); }
-    .btn-detail.open { color: var(--accent); }
-
-    /* Delete button */
-    .btn-del {
-      background: none; border: none;
-      color: var(--fg3); cursor: pointer;
-      padding: 4px 6px; border-radius: 4px;
-      font-size: 12px; line-height: 1;
-      transition: color .1s, background .1s;
-    }
-    .btn-del:hover { color: var(--red); background: rgba(240,82,82,.1); }
-
-    /* tfoot */
-    tfoot tr td {
-      border-top: 1px solid var(--border2);
-      padding: 12px 8px;
-    }
-    .total-label { text-align: right; color: var(--fg3); font-size: 11px; }
-    .total-val {
-      text-align: right;
-      color: var(--accent); font-size: 18px; font-weight: 700;
-      font-variant-numeric: tabular-nums; white-space: nowrap;
-    }
+    .seg-btn:hover { border-color: var(--accent); color: var(--fg); }
+    .seg-btn.active { background: var(--accent-m); border-color: var(--accent); color: var(--fg); }
+    .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
 
     /* ── Buttons ── */
     .btn {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 8px 16px; border-radius: 7px;
-      font-size: 12px; font-weight: 700;
-      cursor: pointer; border: none;
-      font-family: var(--font);
-      transition: opacity .15s, transform .1s, box-shadow .15s;
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 10px 18px; border-radius: 9px;
+      font-size: 14px; font-weight: 600;
+      cursor: pointer; border: 1px solid transparent;
+      transition: background .15s, box-shadow .15s, border-color .15s, transform .1s;
+      white-space: nowrap;
     }
-    .btn:hover { opacity: .85; }
-    .btn:active { transform: scale(.97); }
-    .btn-primary {
-      background: var(--accent); color: #000;
-      box-shadow: 0 0 0 0 var(--accent-g);
-    }
-    .btn-primary:hover { box-shadow: 0 0 16px 0 var(--accent-g); opacity: 1; }
-    .btn-ghost { background: var(--card2); color: var(--fg); border: 1px solid var(--border2); }
-    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .btn:active { transform: scale(.98); }
+    .btn svg { width: 16px; height: 16px; }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-primary:hover { box-shadow: 0 0 18px var(--accent-g); }
+    .btn-ghost { background: var(--card2); color: var(--fg); border-color: var(--border2); }
+    .btn-ghost:hover { border-color: var(--accent); }
+    .btn-outline { background: transparent; color: var(--accent); border-color: var(--accent); }
+    .btn-outline:hover { background: var(--accent-s); }
+    .btn-text { background: none; color: var(--fg3); padding: 8px 10px; }
+    .btn-text:hover { color: var(--fg); }
+    .btn-block { width: 100%; }
+    .btn-sm { padding: 7px 12px; font-size: 13px; }
 
-    /* ── Action bar ── */
-    .action-bar {
-      display: flex; align-items: center;
-      justify-content: space-between; gap: 10px;
-      flex-wrap: wrap;
+    .icon-btn {
+      background: none; border: 1px solid transparent; border-radius: 7px;
+      color: var(--fg3); cursor: pointer; padding: 6px;
+      display: inline-flex; transition: color .15s, background .15s;
     }
-    .action-right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .icon-btn svg { width: 16px; height: 16px; }
+    .icon-btn:hover { color: var(--accent); background: var(--accent-s); }
+    .icon-btn.danger:hover { color: var(--red); background: rgba(240,82,82,.1); }
 
-    /* ── Spinner ── */
-    .spinner {
-      display: none; width: 14px; height: 14px;
-      border: 2px solid var(--border2);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin .6s linear infinite;
+    /* ── Calculator layout ── */
+    .calc { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+    .result { position: sticky; top: 24px; }
+    .res-main { padding: 22px; border-bottom: 1px solid var(--border); }
+    .res-label { font-size: 12px; color: var(--fg3); }
+    .res-price { font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1.1; margin-top: 4px; font-variant-numeric: tabular-nums; }
+    .res-price small { font-size: 15px; font-weight: 500; color: var(--fg3); }
+    .res-total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--border2); }
+    .res-total-label { color: var(--fg2); font-size: 14px; }
+    .res-total-val { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    .res-break { padding: 20px 22px; }
+    .stack { display: flex; height: 10px; border-radius: 6px; overflow: hidden; background: var(--bg); margin-bottom: 16px; }
+    .stack span { height: 100%; transition: width .3s ease; }
+    .brow { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 13px; border-bottom: 1px solid var(--border); }
+    .brow:last-child { border-bottom: none; }
+    .brow-name { color: var(--fg2); flex: 1; }
+    .brow-sub { color: var(--fg3); font-size: 12px; }
+    .brow-val { font-variant-numeric: tabular-nums; min-width: 84px; text-align: right; }
+    .brow.sum { border-top: 1px solid var(--border2); border-bottom: none; margin-top: 4px; padding-top: 10px; font-weight: 600; }
+    .brow.sum .brow-name { color: var(--fg); }
+    .res-actions { padding: 0 22px 22px; display: flex; flex-direction: column; gap: 8px; }
+
+    .edit-banner {
+      display: none; align-items: center; gap: 10px;
+      background: var(--accent-s); border: 1px solid var(--border2);
+      border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 13px; color: var(--fg2);
     }
-    .spinner.show { display: inline-block; }
+    .edit-banner.show { display: flex; }
+    .edit-banner strong { color: var(--accent); }
+
+    /* ── Positions table ── */
+    .meta-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 16px; }
+    .tbl-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th {
+      text-align: left; font-size: 12px; font-weight: 600; color: var(--fg3);
+      padding: 12px 12px; border-bottom: 1px solid var(--border2);
+      background: var(--bg2); line-height: 1.3; vertical-align: bottom;
+    }
+    th.num, td.num { text-align: right; }
+    tbody td { padding: 13px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    tbody tr:hover td { background: var(--accent-s); }
+    td.desc { white-space: normal; min-width: 170px; font-weight: 500; }
+    td.muted { color: var(--fg3); }
+    td.strong { color: var(--accent); font-weight: 600; }
+    td.actions { width: 1%; text-align: right; }
+    .src {
+      display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 4px;
+      font-size: 10px; font-weight: 700; letter-spacing: .04em;
+      color: var(--accent); border: 1px solid var(--border2); vertical-align: 1px;
+    }
+    tfoot td { padding: 16px 14px; }
+    .tot-label { text-align: right; color: var(--fg2); }
+    .tot-val { text-align: right; font-size: 20px; font-weight: 700; color: var(--accent); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+    .empty { text-align: center; padding: 56px 20px; }
+    .empty svg { width: 44px; height: 44px; color: var(--fg3); margin-bottom: 12px; }
+    .empty-title { font-size: 16px; font-weight: 600; }
+    .empty-text { color: var(--fg3); margin: 4px 0 18px; }
+
+    .bar-actions { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+
+    /* ── Settings ── */
+    .set-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+    .set-grid .full { grid-column: 1 / -1; }
+    .set-row {
+      display: grid; grid-template-columns: 1fr 170px; gap: 16px; align-items: center;
+      padding: 14px 22px; border-bottom: 1px solid var(--border);
+    }
+    .set-row:last-child { border-bottom: none; }
+    .set-name { font-size: 14px; font-weight: 500; }
+    .set-desc { font-size: 12px; color: var(--fg3); margin-top: 1px; }
+    .mat-tiles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; padding: 22px; }
+    .mat-tile { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .mat-tile-name { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+    .mat-tile .ig input { padding-right: 58px; }
+    .set-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 18px; color: var(--fg3); font-size: 13px; }
+
+    /* ── Import ── */
+    .dropzone {
+      border: 1.5px dashed var(--border2); border-radius: var(--r);
+      padding: 44px 20px; text-align: center; cursor: pointer;
+      background: var(--card);
+      transition: border-color .2s, background .2s;
+      position: relative;
+    }
+    .dropzone:hover, .dropzone.drag { border-color: var(--accent); background: var(--accent-s); }
+    .dropzone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .dz-icon { width: 46px; height: 46px; color: var(--accent); margin: 0 auto 12px; }
+    .dz-title { font-size: 16px; font-weight: 600; }
+    .dz-sub { color: var(--fg3); margin-top: 4px; }
+    .dz-types { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+    .chip {
+      font-size: 12px; padding: 3px 10px; border-radius: 20px;
+      border: 1px solid var(--border2); color: var(--fg2);
+    }
+    .chip.ok { border-color: var(--accent); color: var(--accent); }
+    .chip.warn { border-color: rgba(242,201,76,.5); color: var(--warn); }
+
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+    .info { padding: 16px 18px; font-size: 13px; color: var(--fg2); }
+    .info strong { color: var(--fg); display: block; margin-bottom: 4px; font-size: 14px; }
+
+    .imp-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+    .imp { padding: 18px 20px; display: grid; grid-template-columns: 1fr auto; gap: 14px 20px; align-items: center; }
+    .imp-name { font-weight: 600; word-break: break-all; }
+    .imp-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .imp-meta .chip strong { color: var(--fg); font-weight: 600; }
+    .imp-opts { grid-column: 1 / -1; display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; padding-top: 14px; border-top: 1px solid var(--border); }
+    .imp-opts .field { width: 150px; }
+    .imp-btns { display: flex; gap: 8px; align-items: center; }
+    .imp-loading { display: flex; align-items: center; gap: 10px; color: var(--fg2); }
+    .spinner { width: 16px; height: 16px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
+    .imp-err { color: var(--warn); font-size: 13px; margin-top: 6px; }
 
     /* ── Toast ── */
     .toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
-      background: var(--card2); border: 1px solid var(--border2);
-      border-radius: 8px; padding: 10px 18px;
-      font-size: 12px; color: var(--fg); white-space: nowrap;
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(90px);
+      background: var(--card2); border: 1px solid var(--border2); border-radius: 10px;
+      padding: 11px 18px; font-size: 13px; z-index: 999; opacity: 0;
       transition: transform .3s cubic-bezier(.2,.7,.2,1), opacity .3s;
-      z-index: 999; opacity: 0;
     }
-    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast.show { transform: translateX(-50%); opacity: 1; }
 
-    /* ── Print ── */
+    .print-only { display: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      .calc { grid-template-columns: 1fr; }
+      .result { position: static; }
+      .mat-tiles { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 860px) {
+      .app { display: block; }
+      .sidebar {
+        position: sticky; top: 0; z-index: 50; height: auto;
+        flex-direction: column; gap: 10px; padding: 12px 12px 8px;
+        border-right: none; border-bottom: 1px solid var(--border);
+        background: rgba(10,10,16,.95); backdrop-filter: blur(10px);
+      }
+      .nav-label, .side-foot { display: none; }
+      .nav { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+      .nav-item { padding: 8px 10px; font-size: 13px; gap: 8px; }
+      .nav-item svg { width: 16px; height: 16px; }
+      .main { padding: 20px 16px 56px; }
+      .view-title { font-size: 22px; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stats .stat:first-child { grid-column: 1 / -1; }
+      .set-grid, .info-grid { grid-template-columns: 1fr; }
+      .meta-grid { grid-template-columns: 1fr 1fr; }
+      .meta-grid .field:first-child { grid-column: 1 / -1; }
+    }
+    @media (max-width: 520px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .set-row { grid-template-columns: 1fr; gap: 8px; }
+      .mat-tiles { grid-template-columns: 1fr 1fr; }
+      .imp { grid-template-columns: 1fr; }
+      .res-price { font-size: 34px; }
+    }
+
+    /* ── Print (Offerte) ── */
     @media print {
-      body { background: #fff; color: #000; font-size: 11px; }
-      .topbar { background: #fff; border-color: #ccc; position: static; }
-      .topbar-title, .topbar-sub { color: #000; }
-      .topbar-ref strong { color: #0077aa; }
-      .section { background: #fff; border-color: #ccc; }
-      .sec-label { color: #0077aa; }
-      .settings-section, .upload-section, .action-bar { display: none !important; }
-      .btn-del, .btn-detail { display: none !important; }
-      thead th { background: #f0f0f0; color: #555; position: static; }
-      .cv { color: #333; }
-      .cv.big { color: #0077aa; }
-      .total-val { color: #0077aa; }
-      input, select { border: none; background: transparent; color: #000; padding: 0; }
-      tfoot tr td { border-top-color: #ccc; }
-    }
-
-    @media (max-width: 700px) {
-      .meta-row { grid-template-columns: 1fr 1fr; }
-      .settings-cols { grid-template-columns: 1fr; }
-      .topbar { padding: 0 14px; }
-      .wrap { padding: 12px 12px 50px; }
+      @page { margin: 16mm; }
+      body { background: #fff; color: #111; font-size: 11pt; }
+      .sidebar, .no-print, .toast { display: none !important; }
+      .app { display: block; }
+      .main { padding: 0; }
+      .view { display: none !important; }
+      #view-positionen { display: block !important; max-width: none; animation: none; }
+      .print-only { display: block; }
+      .card { background: #fff; border-color: #ddd; }
+      thead th { background: #f3f4f6; color: #444; border-color: #ccc; }
+      tbody td { border-color: #e5e7eb; color: #111; }
+      tbody tr:hover td { background: none; }
+      td.strong, .tot-val { color: #0077aa; }
+      td.muted { color: #555; }
+      .src { display: none; }
+      .print-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+      .print-head h1 { font-size: 22pt; }
+      .print-head table td { padding: 2px 0 2px 16px; border: none; font-size: 10pt; }
+      .print-foot { margin-top: 32px; font-size: 9pt; color: #666; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── Topbar ── -->
-<header class="topbar">
-  <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <pattern id="ls" x="0" y="28" width="200" height="12" patternUnits="userSpaceOnUse">
-        <rect y="0" width="200" height="8" fill="#00BFFF"/>
-      </pattern>
-      <clipPath id="lk">
-        <path d="M40 28 L68 28 L68 80 L160 28 L160 50 L86 100 L160 150 L160 172 L68 120 L68 172 L40 172Z"/>
-      </clipPath>
-    </defs>
-    <rect width="200" height="200" fill="#0d0d14"/>
-    <rect width="200" height="200" fill="url(#ls)" clip-path="url(#lk)"/>
-    <rect x="6" y="6" width="188" height="188" rx="18" fill="none" stroke="#00BFFF" stroke-width="3"/>
-  </svg>
-  <div>
-    <div class="topbar-title">Knuchi Prints</div>
-    <div class="topbar-sub">Projekt-Kalkulator</div>
-  </div>
-  <div class="topbar-gap"></div>
-  <div class="topbar-ref">
-    <div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--fg3)">Offerte</div>
-    <strong id="refDisplay">–</strong>
-  </div>
-</header>
+<div class="app">
 
-<main class="wrap">
-
-  <!-- ── Projektinfo ── -->
-  <div class="section">
-    <div class="sec-head sec-head-static">
-      <span class="sec-label">Projektinfo</span>
-    </div>
-    <div class="sec-body">
-      <div class="meta-row">
-        <div class="field">
-          <label>Kundenname / Projekt</label>
-          <input type="text" id="m_kunde" placeholder="z.B. Müller AG – Messestand" oninput="saveState()" style="width:100%">
-        </div>
-        <div class="field">
-          <label>Datum</label>
-          <input type="date" id="m_datum" oninput="saveState()" style="width:100%">
-        </div>
-        <div class="field">
-          <label>Offerte-Nr.</label>
-          <input type="text" id="m_ref" placeholder="KP-0001" oninput="syncRef(); saveState()" style="width:100%">
-        </div>
+  <!-- ═══ Sidebar ═══ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <pattern id="ls" x="0" y="28" width="200" height="12" patternUnits="userSpaceOnUse">
+            <rect y="0" width="200" height="8" fill="#00BFFF"/>
+          </pattern>
+          <clipPath id="lk"><path d="M40 28 L68 28 L68 80 L160 28 L160 50 L86 100 L160 150 L160 172 L68 120 L68 172 L40 172Z"/></clipPath>
+        </defs>
+        <rect width="200" height="200" rx="22" fill="#12121e"/>
+        <rect width="200" height="200" fill="url(#ls)" clip-path="url(#lk)"/>
+        <rect x="5" y="5" width="190" height="190" rx="20" fill="none" stroke="#00BFFF" stroke-width="4"/>
+      </svg>
+      <div>
+        <div class="brand-name">Knuchi Prints</div>
+        <div class="brand-sub">Projekt-Kalkulator</div>
       </div>
     </div>
-  </div>
 
-  <!-- ── Einstellungen ── -->
-  <div class="section settings-section">
-    <div class="sec-head sec-head-static">
-      <span class="sec-label">Einstellungen</span>
+    <nav class="nav" aria-label="Bereiche">
+      <div class="nav-label">Menü</div>
+      <button class="nav-item" data-view="kalkulator" onclick="show('kalkulator')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><rect x="7.5" y="6" width="9" height="3.5" rx="1"/><path d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01M16 17h.01"/></svg>
+        Kalkulator
+      </button>
+      <button class="nav-item" data-view="positionen" onclick="show('positionen')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>
+        Erfasste Positionen
+        <span class="nav-badge" id="navCount">0</span>
+      </button>
+      <button class="nav-item" data-view="import" onclick="show('import')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+        Datei-Import
+      </button>
+      <button class="nav-item" data-view="einstellungen" onclick="show('einstellungen')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+        Einstellungen
+      </button>
+    </nav>
+
+    <div class="side-foot">
+      <div class="side-foot-label">Aktuelle Offerte</div>
+      <div class="side-foot-ref" id="sideRef">–</div>
+      <div class="side-foot-total" id="sideTotal">CHF 0.00</div>
     </div>
-    <div class="sec-body" id="sbody">
-      <div class="settings-cols">
+  </aside>
+
+  <!-- ═══ Main ═══ -->
+  <main class="main">
+
+    <!-- ── Kalkulator ── -->
+    <section class="view" id="view-kalkulator">
+      <div class="view-head">
         <div>
-          <div class="sg-label">Betriebskosten</div>
-          <div class="sg-row">
-            <label>Stundenlohn (CHF/h)</label>
-            <input type="number" id="s_lohn"    value="33"   step="0.5"  min="0" onchange="recalcAll()">
+          <h1 class="view-title">Kalkulator</h1>
+          <p class="view-sub">Druck erfassen, Preis prüfen und zur Offerte hinzufügen.</p>
+        </div>
+        <button class="btn btn-ghost" onclick="show('import')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+          Datei importieren
+        </button>
+      </div>
+
+      <div class="stats">
+        <div class="card stat">
+          <div class="stat-label">Offerte</div>
+          <div class="stat-val" id="statRef">–</div>
+        </div>
+        <div class="card stat">
+          <div class="stat-label">Erfasste Positionen</div>
+          <div class="stat-val" id="statCount">0</div>
+        </div>
+        <div class="card stat">
+          <div class="stat-label">Total Offerte</div>
+          <div class="stat-val accent" id="statTotal">CHF 0.00</div>
+        </div>
+      </div>
+
+      <div class="edit-banner" id="editBanner">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        <span>Du bearbeitest <strong id="editLabel">Position</strong>. Änderungen werden erst mit «Speichern» übernommen.</span>
+      </div>
+
+      <div class="calc">
+        <!-- Form -->
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title" id="formTitle">Neuer Druck</div>
+            <div class="card-desc">Werte aus Bambu Studio übernehmen oder Datei importieren.</div>
           </div>
-          <div class="sg-row">
-            <label>Strompreis (CHF/kWh)</label>
-            <input type="number" id="s_strom"   value="0.35" step="0.01" min="0" onchange="recalcAll()">
-          </div>
-          <div class="sg-row">
-            <label>Maschinensatz (CHF/h)</label>
-            <input type="number" id="s_masch"   value="0.35" step="0.05" min="0" onchange="recalcAll()">
-          </div>
-          <div class="sg-row">
-            <label>Druckerleistung (kW)</label>
-            <input type="number" id="s_leist"   value="0.20" step="0.01" min="0" onchange="recalcAll()">
-          </div>
-          <div class="sg-row">
-            <label>Zielmarge (z.B. 0.33 = 33 %)</label>
-            <input type="number" id="s_marge"   value="0.33" step="0.01" min="0" max="5" onchange="recalcAll()">
+          <div class="card-pad">
+            <div class="form-grid">
+              <div class="field full">
+                <label for="f_desc">Beschreibung</label>
+                <input type="text" id="f_desc" placeholder="z.B. Schlüsselanhänger mit Name, inkl. Clip" oninput="renderResult()">
+              </div>
+              <div class="field full">
+                <label>Material</label>
+                <div class="seg" id="matSeg"></div>
+              </div>
+              <div class="field">
+                <label for="f_gew">Gewicht pro Stück</label>
+                <div class="ig"><input type="number" id="f_gew" min="0" step="0.1" inputmode="decimal" placeholder="0" oninput="renderResult()"><span class="unit">Gramm</span></div>
+              </div>
+              <div class="field">
+                <label for="f_h">Druckzeit pro Stück</label>
+                <div class="time-pair">
+                  <div class="ig"><input type="number" id="f_h" min="0" step="1" inputmode="numeric" placeholder="0" oninput="renderResult()"><span class="unit">Std.</span></div>
+                  <div class="ig"><input type="number" id="f_min" min="0" max="59" step="1" inputmode="numeric" placeholder="0" oninput="renderResult()"><span class="unit">Min.</span></div>
+                </div>
+              </div>
+              <div class="field">
+                <label for="f_nb">Nachbearbeitung pro Stück</label>
+                <div class="ig"><input type="number" id="f_nb" min="0" step="1" inputmode="numeric" placeholder="0" oninput="renderResult()"><span class="unit">Minuten</span></div>
+                <span class="hint">Stützen entfernen, schleifen, verpacken</span>
+              </div>
+              <div class="field">
+                <label for="f_mng">Menge</label>
+                <div class="ig"><input type="number" id="f_mng" min="1" step="1" inputmode="numeric" value="1" oninput="renderResult()"><span class="unit">Stück</span></div>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- Result -->
+        <div class="card result">
+          <div class="res-main">
+            <div class="res-label">Preis pro Stück</div>
+            <div class="res-price" id="r_einzel">CHF 0.00</div>
+            <div class="res-total">
+              <span class="res-total-label" id="r_mngLabel">Gesamtpreis (1 Stück)</span>
+              <span class="res-total-val" id="r_gesamt">CHF 0.00</span>
+            </div>
+          </div>
+          <div class="res-break">
+            <div class="stack" id="r_stack"></div>
+            <div id="r_rows"></div>
+          </div>
+          <div class="res-actions">
+            <button class="btn btn-primary btn-block" id="btnAdd" onclick="submitForm()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              <span id="btnAddLabel">Zur Offerte hinzufügen</span>
+            </button>
+            <button class="btn btn-text" id="btnReset" onclick="resetForm()">Formular leeren</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Erfasste Positionen ── -->
+    <section class="view" id="view-positionen">
+      <div class="print-only">
+        <div class="print-head">
+          <div>
+            <h1>Offerte</h1>
+            <div style="margin-top:4px">Knuchi Prints · Daniel Knuchel</div>
+          </div>
+          <table>
+            <tr><td>Offerte-Nr.</td><td><strong id="p_ref"></strong></td></tr>
+            <tr><td>Datum</td><td id="p_datum"></td></tr>
+            <tr><td>Kunde / Projekt</td><td id="p_kunde"></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="view-head no-print">
         <div>
-          <div class="sg-label">Filamentpreise (CHF/kg)</div>
-          <div class="sg-row"><label>PLA</label>   <input type="number" id="fp_PLA"   value="22.5" step="0.5" min="0" onchange="recalcAll()"></div>
-          <div class="sg-row"><label>PETG</label>  <input type="number" id="fp_PETG"  value="25"   step="0.5" min="0" onchange="recalcAll()"></div>
-          <div class="sg-row"><label>ABS</label>   <input type="number" id="fp_ABS"   value="28"   step="0.5" min="0" onchange="recalcAll()"></div>
-          <div class="sg-row"><label>TPU</label>   <input type="number" id="fp_TPU"   value="35"   step="0.5" min="0" onchange="recalcAll()"></div>
-          <div class="sg-row"><label>ASA</label>   <input type="number" id="fp_ASA"   value="30"   step="0.5" min="0" onchange="recalcAll()"></div>        </div>
+          <h1 class="view-title">Erfasste Positionen</h1>
+          <p class="view-sub">Alle Drucke dieser Offerte. Mit «Als PDF drucken» erstellst du die Offerte.</p>
+        </div>
+        <button class="btn btn-ghost" onclick="newOffer()">Neue Offerte</button>
       </div>
-    </div>
-  </div>
 
-  <!-- ── Datei-Import ── -->
-  <div class="section upload-section">
-    <div class="sec-head" onclick="toggleSec('ubody','uch')">
-      <span class="sec-label">Datei-Import</span>
-      <span class="sec-chevron open" id="uch">▼</span>
-    </div>
-    <div class="sec-body" id="ubody">
-      <div class="dropzone" id="dropzone"
-           ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event)">
-        <input type="file" id="fileInput" accept=".3mf,.stl,application/octet-stream"
-               onchange="handleFiles(this.files)">
-        <div class="dz-icon">📂</div>
-        <div class="dz-title">Datei hier ablegen oder klicken</div>
-        <div class="dz-sub">Gewicht &amp; Druckzeit werden automatisch ausgelesen</div>
-        <div class="dz-tags">
-          <span class="dz-tag ok">.gcode.3mf</span>
-          <span class="dz-tag ok">.3mf</span>
-          <span class="dz-tag">.stl (Schätzung)</span>
+      <div class="card card-pad no-print" style="margin-bottom:20px">
+        <div class="meta-grid">
+          <div class="field">
+            <label for="m_kunde">Kunde / Projekt</label>
+            <input type="text" id="m_kunde" placeholder="z.B. Müller AG – Messestand" oninput="metaChanged()">
+          </div>
+          <div class="field">
+            <label for="m_datum">Datum</label>
+            <input type="date" id="m_datum" oninput="metaChanged()">
+          </div>
+          <div class="field">
+            <label for="m_ref">Offerte-Nr.</label>
+            <input type="text" id="m_ref" placeholder="KP-0001" oninput="metaChanged()">
+          </div>
         </div>
       </div>
-      <div class="parse-result" id="parseResult"></div>
-    </div>
-  </div>
 
-  <!-- ── Positionen ── -->
-  <div class="section">
-    <div class="sec-head sec-head-static">
-      <span class="sec-label">Positionen</span>
-      <span id="posCount" style="font-size:10px;color:var(--fg3)"></span>
-    </div>
-    <div class="sec-body" style="padding:0">
-      <div class="tbl-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th class="ac" style="width:28px">#</th>
-              <th class="al" style="min-width:170px">Beschreibung</th>
-              <th class="ac" style="width:72px">Material</th>
-              <th class="ar" style="width:70px">Gew.<br><small style="font-weight:400;opacity:.6">(g/Stk)</small></th>
-              <th class="ar" style="width:72px">Druck<br><small style="font-weight:400;opacity:.6">(h)</small></th>
-              <th class="ar" style="width:72px">Nachb.<br><small style="font-weight:400;opacity:.6">(min)</small></th>
-              <th class="ar" style="width:62px">Stk</th>
-              <th class="ar" style="width:76px">Selbstk.<br><small style="font-weight:400;opacity:.6">(CHF)</small></th>
-              <th class="ar" style="width:80px">Einzelpr.<br><small style="font-weight:400;opacity:.6">(CHF)</small></th>
-              <th class="ar" style="width:88px">Gesamtpr.<br><small style="font-weight:400;opacity:.6">(CHF)</small></th>
-              <th style="width:30px"></th>
-              <th style="width:28px"></th>
-            </tr>
-          </thead>
-          <tbody id="tbody"></tbody>
-          <tfoot>
-            <tr>
-              <td colspan="9" class="total-label">Total (exkl. MwSt.)</td>
-              <td class="total-val" id="totalAmt">–</td>
-              <td colspan="2"></td>
-            </tr>
-          </tfoot>
-        </table>
+      <div class="card" id="posCard"></div>
+
+      <div class="bar-actions no-print" id="posActions">
+        <button class="btn btn-ghost" onclick="newDraft()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Weitere Position erfassen
+        </button>
+        <button class="btn btn-outline" onclick="printOffer()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
+          Als PDF drucken
+        </button>
       </div>
-    </div>
-  </div>
 
-  <!-- ── Action bar ── -->
-  <div class="action-bar">
-    <button class="btn btn-primary" onclick="addRow()">＋ Position hinzufügen</button>
-    <div class="action-right">
-      <button class="btn btn-ghost" onclick="newKalkulation()">Neu starten</button>
-      <button class="btn btn-outline" onclick="window.print()">Als PDF drucken</button>
-    </div>
-  </div>
+      <div class="print-only print-foot">
+        Preise in CHF. Handgefertigt in der Schweiz – Knuchi Prints, Daniel Knuchel.
+      </div>
+    </section>
 
-</main>
+    <!-- ── Datei-Import ── -->
+    <section class="view" id="view-import">
+      <div class="view-head">
+        <div>
+          <h1 class="view-title">Datei-Import</h1>
+          <p class="view-sub">Gewicht und Druckzeit direkt aus deiner Druckdatei auslesen.</p>
+        </div>
+      </div>
 
-<!-- Toast -->
-<div class="toast" id="toast"></div>
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" multiple accept=".3mf,.stl,application/octet-stream,*/*" onchange="handleFiles(this.files); this.value=''">
+        <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+        <div class="dz-title">Dateien hier ablegen oder klicken</div>
+        <div class="dz-sub">Mehrere Dateien gleichzeitig möglich</div>
+        <div class="dz-types">
+          <span class="chip ok">.3mf aus Bambu Studio (gesliced)</span>
+          <span class="chip warn">.3mf / .stl ohne Slicing → Schätzung</span>
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <div class="card info">
+          <strong>Exakte Werte</strong>
+          In Bambu Studio slicen und die geslicte Platte über «Datei → Exportieren» als .3mf speichern. Gewicht, Druckzeit und Material stammen dann direkt vom Slicer.
+        </div>
+        <div class="card info">
+          <strong>Schätzung</strong>
+          Bei ungeslicten Modellen wird nur das Gewicht aus dem Volumen geschätzt (Infill einstellbar). Die Druckzeit trägst du selbst ein.
+        </div>
+      </div>
+
+      <div class="imp-list" id="impList"></div>
+    </section>
+
+    <!-- ── Einstellungen ── -->
+    <section class="view" id="view-einstellungen">
+      <div class="view-head">
+        <div>
+          <h1 class="view-title">Einstellungen</h1>
+          <p class="view-sub">Grundwerte für die Berechnung. Gelten für alle Positionen.</p>
+        </div>
+      </div>
+
+      <div class="set-grid">
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">Arbeit &amp; Marge</div>
+            <div class="card-desc">Dein Aufwand und dein Gewinn</div>
+          </div>
+          <div class="set-row">
+            <div><div class="set-name">Stundenlohn</div><div class="set-desc">Für Nachbearbeitung, Montage und Verpackung</div></div>
+            <div class="ig"><input type="number" data-set="lohn" min="0" step="0.5" inputmode="decimal"><span class="unit">CHF/Std.</span></div>
+          </div>
+          <div class="set-row">
+            <div><div class="set-name">Zielmarge</div><div class="set-desc">Aufschlag auf die Selbstkosten</div></div>
+            <div class="ig"><input type="number" data-set="marge" min="0" step="1" inputmode="decimal"><span class="unit">%</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">Maschine &amp; Strom</div>
+            <div class="card-desc">Kosten pro Druckstunde</div>
+          </div>
+          <div class="set-row">
+            <div><div class="set-name">Maschinensatz</div><div class="set-desc">Abschreibung und Verschleiss des Druckers</div></div>
+            <div class="ig"><input type="number" data-set="masch" min="0" step="0.05" inputmode="decimal"><span class="unit">CHF/Std.</span></div>
+          </div>
+          <div class="set-row">
+            <div><div class="set-name">Druckerleistung</div><div class="set-desc">Durchschnittliche Leistungsaufnahme</div></div>
+            <div class="ig"><input type="number" data-set="leist" min="0" step="0.01" inputmode="decimal"><span class="unit">kW</span></div>
+          </div>
+          <div class="set-row">
+            <div><div class="set-name">Strompreis</div><div class="set-desc">Laut deiner Stromrechnung</div></div>
+            <div class="ig"><input type="number" data-set="strom" min="0" step="0.01" inputmode="decimal"><span class="unit">CHF/kWh</span></div>
+          </div>
+        </div>
+
+        <div class="card full">
+          <div class="card-head">
+            <div class="card-title">Filamentpreise</div>
+            <div class="card-desc">Einkaufspreis pro Kilogramm Spule</div>
+          </div>
+          <div class="mat-tiles" id="matTiles"></div>
+        </div>
+      </div>
+
+      <div class="set-foot">
+        <span>✓ Änderungen werden automatisch gespeichert.</span>
+        <button class="btn btn-text" onclick="resetSettings()">Standardwerte wiederherstellen</button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════
-// Constants & state
-// ═══════════════════════════════════════════════════════════════
-const MATS = ['PLA','PETG','ABS','TPU','ASA'];
-const MAT_DENSITY = { PLA:1.24, PETG:1.27, ABS:1.05, TPU:1.20, ASA:1.07 }; // g/cm³
-let rowId = 0;
+// ═══ Constants ═══════════════════════════════════════════════════
+const MATS = [
+  { id: 'PLA',  color: '#00BFFF', density: 1.24 },
+  { id: 'PETG', color: '#4ADE80', density: 1.27 },
+  { id: 'ABS',  color: '#F59E0B', density: 1.05 },
+  { id: 'TPU',  color: '#A78BFA', density: 1.20 },
+  { id: 'ASA',  color: '#F472B6', density: 1.07 },
+];
+const DEFAULTS = { lohn: 33, marge: 33, masch: 0.35, leist: 0.20, strom: 0.35,
+                   PLA: 22.5, PETG: 25, ABS: 28, TPU: 35, ASA: 30 };
+const PARTS = [
+  { key: 'matK',   name: 'Material',  color: '#00BFFF' },
+  { key: 'maschK', name: 'Maschine',  color: '#6366F1' },
+  { key: 'stromK', name: 'Strom',     color: '#F59E0B' },
+  { key: 'arbK',   name: 'Arbeit',    color: '#4ADE80' },
+  { key: 'margeK', name: 'Marge',     color: '#F472B6' },
+];
+const VIEWS = ['kalkulator', 'positionen', 'import', 'einstellungen'];
 
-// ═══════════════════════════════════════════════════════════════
-// Settings helpers
-// ═══════════════════════════════════════════════════════════════
-const gs  = () => ({
-  lohn:  +el('s_lohn').value  || 0,
-  strom: +el('s_strom').value || 0,
-  masch: +el('s_masch').value || 0,
-  leist: +el('s_leist').value || 0,
-  marge: +el('s_marge').value || 0,
-});
-const gfp = m => +(document.getElementById('fp_' + m)?.value) || 0;
-const el  = id => document.getElementById(id);
+// ═══ State ═══════════════════════════════════════════════════════
+let S = { ...DEFAULTS };
+let P = [];
+let meta = { kunde: '', datum: '', ref: '' };
+let formMat = 'PLA';
+let editId = null;
+let formSrc = null;
+let imports = [];
+let seq = 0;
 
-// ═══════════════════════════════════════════════════════════════
-// Formatting
-// ═══════════════════════════════════════════════════════════════
-const f2  = v => (v == null || isNaN(v)) ? '–' : v.toFixed(2);
+const el = id => document.getElementById(id);
+const ST = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+};
+
+// ═══ Formatting ══════════════════════════════════════════════════
+const chf = v => 'CHF ' + (isFinite(v) ? v : 0).toLocaleString('de-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const rnd05 = v => Math.round(v / 0.05) * 0.05;
-
-// ═══════════════════════════════════════════════════════════════
-// Row calculation
-// ═══════════════════════════════════════════════════════════════
-function calcRow(id) {
-  const s   = gs();
-  const mat = el(`mat_${id}`).value;
-  const gew = +el(`gew_${id}`).value  || 0;
-  const dt  = +el(`dt_${id}`).value   || 0;
-  const nb  = +el(`nb_${id}`).value   || 0;
-  const mng = +el(`mng_${id}`).value  || 0;
-
-  const matK   = gew / 1000 * gfp(mat);
-  const maschK = dt * s.masch;
-  const stromK = dt * s.leist * s.strom;
-  const arbK   = nb / 60 * s.lohn;
-  const selbst = matK + maschK + stromK + arbK;
-  const margeK = selbst * s.marge;
-  const einzel = rnd05(selbst + margeK);
-  const gesamt = einzel * mng;
-
-  const any = gew > 0 || dt > 0 || nb > 0;
-
-  const setTxt = (elId, val, cls) => {
-    const e = el(elId);
-    if (!e) return;
-    e.textContent = any ? val : '–';
-    e.className = 'cv' + (any && cls ? ' ' + cls : '');
-  };
-
-  setTxt(`cSel_${id}`, f2(selbst));
-  setTxt(`cEin_${id}`, f2(einzel), 'hl');
-  setTxt(`cGes_${id}`, (any && mng > 0) ? f2(gesamt) : '–', 'big');
-  if (!any || mng <= 0) el(`cGes_${id}`).className = 'cv';
-
-  // Update detail row
-  const det = el(`det_${id}`);
-  if (det) {
-    det.innerHTML = `
-      <span>Material: <strong>${f2(matK)} CHF</strong></span>
-      <span>Maschine: <strong>${f2(maschK)} CHF</strong></span>
-      <span>Strom: <strong>${f2(stromK)} CHF</strong></span>
-      <span>Arbeit: <strong>${f2(arbK)} CHF</strong></span>
-      <span>Marge: <strong>${f2(margeK)} CHF</strong></span>
-    `;
-  }
-
-  return (any && mng > 0) ? gesamt : 0;
+const num = v => { const n = parseFloat(String(v).replace(',', '.')); return isFinite(n) && n > 0 ? n : 0; };
+function fmtTime(h) {
+  if (!(h > 0)) return '–';
+  let hh = Math.floor(h), mm = Math.round((h - hh) * 60);
+  if (mm === 60) { hh++; mm = 0; }
+  if (hh === 0) return mm + ' Min.';
+  return mm === 0 ? hh + ' Std.' : `${hh} Std. ${mm} Min.`;
 }
-
-// ═══════════════════════════════════════════════════════════════
-// Recalc all rows
-// ═══════════════════════════════════════════════════════════════
-function recalcAll() {
-  let total = 0;
-  document.querySelectorAll('tbody tr[data-id]').forEach(tr => {
-    total += calcRow(tr.dataset.id);
-  });
-  el('totalAmt').textContent = total > 0 ? 'CHF ' + f2(total) : '–';
-  const rows = document.querySelectorAll('tbody tr[data-id]').length;
-  el('posCount').textContent = rows > 0 ? rows + (rows === 1 ? ' Position' : ' Positionen') : '';
-  saveState();
-}
-
-// ═══════════════════════════════════════════════════════════════
-// Add row
-// ═══════════════════════════════════════════════════════════════
-function addRow(d = {}) {
-  rowId++;
-  const id  = rowId;
-  const tbody = el('tbody');
-  const pos = tbody.querySelectorAll('tr[data-id]').length + 1;
-
-  const matOpts = MATS.map(m =>
-    `<option value="${m}"${d.mat === m ? ' selected' : ''}>${m}</option>`
-  ).join('');
-
-  const badge = d.fromFile
-    ? `<span class="file-badge" title="${escHtml(d.fromFile)}" style="width:auto;padding:0 4px">${/\.stl$/i.test(d.fromFile) ? 'STL' : '3MF'}</span> `
-    : '';
-
-  // Main row
-  const tr = document.createElement('tr');
-  tr.dataset.id = id;
-  tr.innerHTML = `
-    <td class="rn ac">${pos}</td>
-    <td class="td-desc">
-      <div style="display:flex;align-items:center;gap:6px">
-        ${badge}
-        <input type="text" id="desc_${id}" placeholder="Beschreibung…"
-               value="${escHtml(d.desc || '')}" oninput="saveState()" style="flex:1;min-width:140px">
-      </div>
-    </td>
-    <td class="td-mat ac">
-      <select id="mat_${id}" onchange="calcRow(${id}); recalcAll()">${matOpts}</select>
-    </td>
-    <td class="td-num ar">
-      <input type="number" id="gew_${id}" value="${d.gew || ''}" placeholder="0"
-             min="0" step="0.1" oninput="calcRow(${id}); recalcAll()">
-    </td>
-    <td class="td-num ar">
-      <input type="number" id="dt_${id}" value="${d.dt || ''}" placeholder="0"
-             min="0" step="0.05" oninput="calcRow(${id}); recalcAll()">
-    </td>
-    <td class="td-num ar">
-      <input type="number" id="nb_${id}" value="${d.nb || ''}" placeholder="0"
-             min="0" step="1" oninput="calcRow(${id}); recalcAll()">
-    </td>
-    <td class="td-num ar">
-      <input type="number" id="mng_${id}" value="${d.mng || ''}" placeholder="1"
-             min="1" step="1" oninput="calcRow(${id}); recalcAll()">
-    </td>
-    <td class="ar"><span class="cv" id="cSel_${id}">–</span></td>
-    <td class="ar"><span class="cv" id="cEin_${id}">–</span></td>
-    <td class="ar"><span class="cv" id="cGes_${id}">–</span></td>
-    <td class="ac">
-      <button class="btn-detail" id="dtbtn_${id}" onclick="toggleDetail(${id})" title="Details">▸</button>
-    </td>
-    <td class="ac">
-      <button class="btn-del" onclick="delRow(${id})" title="Löschen">✕</button>
-    </td>
-  `;
-  tbody.appendChild(tr);
-
-  // Detail row
-  const dtr = document.createElement('tr');
-  dtr.className = 'detail-row';
-  dtr.dataset.detailFor = id;
-  dtr.innerHTML = `
-    <td colspan="12">
-      <div class="detail-grid" id="det_${id}"></div>
-    </td>
-  `;
-  tbody.appendChild(dtr);
-
-  if (d.gew || d.dt || d.nb) calcRow(id);
-}
-
-function delRow(id) {
-  document.querySelector(`tr[data-id="${id}"]`)?.remove();
-  document.querySelector(`tr[data-detail-for="${id}"]`)?.remove();
-  renumber();
-  recalcAll();
-}
-
-function renumber() {
-  let i = 1;
-  document.querySelectorAll('tbody tr[data-id]').forEach(tr => {
-    tr.querySelector('.rn').textContent = i++;
-  });
-}
-
-function toggleDetail(id) {
-  const dtr  = document.querySelector(`tr[data-detail-for="${id}"]`);
-  const btn  = el(`dtbtn_${id}`);
-  const open = dtr.classList.toggle('open');
-  btn.classList.toggle('open', open);
-  btn.textContent = open ? '▾' : '▸';
-  if (open) calcRow(id);
-}
-
-// ═══════════════════════════════════════════════════════════════
-// New kalkulation
-// ═══════════════════════════════════════════════════════════════
-function newKalkulation() {
-  if (!confirm('Alle Positionen löschen und neu beginnen?')) return;
-  el('tbody').innerHTML = '';
-  rowId = 0;
-  el('totalAmt').textContent = '–';
-  el('m_kunde').value = '';
-  el('m_ref').value   = nextRef();
-  syncRef();
-  el('parseResult').classList.remove('show');
-  saveState();
-  addRow();
-}
-
-// ═══════════════════════════════════════════════════════════════
-// Ref number
-// ═══════════════════════════════════════════════════════════════
-function nextRef() {
-  const last = ST.get('kp_lastRef');
-  const n = last ? +last.replace('KP-','') + 1 : 1;
-  return 'KP-' + String(n).padStart(4,'0');
-}
-function syncRef() {
-  el('refDisplay').textContent = el('m_ref').value || '–';
-}
-
-// ═══════════════════════════════════════════════════════════════
-// Section toggle
-// ═══════════════════════════════════════════════════════════════
-function toggleSec(bodyId, chevId) {
-  el(bodyId).classList.toggle('collapsed');
-  el(chevId).classList.toggle('open');
-}
-
-// ═══════════════════════════════════════════════════════════════
-// XSS safety
-// ═══════════════════════════════════════════════════════════════
 function escHtml(s) {
-  return String(s)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+const matColor = id => (MATS.find(m => m.id === id) || MATS[0]).color;
+
+// ═══ Calculation ═════════════════════════════════════════════════
+function calc(p) {
+  const matK   = p.gew / 1000 * (S[p.mat] || 0);
+  const maschK = p.dt * S.masch;
+  const stromK = p.dt * S.leist * S.strom;
+  const arbK   = p.nb / 60 * S.lohn;
+  const selbst = matK + maschK + stromK + arbK;
+  const margeK = selbst * S.marge / 100;
+  const einzel = rnd05(selbst + margeK);
+  return { matK, maschK, stromK, arbK, selbst, margeK, einzel, gesamt: einzel * p.mng };
+}
+const offerTotal = () => P.reduce((s, p) => s + calc(p).gesamt, 0);
+
+// ═══ Navigation ══════════════════════════════════════════════════
+function show(view) {
+  if (!VIEWS.includes(view)) view = 'kalkulator';
+  VIEWS.forEach(v => el('view-' + v).classList.toggle('active', v === view));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  try { history.replaceState(null, '', '#' + view); } catch {}
+  window.scrollTo(0, 0);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Toast
-// ═══════════════════════════════════════════════════════════════
-function showToast(msg, dur = 2800) {
-  const t = el('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), dur);
+// ═══ Calculator form ═════════════════════════════════════════════
+function renderMatSeg() {
+  el('matSeg').innerHTML = MATS.map(m =>
+    `<button type="button" class="seg-btn${m.id === formMat ? ' active' : ''}" onclick="setMat('${m.id}')">
+       <span class="dot" style="background:${m.color}"></span>${m.id}</button>`).join('');
+}
+function setMat(id) { formMat = id; renderMatSeg(); renderResult(); }
+
+function readForm() {
+  return {
+    desc: el('f_desc').value.trim(),
+    mat:  formMat,
+    gew:  num(el('f_gew').value),
+    dt:   num(el('f_h').value) + num(el('f_min').value) / 60,
+    nb:   num(el('f_nb').value),
+    mng:  Math.max(1, Math.round(num(el('f_mng').value)) || 1),
+  };
+}
+function fillForm(p) {
+  el('f_desc').value = p.desc || '';
+  formMat = MATS.some(m => m.id === p.mat) ? p.mat : 'PLA';
+  el('f_gew').value = p.gew ? +(+p.gew).toFixed(1) : '';
+  const hh = Math.floor(p.dt || 0);
+  let mm = Math.round(((p.dt || 0) - hh) * 60);
+  el('f_h').value   = (p.dt > 0) ? (mm === 60 ? hh + 1 : hh) : '';
+  el('f_min').value = (p.dt > 0) ? (mm === 60 ? 0 : mm) : '';
+  el('f_nb').value  = p.nb || '';
+  el('f_mng').value = p.mng || 1;
+  formSrc = p.src || null;
+  renderMatSeg();
+  renderResult();
 }
 
-// ═══════════════════════════════════════════════════════════════
-// File parsing — Drag & Drop
-// ═══════════════════════════════════════════════════════════════
-function dzOver(e) {
-  e.preventDefault();
-  el('dropzone').classList.add('drag-over');
+function renderResult() {
+  const p = readForm();
+  const c = calc(p);
+  el('r_einzel').innerHTML = chf(c.einzel) + ' <small>/ Stück</small>';
+  el('r_mngLabel').textContent = `Gesamtpreis (${p.mng} Stück)`;
+  el('r_gesamt').textContent = chf(c.gesamt);
+
+  const sum = PARTS.reduce((s, x) => s + c[x.key], 0);
+  el('r_stack').innerHTML = sum > 0
+    ? PARTS.map(x => `<span style="width:${c[x.key] / sum * 100}%;background:${x.color}" title="${x.name}"></span>`).join('')
+    : '';
+  const sub = {
+    matK:   p.gew ? `${+p.gew.toFixed(1)} g ${p.mat} à ${chf(S[p.mat] || 0)}/kg` : '',
+    maschK: p.dt ? fmtTime(p.dt) + ' Druckzeit' : '',
+    stromK: p.dt ? `${(p.dt * S.leist).toFixed(2)} kWh` : '',
+    arbK:   p.nb ? `${p.nb} Min. à ${chf(S.lohn)}/Std.` : '',
+    margeK: `${S.marge} % auf Selbstkosten`,
+  };
+  const row = (x) => `<div class="brow"><span class="dot" style="background:${x.color}"></span>
+      <span class="brow-name">${x.name} <span class="brow-sub">${sub[x.key]}</span></span>
+      <span class="brow-val">${chf(c[x.key])}</span></div>`;
+  el('r_rows').innerHTML =
+    PARTS.slice(0, 4).map(row).join('') +
+    `<div class="brow sum"><span class="brow-name">Selbstkosten pro Stück</span><span class="brow-val">${chf(c.selbst)}</span></div>` +
+    row(PARTS[4]);
 }
-function dzLeave(e) {
-  el('dropzone').classList.remove('drag-over');
+
+function submitForm() {
+  const p = readForm();
+  if (!(p.gew > 0 || p.dt > 0 || p.nb > 0)) {
+    toast('Bitte mindestens Gewicht, Druckzeit oder Nachbearbeitung eintragen');
+    el('f_gew').focus();
+    return;
+  }
+  if (!p.desc) p.desc = 'Position ' + (editId ? P.findIndex(x => x.id === editId) + 1 : P.length + 1);
+  if (editId) {
+    const i = P.findIndex(x => x.id === editId);
+    if (i >= 0) P[i] = { ...P[i], ...p };
+    toast('✓ Position gespeichert');
+  } else {
+    P.push({ id: ++seq, ...p, src: formSrc });
+    toast('✓ Zur Offerte hinzugefügt');
+  }
+  const wasEdit = !!editId;
+  resetForm();
+  saveAll();
+  renderAll();
+  if (wasEdit) show('positionen');
 }
-function dzDrop(e) {
-  e.preventDefault();
-  el('dropzone').classList.remove('drag-over');
-  handleFiles(e.dataTransfer.files);
+
+function resetForm() {
+  editId = null;
+  fillForm({ mat: formMat, mng: 1 });
+  el('editBanner').classList.remove('show');
+  el('formTitle').textContent = 'Neuer Druck';
+  el('btnAddLabel').textContent = 'Zur Offerte hinzufügen';
+  el('btnReset').textContent = 'Formular leeren';
 }
+
+function editPos(id) {
+  const p = P.find(x => x.id === id);
+  if (!p) return;
+  editId = id;
+  fillForm(p);
+  const n = P.indexOf(p) + 1;
+  el('editLabel').textContent = 'Position ' + n;
+  el('editBanner').classList.add('show');
+  el('formTitle').textContent = 'Position ' + n + ' bearbeiten';
+  el('btnAddLabel').textContent = 'Änderungen speichern';
+  el('btnReset').textContent = 'Abbrechen';
+  show('kalkulator');
+}
+
+function delPos(id) {
+  const p = P.find(x => x.id === id);
+  if (!p || !confirm(`«${p.desc}» löschen?`)) return;
+  P = P.filter(x => x.id !== id);
+  if (editId === id) resetForm();
+  saveAll();
+  renderAll();
+}
+
+function newDraft() { resetForm(); show('kalkulator'); el('f_desc').focus(); }
+
+// ═══ Positions view ══════════════════════════════════════════════
+function renderPositions() {
+  const card = el('posCard');
+  el('posActions').style.display = P.length ? '' : 'none';
+  if (!P.length) {
+    card.innerHTML = `<div class="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>
+      <div class="empty-title">Noch keine Positionen erfasst</div>
+      <div class="empty-text">Erfasse im Kalkulator einen Druck oder importiere eine Datei.</div>
+      <button class="btn btn-primary" onclick="newDraft()">Zum Kalkulator</button></div>`;
+    return;
+  }
+  const rows = P.map((p, i) => {
+    const c = calc(p);
+    const src = p.src ? `<span class="src">${escHtml(p.src)}</span>` : '';
+    return `<tr>
+      <td class="muted">${i + 1}</td>
+      <td class="desc">${escHtml(p.desc)}${src}</td>
+      <td><span class="dot" style="background:${matColor(p.mat)};margin-right:7px"></span>${escHtml(p.mat)}</td>
+      <td class="num">${p.gew ? +p.gew.toFixed(1) + ' g' : '–'}</td>
+      <td class="num">${fmtTime(p.dt)}</td>
+      <td class="num">${p.nb ? p.nb + ' Min.' : '–'}</td>
+      <td class="num">${p.mng}</td>
+      <td class="num muted">${chf(c.selbst)}</td>
+      <td class="num">${chf(c.einzel)}</td>
+      <td class="num strong">${chf(c.gesamt)}</td>
+      <td class="actions no-print">
+        <button class="icon-btn" title="Bearbeiten" aria-label="Bearbeiten" onclick="editPos(${p.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+        <button class="icon-btn danger" title="Löschen" aria-label="Löschen" onclick="delPos(${p.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button>
+      </td></tr>`;
+  }).join('');
+  card.innerHTML = `<div class="tbl-wrap"><table>
+    <thead><tr>
+      <th>Nr.</th><th>Beschreibung</th><th>Material</th>
+      <th class="num">Gewicht pro Stück</th><th class="num">Druckzeit pro Stück</th>
+      <th class="num">Nachbearbeitung</th><th class="num">Menge</th>
+      <th class="num">Selbstkosten pro Stück</th><th class="num">Preis pro Stück</th><th class="num">Gesamtpreis</th>
+      <th class="no-print"></th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+    <tfoot><tr>
+      <td colspan="9" class="tot-label">Total</td>
+      <td class="tot-val">${chf(offerTotal())}</td>
+      <td class="no-print"></td>
+    </tr></tfoot></table></div>`;
+}
+
+// ═══ Meta / offer ════════════════════════════════════════════════
+function metaChanged() {
+  meta.kunde = el('m_kunde').value;
+  meta.datum = el('m_datum').value;
+  meta.ref   = el('m_ref').value.trim();
+  saveAll();
+  renderSummary();
+}
+function nextRef() {
+  const n = parseInt(String(ST.get('kp_lastRef') || meta.ref || '').replace(/\D/g, ''), 10);
+  return 'KP-' + String((isFinite(n) ? n : 0) + 1).padStart(4, '0');
+}
+function newOffer() {
+  if (P.length && !confirm('Neue Offerte starten? Alle erfassten Positionen werden entfernt.')) return;
+  P = [];
+  meta = { kunde: '', datum: today(), ref: nextRef() };
+  resetForm();
+  fillMeta();
+  saveAll();
+  renderAll();
+  toast('Neue Offerte ' + meta.ref);
+}
+function fillMeta() {
+  el('m_kunde').value = meta.kunde;
+  el('m_datum').value = meta.datum;
+  el('m_ref').value   = meta.ref;
+}
+const today = () => new Date().toISOString().split('T')[0];
+
+function printOffer() {
+  el('p_ref').textContent   = meta.ref || '–';
+  el('p_kunde').textContent = meta.kunde || '–';
+  el('p_datum').textContent = meta.datum ? meta.datum.split('-').reverse().join('.') : '–';
+  show('positionen');
+  window.print();
+}
+
+// ═══ Summary (sidebar, stats, badge) ═════════════════════════════
+function renderSummary() {
+  const t = chf(offerTotal());
+  el('navCount').textContent  = P.length;
+  el('statCount').textContent = P.length;
+  el('statTotal').textContent = t;
+  el('sideTotal').textContent = t;
+  el('statRef').textContent   = meta.ref || '–';
+  el('sideRef').textContent   = (meta.ref || '–') + (meta.kunde ? ' · ' + meta.kunde : '');
+}
+function renderAll() { renderSummary(); renderPositions(); renderResult(); }
+
+// ═══ Settings ════════════════════════════════════════════════════
+function renderMatTiles() {
+  el('matTiles').innerHTML = MATS.map(m => `
+    <div class="mat-tile">
+      <div class="mat-tile-name"><span class="dot" style="background:${m.color}"></span>${m.id}</div>
+      <div class="ig"><input type="number" data-set="${m.id}" min="0" step="0.5" inputmode="decimal"><span class="unit">CHF/kg</span></div>
+    </div>`).join('');
+}
+function bindSettings() {
+  document.querySelectorAll('[data-set]').forEach(inp => {
+    inp.value = S[inp.dataset.set];
+    inp.oninput = () => {
+      S[inp.dataset.set] = num(inp.value);
+      saveAll();
+      renderAll();
+    };
+  });
+}
+function resetSettings() {
+  if (!confirm('Alle Einstellungen auf die Standardwerte zurücksetzen?')) return;
+  S = { ...DEFAULTS };
+  bindSettings();
+  saveAll();
+  renderAll();
+  toast('Standardwerte wiederhergestellt');
+}
+
+// ═══ Import ══════════════════════════════════════════════════════
+const dz = el('dropzone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); handleFiles(e.dataTransfer.files); });
 
 async function handleFiles(files) {
-  if (!files || files.length === 0) return;
-  for (const file of files) {
-    await importFile(file);
+  for (const file of Array.from(files || [])) {
+    const item = { id: ++seq, name: file.name, loading: true, mat: 'PLA', infill: 15 };
+    imports.unshift(item);
+    renderImports();
+    try {
+      const lower = file.name.toLowerCase();
+      let r = null;
+      if (lower.endsWith('.3mf')) r = await parse3mf(file);
+      else if (lower.endsWith('.stl')) r = { kind: 'estimate', volume: await stlVolume(await file.arrayBuffer()) };
+      else throw new Error('Format nicht unterstützt – bitte .3mf oder .stl verwenden.');
+      if (!r || (r.kind === 'estimate' && !(r.volume > 0))) throw new Error('Keine verwertbaren Daten in der Datei gefunden.');
+      Object.assign(item, r);
+      if (r.matType) {
+        const m = MATS.find(x => r.matType.toUpperCase().startsWith(x.id));
+        if (m) item.mat = m.id;
+      }
+    } catch (err) {
+      item.error = err.message || String(err);
+    }
+    item.loading = false;
+    renderImports();
   }
 }
 
-async function importFile(file) {
-  const name = file.name.toLowerCase();
-  const pr   = el('parseResult');
-
-  pr.innerHTML = `<div class="pr-row"><div class="spinner show"></div> <span style="color:var(--fg2)">Lese ${escHtml(file.name)} …</span></div>`;
-  pr.classList.add('show');
-
-  try {
-    let result = null;
-
-    if (name.endsWith('.3mf')) {
-      result = await parse3mf(file);
-    } else if (name.endsWith('.stl')) {
-      result = await parseStl(file);
-    } else {
-      pr.innerHTML = `<div class="pr-row"><span style="color:var(--warn)">⚠ Nicht unterstütztes Format. Bitte .3mf oder .stl verwenden.</span></div>`;
-      return;
-    }
-
-    if (!result) {
-      pr.innerHTML = `<div class="pr-row"><span style="color:var(--warn)">⚠ Konnte keine Daten aus der Datei lesen.</span></div>`;
-      return;
-    }
-
-    showParseResult(file.name, result);
-  } catch (err) {
-    pr.innerHTML = `<div class="pr-row"><span style="color:var(--red)">Fehler: ${escHtml(String(err))}</span></div>`;
-  }
+function impWeight(it) {
+  if (it.kind === 'exact') return it.weightG || 0;
+  const d = (MATS.find(m => m.id === it.mat) || MATS[0]).density;
+  return it.volume / 1000 * d * ((it.infill / 100) * 0.65 + 0.35);
 }
 
-let lastParse = null;
-
-function showParseResult(filename, r) {
-  lastParse = { filename, r };
-  const pr = el('parseResult');
-  const chips = [];
-
-  if (r.weightG != null)
-    chips.push(`<span class="pr-chip">Gewicht: <strong>${r.weightG.toFixed(1)} g</strong></span>`);
-  else
-    chips.push(`<span class="pr-chip" style="color:var(--warn)">Gewicht: <strong>?</strong></span>`);
-
-  if (r.timeH != null)
-    chips.push(`<span class="pr-chip">Druckzeit: <strong>${formatTime(r.timeH)}</strong></span>`);
-
-  const warn = r.estimated
-    ? `<span class="pr-warn">⚠ Schätzung (${r.infill ?? 15}% Infill) — für genaue Werte in Bambu slicen</span>`
-    : '';
-
-  pr.innerHTML = `
-    <div class="pr-row" style="gap:10px;flex-wrap:wrap">
-      <span class="pr-file">📄 ${escHtml(filename)}</span>
-      ${chips.join('')}
-      ${warn}
-      <div class="pr-gap"></div>
-      <button class="btn btn-primary" style="font-size:11px;padding:6px 12px"
-              onclick="addFromParse()">
-        Als Position übernehmen →
-      </button>
-    </div>
-  `;
-  pr.classList.add('show');
+function renderImports() {
+  el('impList').innerHTML = imports.map(it => {
+    if (it.loading) return `<div class="card imp"><div class="imp-loading"><div class="spinner"></div>Lese ${escHtml(it.name)} …</div></div>`;
+    if (it.error) return `<div class="card imp"><div><div class="imp-name">${escHtml(it.name)}</div><div class="imp-err">⚠ ${escHtml(it.error)}</div></div>
+      <div class="imp-btns"><button class="btn btn-text btn-sm" onclick="removeImport(${it.id})">Entfernen</button></div></div>`;
+    const exact = it.kind === 'exact';
+    const w = impWeight(it);
+    const opts = exact ? '' : `<div class="imp-opts">
+        <div class="field"><label>Material</label>
+          <select onchange="updImport(${it.id},'mat',this.value)">${MATS.map(m => `<option${m.id === it.mat ? ' selected' : ''}>${m.id}</option>`).join('')}</select></div>
+        <div class="field"><label>Infill</label>
+          <div class="ig"><input type="number" min="0" max="100" step="5" value="${it.infill}" oninput="updImport(${it.id},'infill',this.value)"><span class="unit">%</span></div></div>
+        <span class="hint" style="font-size:12px;color:var(--fg3);padding-bottom:10px">Volumen ${(it.volume / 1000).toFixed(1)} cm³ – grobe Schätzung inkl. Wände</span>
+      </div>`;
+    return `<div class="card imp">
+      <div>
+        <div class="imp-name">${escHtml(it.name)}</div>
+        <div class="imp-meta">
+          <span class="chip ${exact ? 'ok' : 'warn'}">${exact ? 'Exakt aus Slicer' : 'Schätzung'}</span>
+          <span class="chip">Gewicht <strong id="impW_${it.id}">${w > 0 ? w.toFixed(1) + ' g' : '–'}</strong></span>
+          <span class="chip">Druckzeit <strong>${it.timeH ? fmtTime(it.timeH) : 'selbst eintragen'}</strong></span>
+          ${exact ? `<span class="chip">Material <strong>${escHtml(it.mat)}</strong></span>` : ''}
+          ${it.plates > 1 ? `<span class="chip">${it.plates} Druckplatten zusammengezählt</span>` : ''}
+        </div>
+      </div>
+      <div class="imp-btns">
+        <button class="btn btn-text btn-sm" onclick="removeImport(${it.id})">Entfernen</button>
+        <button class="btn btn-primary btn-sm" onclick="useImport(${it.id})">In Kalkulator übernehmen →</button>
+      </div>
+      ${opts}
+    </div>`;
+  }).join('');
 }
 
-function addFromParse() {
-  if (!lastParse) return;
-  const { filename, r } = lastParse;
-  addRow({
-    desc:     filename.replace(/\.gcode\.3mf|\.3mf|\.stl/i,''),
-    mat:      'PLA',
-    gew:      r.weightG != null ? r.weightG.toFixed(1) : '',
-    dt:       r.timeH   != null ? r.timeH.toFixed(2)   : '',
-    nb:       '5',
-    mng:      '1',
-    fromFile: filename,
+function updImport(id, key, val) {
+  const it = imports.find(x => x.id === id);
+  if (!it) return;
+  it[key] = key === 'infill' ? Math.min(100, num(val)) : val;
+  const w = impWeight(it);
+  el('impW_' + id).textContent = w > 0 ? w.toFixed(1) + ' g' : '–';
+}
+function removeImport(id) { imports = imports.filter(x => x.id !== id); renderImports(); }
+
+function useImport(id) {
+  const it = imports.find(x => x.id === id);
+  if (!it) return;
+  editId = null;
+  resetForm();
+  fillForm({
+    desc: it.name.replace(/\.gcode\.3mf$|\.3mf$|\.stl$/i, '').replace(/[_-]+/g, ' ').trim(),
+    mat:  it.mat,
+    gew:  impWeight(it),
+    dt:   it.timeH || 0,
+    nb:   0,
+    mng:  1,
+    src:  /\.stl$/i.test(it.name) ? 'STL' : '3MF',
   });
-  recalcAll();
-  el('parseResult').classList.remove('show');
-  showToast('✓ Position aus Datei hinzugefügt');
-  el('tbody').lastElementChild?.previousElementSibling?.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  show('kalkulator');
+  toast(it.timeH ? '✓ Werte übernommen – Nachbearbeitung und Menge prüfen' : '✓ Gewicht übernommen – Druckzeit bitte eintragen');
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 3MF Parser (Bambu .gcode.3mf and standard .3mf)
-// ═══════════════════════════════════════════════════════════════
+// ─── 3MF ───
 async function parse3mf(file) {
-  const jszip = await loadJszip();
-  const zip   = await jszip.loadAsync(file);
+  const JSZip = await loadJszip();
+  const zip = await JSZip.loadAsync(file);
+  const names = Object.keys(zip.files).filter(n => !zip.files[n].dir);
 
-  // 1) Try to find .gcode file inside (Bambu export)
-  const gcodeEntry = Object.keys(zip.files).find(n =>
-    n.endsWith('.gcode') && !zip.files[n].dir
-  );
-
-  if (gcodeEntry) {
-    // Read only first 8 KB to get header
-    const buf  = await zip.files[gcodeEntry].async('arraybuffer');
-    const text = new TextDecoder().decode(buf.slice(0, 8192));
-    const r    = parseGcodeHeader(text);
-    if (r.weightG || r.timeH) return r;
-  }
-
-  // 2) Try standard .3mf geometry → estimate weight
-  const modelEntry = Object.keys(zip.files).find(n =>
-    (n.endsWith('.model') || n === '3D/3dmodel.model') && !zip.files[n].dir
-  );
-
-  if (modelEntry) {
-    const xml   = await zip.files[modelEntry].async('string');
-    const vol   = volumeFrom3mfXml(xml); // mm³
-    if (vol > 0) {
-      return { weightG: estimateWeight(vol, 'PLA', 15), timeH: null, estimated: true, infill: 15 };
+  // Bambu/Orca: slice_info.config holds slicer results per plate
+  const si = names.find(n => /slice_info\.config$/i.test(n));
+  if (si) {
+    const doc = new DOMParser().parseFromString(await zip.file(si).async('string'), 'application/xml');
+    let w = 0, t = 0, plates = 0, matType = null;
+    for (const pl of doc.getElementsByTagName('plate')) {
+      const md = {};
+      for (const m of pl.getElementsByTagName('metadata')) md[m.getAttribute('key')] = m.getAttribute('value');
+      let fw = 0;
+      for (const f of pl.getElementsByTagName('filament')) {
+        fw += parseFloat(f.getAttribute('used_g')) || 0;
+        if (!matType) matType = f.getAttribute('type');
+      }
+      const pw = parseFloat(md.weight) > 0 ? parseFloat(md.weight) : fw;
+      const pt = parseFloat(md.prediction) || 0;
+      if (pw > 0 || pt > 0) { plates++; w += pw; t += pt; }
     }
+    if (plates) return { kind: 'exact', weightG: w || null, timeH: t > 0 ? t / 3600 : null, matType, plates };
   }
 
-  return null;
+  const gc = names.find(n => /\.gcode$/i.test(n));
+  if (gc) {
+    const u8 = await zip.file(gc).async('uint8array');
+    const r = parseGcodeHeader(new TextDecoder().decode(u8.subarray(0, 32768)));
+    if (r.weightG || r.timeH) return { kind: 'exact', ...r, plates: 1 };
+  }
+
+  let volume = 0;
+  for (const n of names.filter(n => /\.model$/i.test(n))) volume += volumeFrom3mfXml(await zip.file(n).async('string'));
+  return volume > 0 ? { kind: 'estimate', volume } : null;
 }
 
 function parseGcodeHeader(text) {
-  // Filament weight — Bambu / Cura / PrusaSlicer formats
-  const wMatch = text.match(/;\s*(?:total[_ ])?filament[_ ](?:used|weight)[^\n]*?[=:]\s*([\d.]+)\s*g?/i)
-               || text.match(/;\s*filament used \[g\]\s*=\s*([\d.]+)/i);
-
-  // Print time
-  const tMatch = text.match(/;\s*estimated[_ ]printing[_ ]time[^\n=:]*[=:]\s*([^\n;]+)/i)
-               || text.match(/;\s*total[_ ]estimated[_ ]time[^\n=:]*[=:]\s*([^\n;]+)/i)
-               || text.match(/;\s*print[_ ]time[^\n=:]*[=:]\s*([^\n;]+)/i);
-
-  const weightG = wMatch ? parseFloat(wMatch[1]) : null;
-  let   timeH   = null;
-
-  if (tMatch) {
-    const t = tMatch[1].trim();
-    const h = +(t.match(/(\d+)\s*h(?:our)?/i)?.[1] || 0);
-    const m = +(t.match(/(\d+)\s*m(?:in)?/i)?.[1]  || 0);
-    const s = +(t.match(/(\d+)\s*s(?:ec)?/i)?.[1]  || 0);
-    if (h + m + s > 0) timeH = h + m/60 + s/3600;
+  const w = text.match(/;\s*total filament weight \[g\]\s*:\s*([\d.]+)/i)
+         || text.match(/;\s*filament used \[g\]\s*=\s*([\d.]+)/i)
+         || text.match(/;\s*(?:total[_ ])?filament[_ ](?:used|weight)[^\n]*?[=:]\s*([\d.]+)/i);
+  const t = text.match(/total estimated time:\s*([^\n;]+)/i)
+         || text.match(/;\s*estimated printing time[^\n=:]*[=:]\s*([^\n;]+)/i)
+         || text.match(/;\s*model printing time:\s*([^\n;]+)/i);
+  let timeH = null;
+  if (t) {
+    const s = t[1];
+    const d = +(s.match(/(\d+)\s*d/i)?.[1] || 0), h = +(s.match(/(\d+)\s*h/i)?.[1] || 0);
+    const m = +(s.match(/(\d+)\s*m(?!s)/i)?.[1] || 0), sec = +(s.match(/(\d+)\s*s/i)?.[1] || 0);
+    const tot = d * 24 + h + m / 60 + sec / 3600;
+    if (tot > 0) timeH = tot;
   }
-
-  return { weightG, timeH };
+  return { weightG: w ? parseFloat(w[1]) : null, timeH };
 }
 
 function volumeFrom3mfXml(xml) {
-  const parser  = new DOMParser();
-  const doc     = parser.parseFromString(xml, 'application/xml');
-  const meshes  = doc.querySelectorAll('mesh');
-  let totalVol  = 0;
-
-  meshes.forEach(mesh => {
-    const vertices  = Array.from(mesh.querySelectorAll('vertex')).map(v => ({
-      x: parseFloat(v.getAttribute('x') || 0),
-      y: parseFloat(v.getAttribute('y') || 0),
-      z: parseFloat(v.getAttribute('z') || 0),
-    }));
-    const triangles = Array.from(mesh.querySelectorAll('triangle'));
+  const doc = new DOMParser().parseFromString(xml, 'application/xml');
+  let total = 0;
+  for (const mesh of doc.getElementsByTagName('mesh')) {
+    const vs = Array.from(mesh.getElementsByTagName('vertex'), v => [+v.getAttribute('x'), +v.getAttribute('y'), +v.getAttribute('z')]);
     let vol = 0;
-    triangles.forEach(tri => {
-      const a = vertices[+tri.getAttribute('v1')];
-      const b = vertices[+tri.getAttribute('v2')];
-      const c = vertices[+tri.getAttribute('v3')];
-      if (!a || !b || !c) return;
-      vol += (a.x*(b.y*c.z - b.z*c.y) + b.x*(c.y*a.z - c.z*a.y) + c.x*(a.y*b.z - a.z*b.y)) / 6;
-    });
-    totalVol += Math.abs(vol);
-  });
-  return totalVol;
-}
-
-// ═══════════════════════════════════════════════════════════════
-// STL Parser (binary)
-// ═══════════════════════════════════════════════════════════════
-async function parseStl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = e => {
-      try {
-        const buf = e.target.result;
-        // Detect ASCII STL
-        const preview = new TextDecoder().decode(new Uint8Array(buf, 0, 80));
-        if (preview.trimStart().startsWith('solid')) {
-          // Try binary anyway (some binary STL start with "solid")
-          const vol = parseBinaryStlVolume(buf);
-          if (vol > 0) {
-            resolve({ weightG: estimateWeight(vol,'PLA',15), timeH: null, estimated:true, infill:15 });
-          } else {
-            // ASCII STL parsing
-            const text = new TextDecoder().decode(buf);
-            const v    = parseAsciiStlVolume(text);
-            resolve({ weightG: estimateWeight(v,'PLA',15), timeH: null, estimated:true, infill:15 });
-          }
-        } else {
-          const vol = parseBinaryStlVolume(buf);
-          resolve({ weightG: estimateWeight(vol,'PLA',15), timeH: null, estimated:true, infill:15 });
-        }
-      } catch(err) { reject(err); }
-    };
-    reader.onerror = () => reject(reader.error);
-    reader.readAsArrayBuffer(file);
-  });
-}
-
-function parseBinaryStlVolume(buffer) {
-  if (buffer.byteLength < 84) return 0;
-  const view  = new DataView(buffer);
-  const count = view.getUint32(80, true);
-  if (buffer.byteLength < 84 + count * 50) return 0;
-  let vol = 0;
-  for (let i = 0; i < count; i++) {
-    const o  = 84 + i * 50 + 12; // skip normal vector (12 bytes)
-    const ax = view.getFloat32(o,    true), ay = view.getFloat32(o+4,  true), az = view.getFloat32(o+8,  true);
-    const bx = view.getFloat32(o+12, true), by = view.getFloat32(o+16, true), bz = view.getFloat32(o+20, true);
-    const cx = view.getFloat32(o+24, true), cy = view.getFloat32(o+28, true), cz = view.getFloat32(o+32, true);
-    vol += (ax*(by*cz - bz*cy) + bx*(cy*az - cz*ay) + cx*(ay*bz - az*by)) / 6;
+    for (const tr of mesh.getElementsByTagName('triangle')) {
+      const a = vs[+tr.getAttribute('v1')], b = vs[+tr.getAttribute('v2')], c = vs[+tr.getAttribute('v3')];
+      if (a && b && c) vol += tetra(a, b, c);
+    }
+    total += Math.abs(vol);
   }
+  return total;
+}
+
+// ─── STL ───
+function tetra(a, b, c) {
+  return (a[0] * (b[1] * c[2] - b[2] * c[1]) + b[0] * (c[1] * a[2] - c[2] * a[1]) + c[0] * (a[1] * b[2] - a[2] * b[1])) / 6;
+}
+async function stlVolume(buf) {
+  const dv = new DataView(buf);
+  if (buf.byteLength >= 84) {
+    const n = dv.getUint32(80, true);
+    if (84 + n * 50 === buf.byteLength) {
+      let vol = 0;
+      for (let i = 0; i < n; i++) {
+        const o = 84 + i * 50 + 12;
+        const f = k => dv.getFloat32(o + k * 4, true);
+        vol += tetra([f(0), f(1), f(2)], [f(3), f(4), f(5)], [f(6), f(7), f(8)]);
+      }
+      return Math.abs(vol);
+    }
+  }
+  const text = new TextDecoder().decode(buf);
+  const re = /vertex\s+(\S+)\s+(\S+)\s+(\S+)/gi;
+  const v = []; let m;
+  while ((m = re.exec(text))) v.push([+m[1], +m[2], +m[3]]);
+  let vol = 0;
+  for (let i = 0; i + 2 < v.length; i += 3) vol += tetra(v[i], v[i + 1], v[i + 2]);
   return Math.abs(vol);
 }
 
-function parseAsciiStlVolume(text) {
-  const vertices = [];
-  const re = /vertex\s+([\d.e+\-]+)\s+([\d.e+\-]+)\s+([\d.e+\-]+)/gi;
-  let m;
-  while ((m = re.exec(text)) !== null) {
-    vertices.push({ x: parseFloat(m[1]), y: parseFloat(m[2]), z: parseFloat(m[3]) });
-  }
-  let vol = 0;
-  for (let i = 0; i < vertices.length - 2; i += 3) {
-    const a = vertices[i], b = vertices[i+1], c = vertices[i+2];
-    vol += (a.x*(b.y*c.z - b.z*c.y) + b.x*(c.y*a.z - c.z*a.y) + c.x*(a.y*b.z - a.z*b.y)) / 6;
-  }
-  return Math.abs(vol);
-}
-
-function estimateWeight(vol_mm3, mat = 'PLA', infillPct = 15) {
-  const density = MAT_DENSITY[mat] || 1.24; // g/cm³
-  // Heuristic: shells + infill — rough approximation
-  const factor = (infillPct / 100) * 0.65 + 0.35;
-  return parseFloat((vol_mm3 / 1000 * density * factor).toFixed(1));
-}
-
-// ═══════════════════════════════════════════════════════════════
-// JSZip lazy loader
-// ═══════════════════════════════════════════════════════════════
+// ─── JSZip (lazy, with CDN fallbacks) ───
 let _jszip = null;
 async function loadJszip() {
   if (_jszip) return _jszip;
-  const URLS = [
+  const urls = [
     'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js',
     'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
     'https://unpkg.com/jszip@3.10.1/dist/jszip.min.js',
   ];
-  for (const url of URLS) {
+  for (const url of urls) {
     try {
       await new Promise((res, rej) => {
         const s = document.createElement('script');
         s.src = url; s.onload = res; s.onerror = rej;
         document.head.appendChild(s);
       });
-      _jszip = window.JSZip;
-      return _jszip;
+      if (window.JSZip) return (_jszip = window.JSZip);
     } catch {}
   }
-  throw new Error('JSZip konnte nicht geladen werden (kein Internetzugang?)');
+  throw new Error('Import-Bibliothek konnte nicht geladen werden (Internetverbindung prüfen).');
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Helpers
-// ═══════════════════════════════════════════════════════════════
-function formatTime(h) {
-  const hh = Math.floor(h);
-  const mm = Math.round((h - hh) * 60);
-  if (hh === 0) return mm + ' min';
-  if (mm === 0) return hh + ' h';
-  return `${hh}h ${mm}m`;
+// ═══ Toast ═══════════════════════════════════════════════════════
+let toastT;
+function toast(msg) {
+  const t = el('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Persistence
-// ═══════════════════════════════════════════════════════════════
-const ST = {
-  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
-  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
-};
+// ═══ Persistence ═════════════════════════════════════════════════
+function saveAll() {
+  ST.set('kp_settings_v2', JSON.stringify(S));
+  ST.set('kp_positions', JSON.stringify(P));
+  ST.set('kp_meta', JSON.stringify(meta));
+  if (meta.ref) ST.set('kp_lastRef', meta.ref);
+}
 
-const SIDS = ['s_lohn','s_strom','s_masch','s_leist','s_marge',
-              'fp_PLA','fp_PETG','fp_ABS','fp_TPU','fp_ASA'];
-// Keys used by the previous calculator version
-const LEGACY_SIDS = { s_lohn:'s_stundenlohn', s_masch:'s_maschine', s_leist:'s_leistung' };
-
-function saveState() {
+function loadAll() {
   try {
-    const rows = [];
-    document.querySelectorAll('tbody tr[data-id]').forEach(tr => {
-      const id = tr.dataset.id;
-      rows.push({
-        desc: el(`desc_${id}`)?.value || '',
-        mat:  el(`mat_${id}`)?.value  || 'PLA',
-        gew:  el(`gew_${id}`)?.value  || '',
-        dt:   el(`dt_${id}`)?.value   || '',
-        nb:   el(`nb_${id}`)?.value   || '',
-        mng:  el(`mng_${id}`)?.value  || '',
-      });
-    });
-    const settings = {};
-    SIDS.forEach(k => { settings[k] = el(k)?.value || ''; });
-    const meta = {
-      kunde: el('m_kunde').value,
-      datum: el('m_datum').value,
-      ref:   el('m_ref').value,
-    };
-    ST.set('kp_rows',     JSON.stringify(rows));
-    ST.set('kp_settings', JSON.stringify(settings));
-    ST.set('kp_meta',     JSON.stringify(meta));
-    if (meta.ref) ST.set('kp_lastRef', meta.ref);
-  } catch {}
-}
-
-function loadState() {
-  try {
-    const settings = JSON.parse(ST.get('kp_settings') || 'null');
-    if (settings) SIDS.forEach(k => {
-      const e = el(k);
-      const v = settings[k] || settings[LEGACY_SIDS[k]];
-      if (e && typeof v === 'string' && v !== '') e.value = v;
-    });
-
-    const meta = JSON.parse(ST.get('kp_meta') || 'null');
-    if (meta) {
-      if (meta.kunde) el('m_kunde').value = meta.kunde;
-      if (meta.datum) el('m_datum').value = meta.datum;
-      if (meta.ref)   el('m_ref').value   = meta.ref;
-    }
-
-    const rows = JSON.parse(ST.get('kp_rows') || 'null');
-    if (rows && rows.length > 0) {
-      rows.forEach(r => addRow(r));
+    const s2 = JSON.parse(ST.get('kp_settings_v2') || 'null');
+    if (s2) {
+      Object.keys(DEFAULTS).forEach(k => { if (typeof s2[k] === 'number') S[k] = s2[k]; });
     } else {
-      el('m_ref').value = nextRef();
-      addRow({ desc:'Schlüsselanhänger, individuell (Motiv+Name), inkl. Clip', mat:'PLA', gew:'15', dt:'0.4', nb:'8', mng:'22' });
+      // Migrate settings saved by the previous calculator version
+      const s1 = JSON.parse(ST.get('kp_settings') || 'null');
+      if (s1) {
+        const pick = (...ks) => { for (const k of ks) { const v = parseFloat(s1[k]); if (isFinite(v) && s1[k] !== '') return v; } return null; };
+        const map = { lohn: ['s_lohn', 's_stundenlohn'], masch: ['s_masch', 's_maschine'], leist: ['s_leist', 's_leistung'],
+                      strom: ['s_strom'], marge: ['s_marge'] };
+        Object.entries(map).forEach(([k, ks]) => { const v = pick(...ks); if (v != null) S[k] = v; });
+        if (S.marge <= 5) S.marge = Math.round(S.marge * 100);
+        MATS.forEach(m => { const v = pick('fp_' + m.id); if (v != null) S[m.id] = v; });
+      }
     }
-  } catch { addRow(); }
-
-  syncRef();
-  recalcAll();
+  } catch {}
+  try {
+    const p = JSON.parse(ST.get('kp_positions') || '[]');
+    if (Array.isArray(p)) P = p.filter(x => x && typeof x === 'object').map(x => ({
+      id: ++seq, desc: String(x.desc || ''), mat: MATS.some(m => m.id === x.mat) ? x.mat : 'PLA',
+      gew: num(x.gew), dt: num(x.dt), nb: num(x.nb), mng: Math.max(1, Math.round(num(x.mng)) || 1),
+      src: x.src === 'STL' || x.src === '3MF' ? x.src : null,
+    }));
+  } catch {}
+  try {
+    const m = JSON.parse(ST.get('kp_meta') || 'null');
+    if (m) meta = { kunde: String(m.kunde || ''), datum: String(m.datum || ''), ref: String(m.ref || '') };
+  } catch {}
+  if (!meta.datum) meta.datum = today();
+  if (!meta.ref) meta.ref = nextRef();
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Init
-// ═══════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-  el('m_datum').value = new Date().toISOString().split('T')[0];
-  loadState();
-});
+// ═══ Init ════════════════════════════════════════════════════════
+loadAll();
+renderMatTiles();
+bindSettings();
+renderMatSeg();
+fillMeta();
+resetForm();
+renderAll();
+renderImports();
+saveAll();
+show((location.hash || '').slice(1));
+window.addEventListener('hashchange', () => show(location.hash.slice(1)));
 </script>
 </body>
 </html>
