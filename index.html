@@ -23,19 +23,16 @@
       --fg3:      #64748b;
       --red:      #F05252;
       --warn:     #F2C94C;
+      --ok:       #4ADE80;
       --r:        12px;
       --font:     'Space Grotesk', system-ui, sans-serif;
-      --side:     236px;
+      --side:     240px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
     body {
-      background: var(--bg);
-      color: var(--fg);
-      font-family: var(--font);
-      font-size: 14px;
-      line-height: 1.5;
+      background: var(--bg); color: var(--fg);
+      font-family: var(--font); font-size: 14px; line-height: 1.5;
       min-height: 100vh;
     }
     button { font-family: inherit; }
@@ -45,50 +42,32 @@
 
     /* ── App shell ── */
     .app { display: grid; grid-template-columns: var(--side) 1fr; min-height: 100vh; }
-
     .sidebar {
       position: sticky; top: 0; height: 100vh;
-      background: var(--bg2);
-      border-right: 1px solid var(--border);
-      display: flex; flex-direction: column;
-      padding: 20px 14px;
-      gap: 24px;
+      background: var(--bg2); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; padding: 20px 14px; gap: 24px;
     }
     .brand { display: flex; align-items: center; gap: 11px; padding: 0 6px; }
     .brand svg { width: 34px; height: 34px; flex-shrink: 0; }
     .brand-name { font-weight: 700; font-size: 15px; line-height: 1.2; }
     .brand-sub { font-size: 11px; color: var(--fg3); }
-
     .nav { display: flex; flex-direction: column; gap: 4px; }
-    .nav-label {
-      font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-      color: var(--fg3); padding: 0 10px 6px;
-    }
+    .nav-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--fg3); padding: 0 10px 6px; }
     .nav-item {
-      display: flex; align-items: center; gap: 11px;
-      padding: 10px 12px; border-radius: 9px;
-      background: none; border: 1px solid transparent;
-      color: var(--fg2); font-size: 14px; font-weight: 500;
-      cursor: pointer; text-align: left; width: 100%;
+      display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 9px;
+      background: none; border: 1px solid transparent; color: var(--fg2);
+      font-size: 14px; font-weight: 500; cursor: pointer; text-align: left; width: 100%;
       transition: background .15s, color .15s, border-color .15s;
     }
     .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
     .nav-item:hover { background: var(--accent-s); color: var(--fg); }
     .nav-item.active { background: var(--accent-m); color: var(--accent); border-color: var(--border2); }
-    .nav-badge {
-      margin-left: auto; min-width: 22px; padding: 1px 7px;
-      border-radius: 20px; background: var(--card2); color: var(--fg2);
-      font-size: 11px; font-weight: 600; text-align: center;
-    }
+    .nav-badge { margin-left: auto; min-width: 22px; padding: 1px 7px; border-radius: 20px; background: var(--card2); color: var(--fg2); font-size: 11px; font-weight: 600; text-align: center; }
     .nav-item.active .nav-badge { background: var(--accent); color: #000; }
-
-    .side-foot {
-      margin-top: auto;
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 10px; padding: 14px;
-    }
+    .side-foot { margin-top: auto; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; cursor: pointer; }
+    .side-foot:hover { border-color: var(--border2); }
     .side-foot-label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--fg3); }
-    .side-foot-ref { font-size: 13px; color: var(--fg2); margin-top: 2px; }
+    .side-foot-ref { font-size: 13px; color: var(--fg2); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .side-foot-total { font-size: 20px; font-weight: 700; color: var(--accent); margin-top: 6px; font-variant-numeric: tabular-nums; }
 
     /* ── Main ── */
@@ -96,10 +75,10 @@
     .view { display: none; max-width: 1180px; animation: fade .25s ease; }
     .view.active { display: block; }
     @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-
     .view-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
     .view-title { font-size: 26px; font-weight: 700; letter-spacing: -.01em; }
     .view-sub { color: var(--fg3); font-size: 14px; margin-top: 4px; }
+    .head-btns { display: flex; gap: 8px; flex-wrap: wrap; }
 
     /* ── Cards ── */
     .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); }
@@ -107,67 +86,61 @@
     .card-title { font-size: 15px; font-weight: 600; }
     .card-desc { font-size: 13px; color: var(--fg3); margin-top: 2px; }
     .card-head { padding: 18px 22px; border-bottom: 1px solid var(--border); }
+    .stack-gap > * + * { margin-top: 20px; }
 
-    /* ── Stat tiles ── */
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
     .stat { padding: 16px 18px; }
     .stat-label { font-size: 12px; color: var(--fg3); }
-    .stat-val { font-size: 22px; font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums; }
+    .stat-val { font-size: 22px; font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .stat-val.accent { color: var(--accent); }
 
     /* ── Form ── */
-    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
     .field > label { font-size: 13px; font-weight: 500; color: var(--fg2); }
-    .field .hint { font-size: 12px; color: var(--fg3); }
-    input, select {
-      background: var(--bg);
-      border: 1px solid var(--border2);
-      border-radius: 8px;
-      color: var(--fg);
-      padding: 10px 12px;
-      font-size: 14px; font-family: var(--font);
-      outline: none; width: 100%;
-      transition: border-color .15s, box-shadow .15s;
+    .hint { font-size: 12px; color: var(--fg3); }
+    input, select, textarea {
+      background: var(--bg); border: 1px solid var(--border2); border-radius: 8px;
+      color: var(--fg); padding: 10px 12px; font-size: 14px; font-family: var(--font);
+      outline: none; width: 100%; transition: border-color .15s, box-shadow .15s;
     }
-    input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,191,255,.14); }
-    input::placeholder { color: #3e4a5c; }
+    textarea { resize: vertical; min-height: 84px; line-height: 1.45; }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,191,255,.14); }
+    input::placeholder, textarea::placeholder { color: #3e4a5c; }
     input[type=number] { -moz-appearance: textfield; }
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     input[type=date]::-webkit-calendar-picker-indicator { filter: invert(.7); }
-
     .ig { position: relative; display: flex; align-items: center; }
-    .ig input { padding-right: 64px; text-align: right; font-variant-numeric: tabular-nums; }
-    .ig .unit {
-      position: absolute; right: 12px; font-size: 12px; color: var(--fg3);
-      pointer-events: none;
-    }
-
+    .ig input { padding-right: 66px; text-align: right; font-variant-numeric: tabular-nums; }
+    .ig .unit { position: absolute; right: 12px; font-size: 12px; color: var(--fg3); pointer-events: none; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     .form-grid .full { grid-column: 1 / -1; }
     .time-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
-    /* Material segmented */
     .seg { display: flex; flex-wrap: wrap; gap: 8px; }
     .seg-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 9px 14px; border-radius: 8px;
-      background: var(--bg); border: 1px solid var(--border2);
-      color: var(--fg2); font-size: 13px; font-weight: 600; cursor: pointer;
-      transition: border-color .15s, background .15s, color .15s;
+      display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 8px;
+      background: var(--bg); border: 1px solid var(--border2); color: var(--fg2);
+      font-size: 13px; font-weight: 600; cursor: pointer; transition: border-color .15s, background .15s, color .15s;
     }
     .seg-btn:hover { border-color: var(--accent); color: var(--fg); }
     .seg-btn.active { background: var(--accent-m); border-color: var(--accent); color: var(--fg); }
+    .seg-sm .seg-btn { padding: 7px 12px; }
     .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+
+    .switch { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; padding: 12px 14px; border: 1px solid var(--border2); border-radius: 9px; background: var(--bg); }
+    .switch input { display: none; }
+    .switch .track { width: 36px; height: 20px; border-radius: 20px; background: #2a2a3e; position: relative; flex-shrink: 0; margin-top: 1px; transition: background .15s; }
+    .switch .track::after { content: ''; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: var(--fg2); transition: transform .15s, background .15s; }
+    .switch input:checked + .track { background: var(--accent); }
+    .switch input:checked + .track::after { transform: translateX(16px); background: #000; }
+    .switch-text { font-size: 14px; font-weight: 500; }
 
     /* ── Buttons ── */
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-      padding: 10px 18px; border-radius: 9px;
-      font-size: 14px; font-weight: 600;
-      cursor: pointer; border: 1px solid transparent;
+      padding: 10px 18px; border-radius: 9px; font-size: 14px; font-weight: 600;
+      cursor: pointer; border: 1px solid transparent; white-space: nowrap;
       transition: background .15s, box-shadow .15s, border-color .15s, transform .1s;
-      white-space: nowrap;
     }
     .btn:active { transform: scale(.98); }
     .btn svg { width: 16px; height: 16px; }
@@ -181,17 +154,12 @@
     .btn-text:hover { color: var(--fg); }
     .btn-block { width: 100%; }
     .btn-sm { padding: 7px 12px; font-size: 13px; }
-
-    .icon-btn {
-      background: none; border: 1px solid transparent; border-radius: 7px;
-      color: var(--fg3); cursor: pointer; padding: 6px;
-      display: inline-flex; transition: color .15s, background .15s;
-    }
+    .icon-btn { background: none; border: 1px solid transparent; border-radius: 7px; color: var(--fg3); cursor: pointer; padding: 6px; display: inline-flex; transition: color .15s, background .15s; }
     .icon-btn svg { width: 16px; height: 16px; }
     .icon-btn:hover { color: var(--accent); background: var(--accent-s); }
     .icon-btn.danger:hover { color: var(--red); background: rgba(240,82,82,.1); }
 
-    /* ── Calculator layout ── */
+    /* ── Calculator ── */
     .calc { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; align-items: start; }
     .result { position: sticky; top: 24px; }
     .res-main { padding: 22px; border-bottom: 1px solid var(--border); }
@@ -199,102 +167,100 @@
     .res-price { font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1.1; margin-top: 4px; font-variant-numeric: tabular-nums; }
     .res-price small { font-size: 15px; font-weight: 500; color: var(--fg3); }
     .res-total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--border2); }
-    .res-total-label { color: var(--fg2); font-size: 14px; }
+    .res-total-label { color: var(--fg2); }
     .res-total-val { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
-
+    .res-warn { display: none; margin-top: 12px; padding: 8px 12px; border-radius: 8px; background: rgba(240,82,82,.1); color: #fca5a5; font-size: 13px; }
+    .res-warn.show { display: block; }
     .res-break { padding: 20px 22px; }
-    .stack { display: flex; height: 10px; border-radius: 6px; overflow: hidden; background: var(--bg); margin-bottom: 16px; }
-    .stack span { height: 100%; transition: width .3s ease; }
+    .stackbar { display: flex; height: 10px; border-radius: 6px; overflow: hidden; background: var(--bg); margin-bottom: 16px; }
+    .stackbar span { height: 100%; transition: width .3s ease; }
     .brow { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 13px; border-bottom: 1px solid var(--border); }
     .brow:last-child { border-bottom: none; }
     .brow-name { color: var(--fg2); flex: 1; }
     .brow-sub { color: var(--fg3); font-size: 12px; }
     .brow-val { font-variant-numeric: tabular-nums; min-width: 84px; text-align: right; }
-    .brow.sum { border-top: 1px solid var(--border2); border-bottom: none; margin-top: 4px; padding-top: 10px; font-weight: 600; }
+    .brow.sum { border-top: 1px solid var(--border2); margin-top: 4px; padding-top: 10px; font-weight: 600; }
     .brow.sum .brow-name { color: var(--fg); }
+    .brow.minus .brow-val { color: var(--ok); }
     .res-actions { padding: 0 22px 22px; display: flex; flex-direction: column; gap: 8px; }
+    .banner { display: none; align-items: center; gap: 10px; flex-wrap: wrap; border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 13px; }
+    .banner.show { display: flex; }
+    .banner.info { background: var(--accent-s); border: 1px solid var(--border2); color: var(--fg2); }
+    .banner.info strong { color: var(--accent); }
+    .banner.warn { background: rgba(242,201,76,.08); border: 1px solid rgba(242,201,76,.35); color: #f5dd8a; }
+    .banner .btn { margin-left: auto; }
 
-    .edit-banner {
-      display: none; align-items: center; gap: 10px;
-      background: var(--accent-s); border: 1px solid var(--border2);
-      border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 13px; color: var(--fg2);
-    }
-    .edit-banner.show { display: flex; }
-    .edit-banner strong { color: var(--accent); }
-
-    /* ── Positions table ── */
-    .meta-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 16px; }
+    /* ── Tables ── */
+    .meta-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+    .meta-grid .c2 { grid-column: span 2; }
+    .meta-grid .c3 { grid-column: span 3; }
     .tbl-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    thead th {
-      text-align: left; font-size: 12px; font-weight: 600; color: var(--fg3);
-      padding: 12px 12px; border-bottom: 1px solid var(--border2);
-      background: var(--bg2); line-height: 1.3; vertical-align: bottom;
-    }
+    thead th { text-align: left; font-size: 12px; font-weight: 600; color: var(--fg3); padding: 12px; border-bottom: 1px solid var(--border2); background: var(--bg2); line-height: 1.3; vertical-align: bottom; }
     th.num, td.num { text-align: right; }
     tbody td { padding: 13px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; white-space: nowrap; font-variant-numeric: tabular-nums; }
     tbody tr:hover td { background: var(--accent-s); }
+    tbody tr.current td { background: rgba(0,191,255,.05); }
     td.desc { white-space: normal; min-width: 170px; font-weight: 500; }
     td.muted { color: var(--fg3); }
     td.strong { color: var(--accent); font-weight: 600; }
     td.actions { width: 1%; text-align: right; }
-    .src {
-      display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 4px;
-      font-size: 10px; font-weight: 700; letter-spacing: .04em;
-      color: var(--accent); border: 1px solid var(--border2); vertical-align: 1px;
-    }
-    tfoot td { padding: 16px 14px; }
-    .tot-label { text-align: right; color: var(--fg2); }
-    .tot-val { text-align: right; font-size: 20px; font-weight: 700; color: var(--accent); white-space: nowrap; font-variant-numeric: tabular-nums; }
-
+    .tag { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: .04em; color: var(--accent); border: 1px solid var(--border2); vertical-align: 1px; }
+    .tag.multi { color: #f9a8d4; border-color: rgba(244,114,182,.4); }
+    .tag.st { color: var(--ok); border-color: rgba(74,222,128,.4); }
     .empty { text-align: center; padding: 56px 20px; }
     .empty svg { width: 44px; height: 44px; color: var(--fg3); margin-bottom: 12px; }
     .empty-title { font-size: 16px; font-weight: 600; }
     .empty-text { color: var(--fg3); margin: 4px 0 18px; }
+    .bar-actions { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
 
-    .bar-actions { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+    .totals { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; margin-top: 20px; align-items: start; }
+    .extras { display: flex; flex-direction: column; gap: 18px; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .sum-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+    .sum-row span:first-child { color: var(--fg2); }
+    .sum-row.minus span:last-child { color: var(--ok); }
+    .sum-row.total { border-bottom: none; border-top: 1px solid var(--border2); margin-top: 6px; padding-top: 14px; font-size: 20px; font-weight: 700; }
+    .sum-row.total span:first-child { color: var(--fg); }
+    .sum-row.total span:last-child { color: var(--accent); }
+
+    .status { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid; }
+    .st-entwurf    { color: var(--fg2); border-color: #2a2a3e; }
+    .st-gesendet   { color: var(--accent); border-color: var(--border2); }
+    .st-angenommen { color: var(--ok); border-color: rgba(74,222,128,.4); }
+    .st-abgelehnt  { color: #fca5a5; border-color: rgba(240,82,82,.4); }
 
     /* ── Settings ── */
     .set-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
     .set-grid .full { grid-column: 1 / -1; }
-    .set-row {
-      display: grid; grid-template-columns: 1fr 170px; gap: 16px; align-items: center;
-      padding: 14px 22px; border-bottom: 1px solid var(--border);
-    }
+    .set-row { display: grid; grid-template-columns: 1fr 170px; gap: 16px; align-items: center; padding: 14px 22px; border-bottom: 1px solid var(--border); }
     .set-row:last-child { border-bottom: none; }
     .set-name { font-size: 14px; font-weight: 500; }
     .set-desc { font-size: 12px; color: var(--fg3); margin-top: 1px; }
+    .st-row { display: grid; grid-template-columns: auto 110px auto 110px; gap: 10px; align-items: center; padding: 12px 22px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--fg2); }
+    .st-row:last-child { border-bottom: none; }
     .mat-tiles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; padding: 22px; }
     .mat-tile { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
     .mat-tile-name { display: flex; align-items: center; gap: 8px; font-weight: 600; }
     .mat-tile .ig input { padding-right: 58px; }
+    .text-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 22px; }
+    .text-grid .full { grid-column: 1 / -1; }
     .set-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 18px; color: var(--fg3); font-size: 13px; }
 
     /* ── Import ── */
-    .dropzone {
-      border: 1.5px dashed var(--border2); border-radius: var(--r);
-      padding: 44px 20px; text-align: center; cursor: pointer;
-      background: var(--card);
-      transition: border-color .2s, background .2s;
-      position: relative;
-    }
+    .dropzone { border: 1.5px dashed var(--border2); border-radius: var(--r); padding: 44px 20px; text-align: center; cursor: pointer; background: var(--card); transition: border-color .2s, background .2s; position: relative; }
     .dropzone:hover, .dropzone.drag { border-color: var(--accent); background: var(--accent-s); }
     .dropzone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
     .dz-icon { width: 46px; height: 46px; color: var(--accent); margin: 0 auto 12px; }
     .dz-title { font-size: 16px; font-weight: 600; }
     .dz-sub { color: var(--fg3); margin-top: 4px; }
     .dz-types { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
-    .chip {
-      font-size: 12px; padding: 3px 10px; border-radius: 20px;
-      border: 1px solid var(--border2); color: var(--fg2);
-    }
+    .chip { font-size: 12px; padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border2); color: var(--fg2); }
     .chip.ok { border-color: var(--accent); color: var(--accent); }
     .chip.warn { border-color: rgba(242,201,76,.5); color: var(--warn); }
-
     .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
     .info { padding: 16px 18px; font-size: 13px; color: var(--fg2); }
     .info strong { color: var(--fg); display: block; margin-bottom: 4px; font-size: 14px; }
-
     .imp-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
     .imp { padding: 18px 20px; display: grid; grid-template-columns: 1fr auto; gap: 14px 20px; align-items: center; }
     .imp-name { font-weight: 600; word-break: break-all; }
@@ -308,72 +274,80 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .imp-err { color: var(--warn); font-size: 13px; margin-top: 6px; }
 
-    /* ── Toast ── */
-    .toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(90px);
-      background: var(--card2); border: 1px solid var(--border2); border-radius: 10px;
-      padding: 11px 18px; font-size: 13px; z-index: 999; opacity: 0;
-      transition: transform .3s cubic-bezier(.2,.7,.2,1), opacity .3s;
-    }
+    .backup { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+    .backup-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .file-btn { position: relative; overflow: hidden; }
+    .file-btn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(90px); background: var(--card2); border: 1px solid var(--border2); border-radius: 10px; padding: 11px 18px; font-size: 13px; z-index: 999; opacity: 0; transition: transform .3s cubic-bezier(.2,.7,.2,1), opacity .3s; max-width: calc(100vw - 32px); }
     .toast.show { transform: translateX(-50%); opacity: 1; }
 
-    .print-only { display: none; }
+    .print-area { display: none; }
 
     /* ── Responsive ── */
     @media (max-width: 1100px) {
-      .calc { grid-template-columns: 1fr; }
+      .calc, .totals { grid-template-columns: 1fr; }
       .result { position: static; }
       .mat-tiles { grid-template-columns: repeat(3, 1fr); }
     }
     @media (max-width: 860px) {
       .app { display: block; }
-      .sidebar {
-        position: sticky; top: 0; z-index: 50; height: auto;
-        flex-direction: column; gap: 10px; padding: 12px 12px 8px;
-        border-right: none; border-bottom: 1px solid var(--border);
-        background: rgba(10,10,16,.95); backdrop-filter: blur(10px);
-      }
+      .sidebar { position: sticky; top: 0; z-index: 50; height: auto; gap: 10px; padding: 12px 12px 8px; border-right: none; border-bottom: 1px solid var(--border); background: rgba(10,10,16,.95); backdrop-filter: blur(10px); }
       .nav-label, .side-foot { display: none; }
       .nav { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
       .nav-item { padding: 8px 10px; font-size: 13px; gap: 8px; }
+      .nav-item:last-child { grid-column: 1 / -1; }
       .nav-item svg { width: 16px; height: 16px; }
       .main { padding: 20px 16px 56px; }
       .view-title { font-size: 22px; }
       .stats { grid-template-columns: 1fr 1fr; }
       .stats .stat:first-child { grid-column: 1 / -1; }
-      .set-grid, .info-grid { grid-template-columns: 1fr; }
+      .set-grid, .info-grid, .text-grid { grid-template-columns: 1fr; }
       .meta-grid { grid-template-columns: 1fr 1fr; }
-      .meta-grid .field:first-child { grid-column: 1 / -1; }
+      .meta-grid .c2, .meta-grid .c3 { grid-column: 1 / -1; }
     }
     @media (max-width: 520px) {
-      .form-grid { grid-template-columns: 1fr; }
+      .form-grid, .row2 { grid-template-columns: 1fr; }
       .set-row { grid-template-columns: 1fr; gap: 8px; }
+      .st-row { grid-template-columns: auto 1fr; }
       .mat-tiles { grid-template-columns: 1fr 1fr; }
       .imp { grid-template-columns: 1fr; }
       .res-price { font-size: 34px; }
     }
 
-    /* ── Print (Offerte) ── */
+    /* ── Print: customer offer ── */
     @media print {
-      @page { margin: 16mm; }
-      body { background: #fff; color: #111; font-size: 11pt; }
-      .sidebar, .no-print, .toast { display: none !important; }
-      .app { display: block; }
-      .main { padding: 0; }
-      .view { display: none !important; }
-      #view-positionen { display: block !important; max-width: none; animation: none; }
-      .print-only { display: block; }
-      .card { background: #fff; border-color: #ddd; }
-      thead th { background: #f3f4f6; color: #444; border-color: #ccc; }
-      tbody td { border-color: #e5e7eb; color: #111; }
-      tbody tr:hover td { background: none; }
-      td.strong, .tot-val { color: #0077aa; }
-      td.muted { color: #555; }
-      .src { display: none; }
-      .print-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
-      .print-head h1 { font-size: 22pt; }
-      .print-head table td { padding: 2px 0 2px 16px; border: none; font-size: 10pt; }
-      .print-foot { margin-top: 32px; font-size: 9pt; color: #666; }
+      @page { size: A4; margin: 16mm 16mm 18mm; }
+      body { background: #fff; color: #111; font-size: 10pt; }
+      .app, .toast { display: none !important; }
+      .print-area { display: block; }
+      .print-area th, .print-area td { background: none !important; border: none; color: #111; white-space: normal; vertical-align: top; }
+      .pa-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+      .pa-brand { display: flex; gap: 12px; align-items: flex-start; }
+      .pa-brand svg { width: 46px; height: 46px; }
+      .pa-company { font-size: 9pt; line-height: 1.45; color: #333; }
+      .pa-company strong { font-size: 13pt; color: #111; display: block; margin-bottom: 2px; }
+      .pa-title { text-align: right; }
+      .pa-title h1 { font-size: 24pt; color: #0077aa; letter-spacing: -.01em; }
+      .pa-meta { margin-top: 6px; border-collapse: collapse; margin-left: auto; }
+      .pa-meta td { padding: 1px 0 1px 14px; font-size: 9.5pt; text-align: right; white-space: nowrap; }
+      .pa-meta td:first-child, .pa-table th { color: #555; }
+      .pa-to { margin-top: 28px; font-size: 10.5pt; line-height: 1.45; white-space: pre-line; }
+      .pa-subject { margin-top: 22px; font-size: 12pt; font-weight: 700; }
+      .pa-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 9.5pt; }
+      .pa-table th { text-align: left; border-bottom: 1.5px solid #111; padding: 6px 6px; font-weight: 600; }
+      .pa-table td { padding: 8px 6px; border-bottom: 1px solid #ddd; vertical-align: top; }
+      .pa-table .n { text-align: right; white-space: nowrap; }
+      .pa-table .sub { color: #666; font-size: 8.5pt; margin-top: 1px; }
+      .pa-sum { margin-left: auto; margin-top: 10px; border-collapse: collapse; min-width: 260px; font-size: 10pt; }
+      .pa-sum td { padding: 4px 6px; }
+      .pa-sum td:last-child { text-align: right; white-space: nowrap; }
+      .pa-sum .tot td { border-top: 1.5px solid #111; font-weight: 700; font-size: 12pt; padding-top: 7px; }
+      .pa-notes { margin-top: 22px; font-size: 9.5pt; white-space: pre-line; }
+      .pa-terms { margin-top: 18px; font-size: 9pt; color: #333; line-height: 1.55; }
+      .pa-terms strong { color: #111; }
+      .pa-foot { margin-top: 30px; padding-top: 8px; border-top: 1px solid #ddd; font-size: 8pt; color: #777; }
+      .pa-table tr { page-break-inside: avoid; }
     }
   </style>
 </head>
@@ -386,9 +360,7 @@
     <div class="brand">
       <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
-          <pattern id="ls" x="0" y="28" width="200" height="12" patternUnits="userSpaceOnUse">
-            <rect y="0" width="200" height="8" fill="#00BFFF"/>
-          </pattern>
+          <pattern id="ls" x="0" y="28" width="200" height="12" patternUnits="userSpaceOnUse"><rect y="0" width="200" height="8" fill="#00BFFF"/></pattern>
           <clipPath id="lk"><path d="M40 28 L68 28 L68 80 L160 28 L160 50 L86 100 L160 150 L160 172 L68 120 L68 172 L40 172Z"/></clipPath>
         </defs>
         <rect width="200" height="200" rx="22" fill="#12121e"/>
@@ -412,17 +384,22 @@
         Erfasste Positionen
         <span class="nav-badge" id="navCount">0</span>
       </button>
+      <button class="nav-item" data-view="offerten" onclick="show('offerten')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
+        Offerten
+        <span class="nav-badge" id="navOffers">0</span>
+      </button>
       <button class="nav-item" data-view="import" onclick="show('import')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
         Datei-Import
       </button>
       <button class="nav-item" data-view="einstellungen" onclick="show('einstellungen')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
         Einstellungen
       </button>
     </nav>
 
-    <div class="side-foot">
+    <div class="side-foot" onclick="show('positionen')" title="Aktuelle Offerte öffnen">
       <div class="side-foot-label">Aktuelle Offerte</div>
       <div class="side-foot-ref" id="sideRef">–</div>
       <div class="side-foot-total" id="sideTotal">CHF 0.00</div>
@@ -446,27 +423,17 @@
       </div>
 
       <div class="stats">
-        <div class="card stat">
-          <div class="stat-label">Offerte</div>
-          <div class="stat-val" id="statRef">–</div>
-        </div>
-        <div class="card stat">
-          <div class="stat-label">Erfasste Positionen</div>
-          <div class="stat-val" id="statCount">0</div>
-        </div>
-        <div class="card stat">
-          <div class="stat-label">Total Offerte</div>
-          <div class="stat-val accent" id="statTotal">CHF 0.00</div>
-        </div>
+        <div class="card stat"><div class="stat-label">Aktuelle Offerte</div><div class="stat-val" id="statRef">–</div></div>
+        <div class="card stat"><div class="stat-label">Erfasste Positionen</div><div class="stat-val" id="statCount">0</div></div>
+        <div class="card stat"><div class="stat-label">Total Offerte</div><div class="stat-val accent" id="statTotal">CHF 0.00</div></div>
       </div>
 
-      <div class="edit-banner" id="editBanner">
+      <div class="banner info" id="editBanner">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
         <span>Du bearbeitest <strong id="editLabel">Position</strong>. Änderungen werden erst mit «Speichern» übernommen.</span>
       </div>
 
       <div class="calc">
-        <!-- Form -->
         <div class="card">
           <div class="card-head">
             <div class="card-title" id="formTitle">Neuer Druck</div>
@@ -501,12 +468,22 @@
               <div class="field">
                 <label for="f_mng">Menge</label>
                 <div class="ig"><input type="number" id="f_mng" min="1" step="1" inputmode="numeric" value="1" oninput="renderResult()"><span class="unit">Stück</span></div>
+                <span class="hint" id="f_staffelHint">&nbsp;</span>
+              </div>
+              <div class="field full">
+                <label class="switch">
+                  <input type="checkbox" id="f_multi" onchange="renderResult()">
+                  <span class="track"></span>
+                  <span>
+                    <span class="switch-text">Mehrfarbiger Druck (AMS)</span><br>
+                    <span class="hint" id="f_multiHint">Rechnet Spülabfall beim Farbwechsel dazu. Nur bei manuell erfasstem Gewicht – geslicte Bambu-Dateien enthalten ihn bereits.</span>
+                  </span>
+                </label>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Result -->
         <div class="card result">
           <div class="res-main">
             <div class="res-label">Preis pro Stück</div>
@@ -515,13 +492,14 @@
               <span class="res-total-label" id="r_mngLabel">Gesamtpreis (1 Stück)</span>
               <span class="res-total-val" id="r_gesamt">CHF 0.00</span>
             </div>
+            <div class="res-warn" id="r_warn">⚠ Der Mengenrabatt drückt den Preis unter die Selbstkosten.</div>
           </div>
           <div class="res-break">
-            <div class="stack" id="r_stack"></div>
+            <div class="stackbar" id="r_stack"></div>
             <div id="r_rows"></div>
           </div>
           <div class="res-actions">
-            <button class="btn btn-primary btn-block" id="btnAdd" onclick="submitForm()">
+            <button class="btn btn-primary btn-block" onclick="submitForm()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
               <span id="btnAddLabel">Zur Offerte hinzufügen</span>
             </button>
@@ -531,50 +509,73 @@
       </div>
     </section>
 
-    <!-- ── Erfasste Positionen ── -->
+    <!-- ── Erfasste Positionen (aktuelle Offerte) ── -->
     <section class="view" id="view-positionen">
-      <div class="print-only">
-        <div class="print-head">
-          <div>
-            <h1>Offerte</h1>
-            <div style="margin-top:4px">Knuchi Prints · Daniel Knuchel</div>
-          </div>
-          <table>
-            <tr><td>Offerte-Nr.</td><td><strong id="p_ref"></strong></td></tr>
-            <tr><td>Datum</td><td id="p_datum"></td></tr>
-            <tr><td>Kunde / Projekt</td><td id="p_kunde"></td></tr>
-          </table>
-        </div>
-      </div>
-
-      <div class="view-head no-print">
+      <div class="view-head">
         <div>
           <h1 class="view-title">Erfasste Positionen</h1>
-          <p class="view-sub">Alle Drucke dieser Offerte. Mit «Als PDF drucken» erstellst du die Offerte.</p>
+          <p class="view-sub" id="posSub">Offerte</p>
         </div>
-        <button class="btn btn-ghost" onclick="newOffer()">Neue Offerte</button>
+        <div class="head-btns">
+          <button class="btn btn-ghost" onclick="newOffer()">Neue Offerte</button>
+          <button class="btn btn-outline" onclick="printOffer()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
+            Als PDF drucken
+          </button>
+        </div>
       </div>
 
-      <div class="card card-pad no-print" style="margin-bottom:20px">
+      <div class="banner warn" id="companyWarn">
+        <span>⚠ Für das Kunden-PDF fehlen noch Firmenangaben: <strong id="companyMissing"></strong>.</span>
+        <button class="btn btn-ghost btn-sm" onclick="show('einstellungen'); el('set-firma').scrollIntoView({behavior:'smooth'})">Jetzt ergänzen</button>
+      </div>
+
+      <div class="card card-pad">
         <div class="meta-grid">
-          <div class="field">
-            <label for="m_kunde">Kunde / Projekt</label>
-            <input type="text" id="m_kunde" placeholder="z.B. Müller AG – Messestand" oninput="metaChanged()">
-          </div>
-          <div class="field">
-            <label for="m_datum">Datum</label>
-            <input type="date" id="m_datum" oninput="metaChanged()">
-          </div>
-          <div class="field">
-            <label for="m_ref">Offerte-Nr.</label>
-            <input type="text" id="m_ref" placeholder="KP-0001" oninput="metaChanged()">
-          </div>
+          <div class="field c2"><label for="o_ref">Offerte-Nr.</label><input type="text" id="o_ref" data-offer="ref" placeholder="KP-0001"></div>
+          <div class="field c2"><label for="o_datum">Datum</label><input type="date" id="o_datum" data-offer="datum"></div>
+          <div class="field c2"><label for="o_status">Status</label>
+            <select id="o_status" data-offer="status">
+              <option value="entwurf">Entwurf</option><option value="gesendet">Gesendet</option>
+              <option value="angenommen">Angenommen</option><option value="abgelehnt">Abgelehnt</option>
+            </select></div>
+          <div class="field c3"><label for="o_kunde">Kunde</label><input type="text" id="o_kunde" data-offer="kunde" placeholder="z.B. Müller AG"></div>
+          <div class="field c3"><label for="o_projekt">Projekt / Betreff</label><input type="text" id="o_projekt" data-offer="projekt" placeholder="z.B. Werbegeschenke Messestand"></div>
+          <div class="field c3"><label for="o_adresse">Kundenadresse <span class="hint">(erscheint im PDF)</span></label><textarea id="o_adresse" data-offer="adresse" placeholder="Ansprechperson&#10;Strasse Nr.&#10;PLZ Ort"></textarea></div>
+          <div class="field c3"><label for="o_notiz">Bemerkungen <span class="hint">(erscheinen im PDF)</span></label><textarea id="o_notiz" data-offer="notiz" placeholder="z.B. Farben nach Absprache, Muster vorab möglich"></textarea></div>
         </div>
       </div>
 
-      <div class="card" id="posCard"></div>
+      <div class="card" id="posCard" style="margin-top:20px"></div>
 
-      <div class="bar-actions no-print" id="posActions">
+      <div class="totals" id="totalsBox">
+        <div class="card">
+          <div class="card-head"><div class="card-title">Zuschläge &amp; Rabatt</div><div class="card-desc">Gelten für die ganze Offerte</div></div>
+          <div class="card-pad extras">
+            <div class="field">
+              <label>Versand</label>
+              <div class="seg seg-sm" id="versandSeg"></div>
+              <div class="ig" id="versandFixWrap" style="display:none;margin-top:4px"><input type="number" id="o_versandFix" data-offer="versandFix" data-num="1" min="0" step="0.05" inputmode="decimal" placeholder="0.00"><span class="unit">CHF</span></div>
+              <span class="hint" id="versandHint"></span>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="o_einrichtung">Einrichtungspauschale</label>
+                <div class="ig"><input type="number" id="o_einrichtung" data-offer="einrichtung" data-num="1" min="0" step="0.5" inputmode="decimal" placeholder="0.00"><span class="unit">CHF</span></div>
+                <span class="hint">z.B. Design anpassen, Testdruck</span>
+              </div>
+              <div class="field">
+                <label for="o_rabatt">Rabatt</label>
+                <div class="ig"><input type="number" id="o_rabatt" data-offer="rabatt" data-num="1" min="0" step="0.5" inputmode="decimal" placeholder="0"><span class="unit" id="rabattUnit">%</span></div>
+                <div class="seg seg-sm" id="rabattSeg" style="margin-top:4px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-pad" id="sumBox"></div>
+      </div>
+
+      <div class="bar-actions" id="posActions">
         <button class="btn btn-ghost" onclick="newDraft()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
           Weitere Position erfassen
@@ -584,9 +585,40 @@
           Als PDF drucken
         </button>
       </div>
+    </section>
 
-      <div class="print-only print-foot">
-        Preise in CHF. Handgefertigt in der Schweiz – Knuchi Prints, Daniel Knuchel.
+    <!-- ── Offerten (Verlauf) ── -->
+    <section class="view" id="view-offerten">
+      <div class="view-head">
+        <div>
+          <h1 class="view-title">Offerten</h1>
+          <p class="view-sub">Alle gespeicherten Offerten – öffnen, duplizieren oder sichern.</p>
+        </div>
+        <button class="btn btn-primary" onclick="newOffer()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Neue Offerte
+        </button>
+      </div>
+
+      <div class="card" id="offerList"></div>
+
+      <div class="card card-pad backup">
+        <div>
+          <div class="card-title">Backup</div>
+          <div class="card-desc">Die Daten liegen nur in diesem Browser. Sichere sie regelmässig oder übertrage sie so auf ein anderes Gerät.</div>
+          <div class="hint" id="backupInfo" style="margin-top:6px"></div>
+        </div>
+        <div class="backup-btns">
+          <button class="btn btn-ghost" onclick="exportBackup()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+            Backup herunterladen
+          </button>
+          <span class="btn btn-ghost file-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+            Backup einspielen
+            <input type="file" accept=".json,application/json" onchange="importBackup(this.files[0]); this.value=''" aria-label="Backup-Datei wählen">
+          </span>
+        </div>
       </div>
     </section>
 
@@ -598,9 +630,8 @@
           <p class="view-sub">Gewicht und Druckzeit direkt aus deiner Druckdatei auslesen.</p>
         </div>
       </div>
-
       <div class="dropzone" id="dropzone">
-        <input type="file" id="fileInput" multiple accept=".3mf,.stl,application/octet-stream,*/*" onchange="handleFiles(this.files); this.value=''">
+        <input type="file" id="fileInput" multiple accept=".3mf,.stl,application/octet-stream,*/*" onchange="handleFiles(this.files); this.value=''" aria-label="Dateien wählen">
         <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
         <div class="dz-title">Dateien hier ablegen oder klicken</div>
         <div class="dz-sub">Mehrere Dateien gleichzeitig möglich</div>
@@ -609,18 +640,10 @@
           <span class="chip warn">.3mf / .stl ohne Slicing → Schätzung</span>
         </div>
       </div>
-
       <div class="info-grid">
-        <div class="card info">
-          <strong>Exakte Werte</strong>
-          In Bambu Studio slicen und die geslicte Platte über «Datei → Exportieren» als .3mf speichern. Gewicht, Druckzeit und Material stammen dann direkt vom Slicer.
-        </div>
-        <div class="card info">
-          <strong>Schätzung</strong>
-          Bei ungeslicten Modellen wird nur das Gewicht aus dem Volumen geschätzt (Infill einstellbar). Die Druckzeit trägst du selbst ein.
-        </div>
+        <div class="card info"><strong>Exakte Werte</strong>In Bambu Studio slicen und die geslicte Platte über «Datei → Exportieren» als .3mf speichern. Gewicht, Druckzeit und Material stammen dann direkt vom Slicer.</div>
+        <div class="card info"><strong>Schätzung</strong>Bei ungeslicten Modellen wird nur das Gewicht aus dem Volumen geschätzt (Infill einstellbar). Die Druckzeit trägst du selbst ein.</div>
       </div>
-
       <div class="imp-list" id="impList"></div>
     </section>
 
@@ -629,63 +652,95 @@
       <div class="view-head">
         <div>
           <h1 class="view-title">Einstellungen</h1>
-          <p class="view-sub">Grundwerte für die Berechnung. Gelten für alle Positionen.</p>
+          <p class="view-sub">Grundwerte für Berechnung und Offerten. Gelten für alle Positionen.</p>
         </div>
       </div>
 
       <div class="set-grid">
         <div class="card">
-          <div class="card-head">
-            <div class="card-title">Arbeit &amp; Marge</div>
-            <div class="card-desc">Dein Aufwand und dein Gewinn</div>
-          </div>
-          <div class="set-row">
-            <div><div class="set-name">Stundenlohn</div><div class="set-desc">Für Nachbearbeitung, Montage und Verpackung</div></div>
-            <div class="ig"><input type="number" data-set="lohn" min="0" step="0.5" inputmode="decimal"><span class="unit">CHF/Std.</span></div>
-          </div>
-          <div class="set-row">
-            <div><div class="set-name">Zielmarge</div><div class="set-desc">Aufschlag auf die Selbstkosten</div></div>
-            <div class="ig"><input type="number" data-set="marge" min="0" step="1" inputmode="decimal"><span class="unit">%</span></div>
-          </div>
+          <div class="card-head"><div class="card-title">Arbeit &amp; Marge</div><div class="card-desc">Dein Aufwand und dein Gewinn</div></div>
+          <div class="set-row"><div><div class="set-name">Stundenlohn</div><div class="set-desc">Für Nachbearbeitung, Montage und Verpackung</div></div>
+            <div class="ig"><input type="number" data-set="lohn" min="0" step="0.5" inputmode="decimal"><span class="unit">CHF/Std.</span></div></div>
+          <div class="set-row"><div><div class="set-name">Zielmarge</div><div class="set-desc">Aufschlag auf die Selbstkosten</div></div>
+            <div class="ig"><input type="number" data-set="marge" min="0" step="1" inputmode="decimal"><span class="unit">%</span></div></div>
         </div>
 
         <div class="card">
-          <div class="card-head">
-            <div class="card-title">Maschine &amp; Strom</div>
-            <div class="card-desc">Kosten pro Druckstunde</div>
-          </div>
-          <div class="set-row">
-            <div><div class="set-name">Maschinensatz</div><div class="set-desc">Abschreibung und Verschleiss des Druckers</div></div>
-            <div class="ig"><input type="number" data-set="masch" min="0" step="0.05" inputmode="decimal"><span class="unit">CHF/Std.</span></div>
-          </div>
-          <div class="set-row">
-            <div><div class="set-name">Druckerleistung</div><div class="set-desc">Durchschnittliche Leistungsaufnahme</div></div>
-            <div class="ig"><input type="number" data-set="leist" min="0" step="0.01" inputmode="decimal"><span class="unit">kW</span></div>
-          </div>
-          <div class="set-row">
-            <div><div class="set-name">Strompreis</div><div class="set-desc">Laut deiner Stromrechnung</div></div>
-            <div class="ig"><input type="number" data-set="strom" min="0" step="0.01" inputmode="decimal"><span class="unit">CHF/kWh</span></div>
-          </div>
+          <div class="card-head"><div class="card-title">Maschine &amp; Strom</div><div class="card-desc">Kosten pro Druckstunde</div></div>
+          <div class="set-row"><div><div class="set-name">Maschinensatz</div><div class="set-desc">Abschreibung und Verschleiss des Druckers</div></div>
+            <div class="ig"><input type="number" data-set="masch" min="0" step="0.05" inputmode="decimal"><span class="unit">CHF/Std.</span></div></div>
+          <div class="set-row"><div><div class="set-name">Druckerleistung</div><div class="set-desc">Durchschnittliche Leistungsaufnahme</div></div>
+            <div class="ig"><input type="number" data-set="leist" min="0" step="0.01" inputmode="decimal"><span class="unit">kW</span></div></div>
+          <div class="set-row"><div><div class="set-name">Strompreis</div><div class="set-desc">Laut deiner Stromrechnung</div></div>
+            <div class="ig"><input type="number" data-set="strom" min="0" step="0.01" inputmode="decimal"><span class="unit">CHF/kWh</span></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div class="card-title">Risiko &amp; Mehrfarben</div><div class="card-desc">Realistische Kosten statt Idealfall</div></div>
+          <div class="set-row"><div><div class="set-name">Fehldruck-Reserve</div><div class="set-desc">Aufschlag auf Material, Maschine und Strom für misslungene Drucke</div></div>
+            <div class="ig"><input type="number" data-set="fehl" min="0" step="1" inputmode="decimal"><span class="unit">%</span></div></div>
+          <div class="set-row"><div><div class="set-name">Mehrfarben-Abfall</div><div class="set-desc">Zusätzliches Material bei «Mehrfarbiger Druck» (Spülabfall, Prime Tower)</div></div>
+            <div class="ig"><input type="number" data-set="multi" min="0" step="1" inputmode="decimal"><span class="unit">%</span></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div class="card-title">Staffelpreise</div><div class="card-desc">Mengenrabatt auf den Preis pro Stück (Stückzahl 0 = aus)</div></div>
+          <div class="st-row">ab <div class="ig"><input type="number" data-set="st1n" min="0" step="1" inputmode="numeric"><span class="unit">Stück</span></div> → <div class="ig"><input type="number" data-set="st1p" min="0" max="90" step="1" inputmode="decimal"><span class="unit">% Rabatt</span></div></div>
+          <div class="st-row">ab <div class="ig"><input type="number" data-set="st2n" min="0" step="1" inputmode="numeric"><span class="unit">Stück</span></div> → <div class="ig"><input type="number" data-set="st2p" min="0" max="90" step="1" inputmode="decimal"><span class="unit">% Rabatt</span></div></div>
+          <div class="st-row">ab <div class="ig"><input type="number" data-set="st3n" min="0" step="1" inputmode="numeric"><span class="unit">Stück</span></div> → <div class="ig"><input type="number" data-set="st3p" min="0" max="90" step="1" inputmode="decimal"><span class="unit">% Rabatt</span></div></div>
         </div>
 
         <div class="card full">
-          <div class="card-head">
-            <div class="card-title">Filamentpreise</div>
-            <div class="card-desc">Einkaufspreis pro Kilogramm Spule</div>
-          </div>
+          <div class="card-head"><div class="card-title">Filamentpreise</div><div class="card-desc">Einkaufspreis pro Kilogramm Spule</div></div>
           <div class="mat-tiles" id="matTiles"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div class="card-title">Versand &amp; Zuschläge</div><div class="card-desc">Standardwerte für neue Offerten</div></div>
+          <div class="set-row"><div><div class="set-name">Versandkosten</div><div class="set-desc">Schweizerische Post, mit Tracking</div></div>
+            <div class="ig"><input type="number" data-set="versand" min="0" step="0.05" inputmode="decimal"><span class="unit">CHF</span></div></div>
+          <div class="set-row"><div><div class="set-name">Gratis-Versand ab</div><div class="set-desc">Bestellwert nach Rabatt (0 = nie gratis)</div></div>
+            <div class="ig"><input type="number" data-set="gratisAb" min="0" step="1" inputmode="decimal"><span class="unit">CHF</span></div></div>
+          <div class="set-row"><div><div class="set-name">Einrichtungspauschale</div><div class="set-desc">Vorschlag für jede neue Offerte</div></div>
+            <div class="ig"><input type="number" data-set="einrichtung" min="0" step="0.5" inputmode="decimal"><span class="unit">CHF</span></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div class="card-title">Konditionen</div><div class="card-desc">Erscheinen unten auf dem Kunden-PDF</div></div>
+          <div class="set-row"><div><div class="set-name">Gültigkeit der Offerte</div><div class="set-desc">Ab Offertdatum</div></div>
+            <div class="ig"><input type="number" data-set="gueltig" min="0" step="1" inputmode="numeric"><span class="unit">Tage</span></div></div>
+          <div class="set-row"><div><div class="set-name">Zahlungsfrist</div><div class="set-desc">Nach Rechnungsstellung (0 = nicht anzeigen)</div></div>
+            <div class="ig"><input type="number" data-set="zahlung" min="0" step="1" inputmode="numeric"><span class="unit">Tage</span></div></div>
+          <div class="text-grid" style="padding-top:8px">
+            <div class="field full"><label>Lieferzeit</label><input type="text" data-set="lieferzeit" data-text="1"></div>
+            <div class="field full"><label>Fusszeile</label><input type="text" data-set="fusszeile" data-text="1" placeholder="z.B. Handgefertigt in der Schweiz."></div>
+          </div>
+        </div>
+
+        <div class="card full" id="set-firma">
+          <div class="card-head"><div class="card-title">Firmenangaben für das PDF</div><div class="card-desc">Leere Felder werden im PDF weggelassen</div></div>
+          <div class="text-grid">
+            <div class="field"><label>Firmenname</label><input type="text" data-set="firma" data-text="1" placeholder="Knuchi Prints"></div>
+            <div class="field"><label>Inhaber</label><input type="text" data-set="inhaber" data-text="1" placeholder="Vorname Nachname"></div>
+            <div class="field"><label>Strasse, Nr.</label><input type="text" data-set="strasse" data-text="1" placeholder="Musterstrasse 1"></div>
+            <div class="field"><label>PLZ, Ort</label><input type="text" data-set="ort" data-text="1" placeholder="1234 Ort"></div>
+            <div class="field"><label>E-Mail</label><input type="email" data-set="email" data-text="1" placeholder="name@domain.ch"></div>
+            <div class="field"><label>Telefon</label><input type="tel" data-set="tel" data-text="1" placeholder="+41 …"></div>
+            <div class="field"><label>Website</label><input type="text" data-set="web" data-text="1" placeholder="www.domain.ch"></div>
+            <div class="field"><label>IBAN (für Zahlungsangaben)</label><input type="text" data-set="iban" data-text="1" placeholder="CH00 0000 0000 0000 0000 0"></div>
+          </div>
         </div>
       </div>
 
       <div class="set-foot">
         <span>✓ Änderungen werden automatisch gespeichert.</span>
-        <button class="btn btn-text" onclick="resetSettings()">Standardwerte wiederherstellen</button>
+        <button class="btn btn-text" onclick="resetSettings()">Berechnungswerte auf Standard zurücksetzen</button>
       </div>
     </section>
-
   </main>
 </div>
 
+<div class="print-area" id="printArea"></div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -697,21 +752,33 @@ const MATS = [
   { id: 'TPU',  color: '#A78BFA', density: 1.20 },
   { id: 'ASA',  color: '#F472B6', density: 1.07 },
 ];
-const DEFAULTS = { lohn: 33, marge: 33, masch: 0.35, leist: 0.20, strom: 0.35,
-                   PLA: 22.5, PETG: 25, ABS: 28, TPU: 35, ASA: 30 };
+const CALC_DEFAULTS = {
+  lohn: 33, marge: 33, masch: 0.35, leist: 0.20, strom: 0.35,
+  fehl: 10, multi: 20,
+  st1n: 10, st1p: 5, st2n: 50, st2p: 10, st3n: 100, st3p: 15,
+  PLA: 22.5, PETG: 25, ABS: 28, TPU: 35, ASA: 30,
+  versand: 8.90, gratisAb: 50, einrichtung: 0,
+  gueltig: 30, zahlung: 10,
+};
+const TEXT_DEFAULTS = {
+  firma: 'Knuchi Prints', inhaber: 'Daniel Knuchel', strasse: '', ort: '', email: '', tel: '', web: '', iban: '',
+  lieferzeit: 'Ca. 4–8 Werktage nach Auftragsbestätigung', fusszeile: 'Handgefertigt in der Schweiz.',
+};
 const PARTS = [
-  { key: 'matK',   name: 'Material',  color: '#00BFFF' },
-  { key: 'maschK', name: 'Maschine',  color: '#6366F1' },
-  { key: 'stromK', name: 'Strom',     color: '#F59E0B' },
-  { key: 'arbK',   name: 'Arbeit',    color: '#4ADE80' },
-  { key: 'margeK', name: 'Marge',     color: '#F472B6' },
+  { key: 'matK',   name: 'Material',          color: '#00BFFF' },
+  { key: 'maschK', name: 'Maschine',          color: '#6366F1' },
+  { key: 'stromK', name: 'Strom',             color: '#F59E0B' },
+  { key: 'fehlK',  name: 'Fehldruck-Reserve', color: '#94A3B8' },
+  { key: 'arbK',   name: 'Arbeit',            color: '#4ADE80' },
+  { key: 'margeK', name: 'Marge',             color: '#F472B6' },
 ];
-const VIEWS = ['kalkulator', 'positionen', 'import', 'einstellungen'];
+const STATUS = { entwurf: 'Entwurf', gesendet: 'Gesendet', angenommen: 'Angenommen', abgelehnt: 'Abgelehnt' };
+const VIEWS = ['kalkulator', 'positionen', 'offerten', 'import', 'einstellungen'];
 
 // ═══ State ═══════════════════════════════════════════════════════
-let S = { ...DEFAULTS };
-let P = [];
-let meta = { kunde: '', datum: '', ref: '' };
+let S = { ...CALC_DEFAULTS, ...TEXT_DEFAULTS };
+let offers = [];
+let currentId = null;
 let formMat = 'PLA';
 let editId = null;
 let formSrc = null;
@@ -719,15 +786,25 @@ let imports = [];
 let seq = 0;
 
 const el = id => document.getElementById(id);
+const cur = () => offers.find(o => o.id === currentId);
 const ST = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
-  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+  set(k, v) { try { localStorage.setItem(k, v); return true; } catch { return false; } },
 };
 
-// ═══ Formatting ══════════════════════════════════════════════════
+// ═══ Helpers ═════════════════════════════════════════════════════
 const chf = v => 'CHF ' + (isFinite(v) ? v : 0).toLocaleString('de-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const rnd05 = v => Math.round(v / 0.05) * 0.05;
-const num = v => { const n = parseFloat(String(v).replace(',', '.')); return isFinite(n) && n > 0 ? n : 0; };
+const num = v => { const n = parseFloat(String(v ?? '').replace(',', '.')); return isFinite(n) && n > 0 ? n : 0; };
+const str = v => (typeof v === 'string' ? v : v == null ? '' : String(v)).slice(0, 2000);
+const today = () => new Date().toISOString().split('T')[0];
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const dateCH = iso => iso ? iso.split('-').reverse().join('.') : '–';
+function addDays(iso, d) {
+  const t = new Date((iso || today()) + 'T12:00:00');
+  t.setDate(t.getDate() + d);
+  return t.toISOString().split('T')[0];
+}
 function fmtTime(h) {
   if (!(h > 0)) return '–';
   let hh = Math.floor(h), mm = Math.round((h - hh) * 60);
@@ -741,17 +818,77 @@ function escHtml(s) {
 const matColor = id => (MATS.find(m => m.id === id) || MATS[0]).color;
 
 // ═══ Calculation ═════════════════════════════════════════════════
+function staffelPct(mng) {
+  let pct = 0;
+  [[S.st1n, S.st1p], [S.st2n, S.st2p], [S.st3n, S.st3p]].forEach(([n, p]) => { if (n > 0 && mng >= n && p > pct) pct = p; });
+  return Math.min(pct, 90);
+}
 function calc(p) {
-  const matK   = p.gew / 1000 * (S[p.mat] || 0);
+  const matK   = p.gew / 1000 * (S[p.mat] || 0) * (p.multi ? 1 + S.multi / 100 : 1);
   const maschK = p.dt * S.masch;
   const stromK = p.dt * S.leist * S.strom;
+  const fehlK  = (matK + maschK + stromK) * S.fehl / 100;
   const arbK   = p.nb / 60 * S.lohn;
-  const selbst = matK + maschK + stromK + arbK;
+  const selbst = matK + maschK + stromK + fehlK + arbK;
   const margeK = selbst * S.marge / 100;
-  const einzel = rnd05(selbst + margeK);
-  return { matK, maschK, stromK, arbK, selbst, margeK, einzel, gesamt: einzel * p.mng };
+  const brutto = selbst + margeK;
+  const stPct  = staffelPct(p.mng);
+  const stK    = brutto * stPct / 100;
+  const einzel = rnd05(brutto - stK);
+  return { matK, maschK, stromK, fehlK, arbK, selbst, margeK, brutto, stPct, stK, einzel, gesamt: einzel * p.mng };
 }
-const offerTotal = () => P.reduce((s, p) => s + calc(p).gesamt, 0);
+function offerSum(o) {
+  const sub = o.positions.reduce((s, p) => s + calc(p).gesamt, 0);
+  const rabatt = o.rabattTyp === 'chf' ? Math.min(o.rabatt, sub) : sub * Math.min(o.rabatt, 100) / 100;
+  const net = sub - rabatt;
+  let versand = 0;
+  if (o.positions.length) {
+    if (o.versand === 'auto') versand = (S.gratisAb > 0 && net >= S.gratisAb) ? 0 : S.versand;
+    else if (o.versand === 'fix') versand = o.versandFix;
+  }
+  const einrichtung = o.positions.length ? o.einrichtung : 0;
+  return { sub, rabatt, versand, einrichtung, total: rnd05(net + einrichtung + versand),
+           versandFrei: o.versand === 'auto' && o.positions.length > 0 && versand === 0 };
+}
+
+// ═══ Offer model ═════════════════════════════════════════════════
+function normPos(x) {
+  return {
+    id: ++seq,
+    desc: str(x.desc).slice(0, 300),
+    mat: MATS.some(m => m.id === x.mat) ? x.mat : 'PLA',
+    gew: num(x.gew), dt: num(x.dt), nb: num(x.nb),
+    mng: Math.max(1, Math.round(num(x.mng)) || 1),
+    multi: !!x.multi,
+    src: x.src === 'STL' || x.src === '3MF' ? x.src : null,
+  };
+}
+function normOffer(o) {
+  o = o && typeof o === 'object' ? o : {};
+  return {
+    id: /^[a-z0-9]{4,30}$/i.test(o.id) ? o.id : uid(),
+    ref: str(o.ref).slice(0, 40), datum: /^\d{4}-\d{2}-\d{2}$/.test(o.datum) ? o.datum : today(),
+    status: STATUS[o.status] ? o.status : 'entwurf',
+    kunde: str(o.kunde).slice(0, 200), projekt: str(o.projekt).slice(0, 200),
+    adresse: str(o.adresse), notiz: str(o.notiz),
+    versand: ['auto', 'keiner', 'fix'].includes(o.versand) ? o.versand : 'auto',
+    versandFix: num(o.versandFix), einrichtung: num(o.einrichtung),
+    rabatt: num(o.rabatt), rabattTyp: o.rabattTyp === 'chf' ? 'chf' : 'pct',
+    positions: (Array.isArray(o.positions) ? o.positions : []).filter(p => p && typeof p === 'object').map(normPos),
+    updated: num(o.updated) || Date.now(),
+  };
+}
+function nextRef() {
+  let max = parseInt(String(ST.get('kp_lastRef') || '').replace(/\D/g, ''), 10) || 0;
+  offers.forEach(o => { const n = parseInt(o.ref.replace(/\D/g, ''), 10); if (n > max) max = n; });
+  return 'KP-' + String(max + 1).padStart(4, '0');
+}
+function createOffer(extra = {}) {
+  const o = normOffer({ id: uid(), ref: nextRef(), datum: today(), einrichtung: S.einrichtung, ...extra });
+  offers.push(o);
+  return o;
+}
+function touch() { const o = cur(); if (o) o.updated = Date.now(); }
 
 // ═══ Navigation ══════════════════════════════════════════════════
 function show(view) {
@@ -765,31 +902,29 @@ function show(view) {
 // ═══ Calculator form ═════════════════════════════════════════════
 function renderMatSeg() {
   el('matSeg').innerHTML = MATS.map(m =>
-    `<button type="button" class="seg-btn${m.id === formMat ? ' active' : ''}" onclick="setMat('${m.id}')">
-       <span class="dot" style="background:${m.color}"></span>${m.id}</button>`).join('');
+    `<button type="button" class="seg-btn${m.id === formMat ? ' active' : ''}" onclick="setMat('${m.id}')"><span class="dot" style="background:${m.color}"></span>${m.id}</button>`).join('');
 }
 function setMat(id) { formMat = id; renderMatSeg(); renderResult(); }
-
 function readForm() {
   return {
-    desc: el('f_desc').value.trim(),
-    mat:  formMat,
-    gew:  num(el('f_gew').value),
-    dt:   num(el('f_h').value) + num(el('f_min').value) / 60,
-    nb:   num(el('f_nb').value),
-    mng:  Math.max(1, Math.round(num(el('f_mng').value)) || 1),
+    desc: el('f_desc').value.trim(), mat: formMat,
+    gew: num(el('f_gew').value),
+    dt: num(el('f_h').value) + num(el('f_min').value) / 60,
+    nb: num(el('f_nb').value),
+    mng: Math.max(1, Math.round(num(el('f_mng').value)) || 1),
+    multi: el('f_multi').checked,
   };
 }
 function fillForm(p) {
   el('f_desc').value = p.desc || '';
   formMat = MATS.some(m => m.id === p.mat) ? p.mat : 'PLA';
   el('f_gew').value = p.gew ? +(+p.gew).toFixed(1) : '';
-  const hh = Math.floor(p.dt || 0);
-  let mm = Math.round(((p.dt || 0) - hh) * 60);
-  el('f_h').value   = (p.dt > 0) ? (mm === 60 ? hh + 1 : hh) : '';
-  el('f_min').value = (p.dt > 0) ? (mm === 60 ? 0 : mm) : '';
+  const hh = Math.floor(p.dt || 0), mm = Math.round(((p.dt || 0) - hh) * 60);
+  el('f_h').value   = p.dt > 0 ? (mm === 60 ? hh + 1 : hh) : '';
+  el('f_min').value = p.dt > 0 ? (mm === 60 ? 0 : mm) : '';
   el('f_nb').value  = p.nb || '';
   el('f_mng').value = p.mng || 1;
+  el('f_multi').checked = !!p.multi;
   formSrc = p.src || null;
   renderMatSeg();
   renderResult();
@@ -801,50 +936,54 @@ function renderResult() {
   el('r_einzel').innerHTML = chf(c.einzel) + ' <small>/ Stück</small>';
   el('r_mngLabel').textContent = `Gesamtpreis (${p.mng} Stück)`;
   el('r_gesamt').textContent = chf(c.gesamt);
+  el('r_warn').classList.toggle('show', c.einzel > 0 && c.einzel < c.selbst);
+  el('f_staffelHint').innerHTML = c.stPct ? `Mengenrabatt <strong style="color:var(--ok)">−${c.stPct} %</strong> aktiv` : '&nbsp;';
 
   const sum = PARTS.reduce((s, x) => s + c[x.key], 0);
   el('r_stack').innerHTML = sum > 0
-    ? PARTS.map(x => `<span style="width:${c[x.key] / sum * 100}%;background:${x.color}" title="${x.name}"></span>`).join('')
-    : '';
+    ? PARTS.map(x => `<span style="width:${c[x.key] / sum * 100}%;background:${x.color}" title="${x.name}"></span>`).join('') : '';
   const sub = {
-    matK:   p.gew ? `${+p.gew.toFixed(1)} g ${p.mat} à ${chf(S[p.mat] || 0)}/kg` : '',
+    matK:   p.gew ? `${+p.gew.toFixed(1)} g ${p.mat} à ${chf(S[p.mat] || 0)}/kg${p.multi ? ` + ${S.multi} % Mehrfarben` : ''}` : '',
     maschK: p.dt ? fmtTime(p.dt) + ' Druckzeit' : '',
     stromK: p.dt ? `${(p.dt * S.leist).toFixed(2)} kWh` : '',
+    fehlK:  `${S.fehl} % auf Material, Maschine, Strom`,
     arbK:   p.nb ? `${p.nb} Min. à ${chf(S.lohn)}/Std.` : '',
     margeK: `${S.marge} % auf Selbstkosten`,
   };
-  const row = (x) => `<div class="brow"><span class="dot" style="background:${x.color}"></span>
+  const row = x => `<div class="brow"><span class="dot" style="background:${x.color}"></span>
       <span class="brow-name">${x.name} <span class="brow-sub">${sub[x.key]}</span></span>
       <span class="brow-val">${chf(c[x.key])}</span></div>`;
   el('r_rows').innerHTML =
-    PARTS.slice(0, 4).map(row).join('') +
+    PARTS.slice(0, 5).map(row).join('') +
     `<div class="brow sum"><span class="brow-name">Selbstkosten pro Stück</span><span class="brow-val">${chf(c.selbst)}</span></div>` +
-    row(PARTS[4]);
+    row(PARTS[5]) +
+    (c.stPct ? `<div class="brow minus"><span class="dot" style="background:var(--ok)"></span><span class="brow-name">Mengenrabatt <span class="brow-sub">−${c.stPct} % ab ${p.mng} Stück</span></span><span class="brow-val">−${chf(c.stK)}</span></div>` : '');
 }
 
 function submitForm() {
+  const o = cur();
   const p = readForm();
   if (!(p.gew > 0 || p.dt > 0 || p.nb > 0)) {
     toast('Bitte mindestens Gewicht, Druckzeit oder Nachbearbeitung eintragen');
     el('f_gew').focus();
     return;
   }
-  if (!p.desc) p.desc = 'Position ' + (editId ? P.findIndex(x => x.id === editId) + 1 : P.length + 1);
-  if (editId) {
-    const i = P.findIndex(x => x.id === editId);
-    if (i >= 0) P[i] = { ...P[i], ...p };
+  const wasEdit = editId != null;
+  const idx = wasEdit ? o.positions.findIndex(x => x.id === editId) : -1;
+  if (!p.desc) p.desc = 'Position ' + (idx >= 0 ? idx + 1 : o.positions.length + 1);
+  if (idx >= 0) {
+    o.positions[idx] = { ...o.positions[idx], ...p };
     toast('✓ Position gespeichert');
   } else {
-    P.push({ id: ++seq, ...p, src: formSrc });
-    toast('✓ Zur Offerte hinzugefügt');
+    o.positions.push({ id: ++seq, ...p, src: formSrc });
+    toast('✓ Zur Offerte ' + (o.ref || '') + ' hinzugefügt');
   }
-  const wasEdit = !!editId;
+  touch();
   resetForm();
   saveAll();
   renderAll();
   if (wasEdit) show('positionen');
 }
-
 function resetForm() {
   editId = null;
   fillForm({ mat: formMat, mng: 1 });
@@ -853,13 +992,12 @@ function resetForm() {
   el('btnAddLabel').textContent = 'Zur Offerte hinzufügen';
   el('btnReset').textContent = 'Formular leeren';
 }
-
 function editPos(id) {
-  const p = P.find(x => x.id === id);
+  const o = cur(), p = o.positions.find(x => x.id === id);
   if (!p) return;
   editId = id;
   fillForm(p);
-  const n = P.indexOf(p) + 1;
+  const n = o.positions.indexOf(p) + 1;
   el('editLabel').textContent = 'Position ' + n;
   el('editBanner').classList.add('show');
   el('formTitle').textContent = 'Position ' + n + ' bearbeiten';
@@ -867,23 +1005,59 @@ function editPos(id) {
   el('btnReset').textContent = 'Abbrechen';
   show('kalkulator');
 }
-
 function delPos(id) {
-  const p = P.find(x => x.id === id);
+  const o = cur(), p = o.positions.find(x => x.id === id);
   if (!p || !confirm(`«${p.desc}» löschen?`)) return;
-  P = P.filter(x => x.id !== id);
+  o.positions = o.positions.filter(x => x.id !== id);
   if (editId === id) resetForm();
-  saveAll();
-  renderAll();
+  touch(); saveAll(); renderAll();
 }
-
+function dupPos(id) {
+  const o = cur(), i = o.positions.findIndex(x => x.id === id);
+  if (i < 0) return;
+  o.positions.splice(i + 1, 0, { ...o.positions[i], id: ++seq, desc: o.positions[i].desc + ' (Kopie)' });
+  touch(); saveAll(); renderAll();
+}
 function newDraft() { resetForm(); show('kalkulator'); el('f_desc').focus(); }
 
-// ═══ Positions view ══════════════════════════════════════════════
+// ═══ Current offer view ══════════════════════════════════════════
+function fillOfferFields() {
+  const o = cur();
+  document.querySelectorAll('[data-offer]').forEach(inp => {
+    const v = o[inp.dataset.offer];
+    inp.value = inp.dataset.num ? (v || '') : v;
+  });
+  renderExtrasSegs();
+}
+function bindOfferFields() {
+  document.querySelectorAll('[data-offer]').forEach(inp => {
+    const ev = inp.tagName === 'SELECT' ? 'change' : 'input';
+    inp.addEventListener(ev, () => {
+      const o = cur(), k = inp.dataset.offer;
+      o[k] = inp.dataset.num ? num(inp.value) : (k === 'ref' ? inp.value.trim() : inp.value);
+      touch(); saveAll(); renderSummary(); renderTotals(); renderOffers();
+    });
+  });
+}
+function renderExtrasSegs() {
+  const o = cur();
+  const vOpts = [['auto', 'Post'], ['keiner', 'Kein Versand / Abholung'], ['fix', 'Eigener Betrag']];
+  el('versandSeg').innerHTML = vOpts.map(([k, l]) =>
+    `<button type="button" class="seg-btn${o.versand === k ? ' active' : ''}" onclick="setOffer('versand','${k}')">${l}</button>`).join('');
+  el('versandFixWrap').style.display = o.versand === 'fix' ? '' : 'none';
+  el('rabattSeg').innerHTML = [['pct', 'in %'], ['chf', 'in CHF']].map(([k, l]) =>
+    `<button type="button" class="seg-btn${o.rabattTyp === k ? ' active' : ''}" onclick="setOffer('rabattTyp','${k}')">${l}</button>`).join('');
+  el('rabattUnit').textContent = o.rabattTyp === 'chf' ? 'CHF' : '%';
+}
+function setOffer(k, v) { cur()[k] = v; touch(); saveAll(); renderExtrasSegs(); renderSummary(); renderTotals(); renderOffers(); }
+
 function renderPositions() {
-  const card = el('posCard');
-  el('posActions').style.display = P.length ? '' : 'none';
-  if (!P.length) {
+  const o = cur(), card = el('posCard');
+  const has = o.positions.length > 0;
+  el('totalsBox').style.display = has ? '' : 'none';
+  el('posActions').style.display = has ? '' : 'none';
+  el('posSub').textContent = `Offerte ${o.ref || '–'}${o.kunde ? ' · ' + o.kunde : ''} – mit «Als PDF drucken» erstellst du das Dokument für den Kunden.`;
+  if (!has) {
     card.innerHTML = `<div class="empty">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>
       <div class="empty-title">Noch keine Positionen erfasst</div>
@@ -891,12 +1065,14 @@ function renderPositions() {
       <button class="btn btn-primary" onclick="newDraft()">Zum Kalkulator</button></div>`;
     return;
   }
-  const rows = P.map((p, i) => {
+  const rows = o.positions.map((p, i) => {
     const c = calc(p);
-    const src = p.src ? `<span class="src">${escHtml(p.src)}</span>` : '';
+    const tags = (p.src ? `<span class="tag">${escHtml(p.src)}</span>` : '') +
+                 (p.multi ? '<span class="tag multi">Mehrfarbig</span>' : '') +
+                 (c.stPct ? `<span class="tag st">−${c.stPct} %</span>` : '');
     return `<tr>
       <td class="muted">${i + 1}</td>
-      <td class="desc">${escHtml(p.desc)}${src}</td>
+      <td class="desc">${escHtml(p.desc)}${tags}</td>
       <td><span class="dot" style="background:${matColor(p.mat)};margin-right:7px"></span>${escHtml(p.mat)}</td>
       <td class="num">${p.gew ? +p.gew.toFixed(1) + ' g' : '–'}</td>
       <td class="num">${fmtTime(p.dt)}</td>
@@ -905,8 +1081,9 @@ function renderPositions() {
       <td class="num muted">${chf(c.selbst)}</td>
       <td class="num">${chf(c.einzel)}</td>
       <td class="num strong">${chf(c.gesamt)}</td>
-      <td class="actions no-print">
+      <td class="actions">
         <button class="icon-btn" title="Bearbeiten" aria-label="Bearbeiten" onclick="editPos(${p.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+        <button class="icon-btn" title="Duplizieren" aria-label="Duplizieren" onclick="dupPos(${p.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button>
         <button class="icon-btn danger" title="Löschen" aria-label="Löschen" onclick="delPos(${p.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button>
       </td></tr>`;
   }).join('');
@@ -915,91 +1092,227 @@ function renderPositions() {
       <th>Nr.</th><th>Beschreibung</th><th>Material</th>
       <th class="num">Gewicht pro Stück</th><th class="num">Druckzeit pro Stück</th>
       <th class="num">Nachbearbeitung</th><th class="num">Menge</th>
-      <th class="num">Selbstkosten pro Stück</th><th class="num">Preis pro Stück</th><th class="num">Gesamtpreis</th>
-      <th class="no-print"></th>
-    </tr></thead>
-    <tbody>${rows}</tbody>
-    <tfoot><tr>
-      <td colspan="9" class="tot-label">Total</td>
-      <td class="tot-val">${chf(offerTotal())}</td>
-      <td class="no-print"></td>
-    </tr></tfoot></table></div>`;
+      <th class="num">Selbstkosten pro Stück</th><th class="num">Preis pro Stück</th><th class="num">Gesamtpreis</th><th></th>
+    </tr></thead><tbody>${rows}</tbody></table></div>`;
+  renderTotals();
+}
+function renderTotals() {
+  const o = cur();
+  if (!o.positions.length) return;
+  const t = offerSum(o);
+  const line = (l, v, cls = '') => `<div class="sum-row ${cls}"><span>${l}</span><span>${v}</span></div>`;
+  el('sumBox').innerHTML =
+    `<div class="card-title" style="margin-bottom:8px">Zusammenfassung</div>` +
+    line('Zwischentotal Positionen', chf(t.sub)) +
+    (t.rabatt > 0 ? line(`Rabatt${o.rabattTyp === 'pct' ? ' ' + o.rabatt + ' %' : ''}`, '−' + chf(t.rabatt), 'minus') : '') +
+    (t.einrichtung > 0 ? line('Einrichtungspauschale', chf(t.einrichtung)) : '') +
+    (o.versand !== 'keiner' ? line('Versand', t.versandFrei ? 'kostenlos' : chf(t.versand)) : '') +
+    line('Total', chf(t.total), 'total');
+  el('versandHint').textContent = o.versand === 'auto'
+    ? (S.gratisAb > 0 ? `${chf(S.versand)}, ab ${chf(S.gratisAb)} kostenlos${t.versandFrei ? ' – erreicht ✓' : ` – noch ${chf(Math.max(0, S.gratisAb - (t.sub - t.rabatt)))} bis gratis`}` : chf(S.versand))
+    : '';
 }
 
-// ═══ Meta / offer ════════════════════════════════════════════════
-function metaChanged() {
-  meta.kunde = el('m_kunde').value;
-  meta.datum = el('m_datum').value;
-  meta.ref   = el('m_ref').value.trim();
-  saveAll();
-  renderSummary();
-}
-function nextRef() {
-  const n = parseInt(String(ST.get('kp_lastRef') || meta.ref || '').replace(/\D/g, ''), 10);
-  return 'KP-' + String((isFinite(n) ? n : 0) + 1).padStart(4, '0');
-}
+// ═══ Offers (history) ════════════════════════════════════════════
 function newOffer() {
-  if (P.length && !confirm('Neue Offerte starten? Alle erfassten Positionen werden entfernt.')) return;
-  P = [];
-  meta = { kunde: '', datum: today(), ref: nextRef() };
-  resetForm();
-  fillMeta();
-  saveAll();
-  renderAll();
-  toast('Neue Offerte ' + meta.ref);
-}
-function fillMeta() {
-  el('m_kunde').value = meta.kunde;
-  el('m_datum').value = meta.datum;
-  el('m_ref').value   = meta.ref;
-}
-const today = () => new Date().toISOString().split('T')[0];
-
-function printOffer() {
-  el('p_ref').textContent   = meta.ref || '–';
-  el('p_kunde').textContent = meta.kunde || '–';
-  el('p_datum').textContent = meta.datum ? meta.datum.split('-').reverse().join('.') : '–';
+  const o = createOffer();
+  currentId = o.id;
+  resetForm(); fillOfferFields(); saveAll(); renderAll();
   show('positionen');
-  window.print();
+  toast('Neue Offerte ' + o.ref + ' angelegt');
+}
+function openOffer(id) {
+  if (!offers.some(o => o.id === id)) return;
+  currentId = id;
+  resetForm(); fillOfferFields(); saveAll(); renderAll();
+  show('positionen');
+}
+function dupOffer(id) {
+  const src = offers.find(o => o.id === id);
+  if (!src) return;
+  const o = createOffer({ ...JSON.parse(JSON.stringify(src)), id: uid(), ref: nextRef(), datum: today(), status: 'entwurf', updated: Date.now() });
+  currentId = o.id;
+  resetForm(); fillOfferFields(); saveAll(); renderAll();
+  show('positionen');
+  toast(`${src.ref || 'Offerte'} dupliziert als ${o.ref}`);
+}
+function delOffer(id) {
+  const o = offers.find(x => x.id === id);
+  if (!o || !confirm(`Offerte ${o.ref || ''}${o.kunde ? ' (' + o.kunde + ')' : ''} endgültig löschen?`)) return;
+  offers = offers.filter(x => x.id !== id);
+  if (!offers.length) createOffer();
+  if (currentId === id) currentId = [...offers].sort((a, b) => b.updated - a.updated)[0].id;
+  resetForm(); fillOfferFields(); saveAll(); renderAll();
+}
+function setStatus(id, v) {
+  const o = offers.find(x => x.id === id);
+  if (!o || !STATUS[v]) return;
+  o.status = v; o.updated = Date.now();
+  if (id === currentId) el('o_status').value = v;
+  saveAll(); renderOffers();
+}
+function renderOffers() {
+  el('navOffers').textContent = offers.length;
+  const list = [...offers].sort((a, b) => b.updated - a.updated);
+  const rows = list.map(o => {
+    const t = offerSum(o);
+    const isCur = o.id === currentId;
+    return `<tr class="${isCur ? 'current' : ''}">
+      <td><strong>${escHtml(o.ref || '–')}</strong>${isCur ? '<span class="tag">Aktuell</span>' : ''}</td>
+      <td class="desc">${escHtml(o.kunde || '–')}${o.projekt ? `<div class="hint">${escHtml(o.projekt)}</div>` : ''}</td>
+      <td>${dateCH(o.datum)}</td>
+      <td class="num">${o.positions.length}</td>
+      <td class="num strong">${chf(t.total)}</td>
+      <td><select class="status-sel" onchange="setStatus('${o.id}', this.value)" aria-label="Status" style="padding:5px 8px;font-size:13px;width:auto">
+        ${Object.entries(STATUS).map(([k, l]) => `<option value="${k}"${o.status === k ? ' selected' : ''}>${l}</option>`).join('')}</select></td>
+      <td class="actions">
+        <button class="btn btn-ghost btn-sm" onclick="openOffer('${o.id}')">Öffnen</button>
+        <button class="icon-btn" title="Duplizieren" aria-label="Duplizieren" onclick="dupOffer('${o.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button>
+        <button class="icon-btn danger" title="Löschen" aria-label="Löschen" onclick="delOffer('${o.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button>
+      </td></tr>`;
+  }).join('');
+  el('offerList').innerHTML = `<div class="tbl-wrap"><table>
+    <thead><tr><th>Offerte-Nr.</th><th>Kunde / Projekt</th><th>Datum</th><th class="num">Positionen</th><th class="num">Total</th><th>Status</th><th></th></tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
+  const last = ST.get('kp_lastBackup');
+  el('backupInfo').textContent = last ? 'Letztes Backup: ' + new Date(+last).toLocaleString('de-CH') : 'Noch kein Backup erstellt.';
 }
 
-// ═══ Summary (sidebar, stats, badge) ═════════════════════════════
+// ═══ Backup ══════════════════════════════════════════════════════
+function exportBackup() {
+  const data = { app: 'knuchi-prints-kalkulator', version: 3, exported: new Date().toISOString(), settings: S, offers, currentId };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `knuchi-prints-backup-${today()}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+  ST.set('kp_lastBackup', String(Date.now()));
+  renderOffers();
+  toast('✓ Backup heruntergeladen');
+}
+async function importBackup(file) {
+  if (!file) return;
+  try {
+    const data = JSON.parse(await file.text());
+    if (!data || data.app !== 'knuchi-prints-kalkulator' || !Array.isArray(data.offers)) throw new Error('Keine gültige Backup-Datei des Kalkulators.');
+    if (!confirm(`Backup vom ${data.exported ? new Date(data.exported).toLocaleString('de-CH') : '?'} mit ${data.offers.length} Offerte(n) einspielen?\n\nAlle aktuellen Offerten und Einstellungen in diesem Browser werden ersetzt.`)) return;
+    applySettings(data.settings);
+    offers = data.offers.map(normOffer);
+    if (!offers.length) createOffer();
+    currentId = offers.some(o => o.id === data.currentId) ? data.currentId : offers[0].id;
+    bindSettings(); resetForm(); fillOfferFields(); saveAll(); renderAll();
+    toast('✓ Backup eingespielt');
+  } catch (err) {
+    alert('Backup konnte nicht gelesen werden: ' + (err.message || err));
+  }
+}
+
+// ═══ Summary ═════════════════════════════════════════════════════
 function renderSummary() {
-  const t = chf(offerTotal());
-  el('navCount').textContent  = P.length;
-  el('statCount').textContent = P.length;
+  const o = cur(), t = chf(offerSum(o).total);
+  el('navCount').textContent  = o.positions.length;
+  el('statCount').textContent = o.positions.length;
   el('statTotal').textContent = t;
   el('sideTotal').textContent = t;
-  el('statRef').textContent   = meta.ref || '–';
-  el('sideRef').textContent   = (meta.ref || '–') + (meta.kunde ? ' · ' + meta.kunde : '');
+  el('statRef').textContent   = (o.ref || '–') + (o.kunde ? ' · ' + o.kunde : '');
+  el('sideRef').textContent   = (o.ref || '–') + (o.kunde ? ' · ' + o.kunde : '');
+  const missing = [['strasse', 'Strasse'], ['ort', 'PLZ/Ort'], ['email', 'E-Mail']].filter(([k]) => !S[k].trim()).map(([, l]) => l);
+  el('companyMissing').textContent = missing.join(', ');
+  el('companyWarn').classList.toggle('show', missing.length > 0);
 }
-function renderAll() { renderSummary(); renderPositions(); renderResult(); }
+function renderAll() { renderSummary(); renderPositions(); renderResult(); renderOffers(); }
 
 // ═══ Settings ════════════════════════════════════════════════════
 function renderMatTiles() {
   el('matTiles').innerHTML = MATS.map(m => `
     <div class="mat-tile">
       <div class="mat-tile-name"><span class="dot" style="background:${m.color}"></span>${m.id}</div>
-      <div class="ig"><input type="number" data-set="${m.id}" min="0" step="0.5" inputmode="decimal"><span class="unit">CHF/kg</span></div>
+      <div class="ig"><input type="number" data-set="${m.id}" min="0" step="0.5" inputmode="decimal" aria-label="Preis ${m.id}"><span class="unit">CHF/kg</span></div>
     </div>`).join('');
 }
 function bindSettings() {
   document.querySelectorAll('[data-set]').forEach(inp => {
-    inp.value = S[inp.dataset.set];
+    const k = inp.dataset.set;
+    inp.value = S[k];
     inp.oninput = () => {
-      S[inp.dataset.set] = num(inp.value);
-      saveAll();
-      renderAll();
+      S[k] = inp.dataset.text ? inp.value : num(inp.value);
+      saveAll(); renderAll();
     };
   });
 }
+function applySettings(src) {
+  if (!src || typeof src !== 'object') return;
+  Object.keys(CALC_DEFAULTS).forEach(k => { if (typeof src[k] === 'number' && isFinite(src[k]) && src[k] >= 0) S[k] = src[k]; });
+  Object.keys(TEXT_DEFAULTS).forEach(k => { if (typeof src[k] === 'string') S[k] = src[k].slice(0, 300); });
+}
 function resetSettings() {
-  if (!confirm('Alle Einstellungen auf die Standardwerte zurücksetzen?')) return;
-  S = { ...DEFAULTS };
-  bindSettings();
-  saveAll();
-  renderAll();
+  if (!confirm('Alle Berechnungswerte (Preise, Sätze, Staffeln, Versand) auf Standard zurücksetzen? Firmenangaben bleiben erhalten.')) return;
+  Object.assign(S, CALC_DEFAULTS);
+  bindSettings(); saveAll(); renderAll();
   toast('Standardwerte wiederhergestellt');
+}
+
+// ═══ Customer PDF (print) ════════════════════════════════════════
+function printOffer() {
+  const o = cur();
+  if (!o.positions.length) { toast('Die Offerte hat noch keine Positionen'); return; }
+  const t = offerSum(o);
+  const e = escHtml;
+  const company = [S.strasse, S.ort, S.email, S.tel, S.web].filter(s => s.trim()).map(e).join('<br>');
+  const rows = o.positions.map((p, i) => {
+    const c = calc(p);
+    const sub = [p.mat, p.multi ? 'mehrfarbig' : '', c.stPct ? `inkl. Mengenrabatt ${c.stPct} %` : ''].filter(Boolean).join(' · ');
+    return `<tr><td>${i + 1}</td><td>${e(p.desc)}<div class="sub">${e(sub)}</div></td>
+      <td class="n">${p.mng}</td><td class="n">${chf(c.einzel)}</td><td class="n">${chf(c.gesamt)}</td></tr>`;
+  }).join('');
+  const sumRows = [
+    ['Zwischentotal', chf(t.sub)],
+    t.rabatt > 0 ? [`Rabatt${o.rabattTyp === 'pct' ? ' ' + o.rabatt + ' %' : ''}`, '−' + chf(t.rabatt)] : null,
+    t.einrichtung > 0 ? ['Einrichtungspauschale', chf(t.einrichtung)] : null,
+    o.versand !== 'keiner' ? ['Versand', t.versandFrei ? 'kostenlos' : chf(t.versand)] : null,
+  ].filter(Boolean).map(([l, v]) => `<tr><td>${l}</td><td>${v}</td></tr>`).join('');
+  const terms = [
+    S.lieferzeit.trim() ? `<strong>Lieferzeit:</strong> ${e(S.lieferzeit)}` : '',
+    S.gueltig > 0 ? `<strong>Gültig bis:</strong> ${dateCH(addDays(o.datum, S.gueltig))}` : '',
+    S.zahlung > 0 ? `<strong>Zahlung:</strong> innert ${S.zahlung} Tagen nach Rechnungsstellung${S.iban.trim() ? ` auf ${e(S.iban)}${S.firma || S.inhaber ? ' (' + e([S.inhaber, S.firma].filter(Boolean).join(', ')) + ')' : ''}` : ''}` : '',
+  ].filter(Boolean).join('<br>');
+  const to = [o.kunde, o.adresse].filter(s => s.trim()).map(e).join('\n');
+
+  el('printArea').innerHTML = `
+    <div class="pa-head">
+      <div class="pa-brand">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs>
+          <pattern id="pls" x="0" y="28" width="200" height="12" patternUnits="userSpaceOnUse"><rect width="200" height="8" fill="#0099CC"/></pattern>
+          <clipPath id="plk"><path d="M40 28 L68 28 L68 80 L160 28 L160 50 L86 100 L160 150 L160 172 L68 120 L68 172 L40 172Z"/></clipPath></defs>
+          <rect width="200" height="200" fill="url(#pls)" clip-path="url(#plk)"/>
+          <rect x="5" y="5" width="190" height="190" rx="20" fill="none" stroke="#0099CC" stroke-width="6"/></svg>
+        <div class="pa-company"><strong>${e(S.firma || 'Knuchi Prints')}</strong>${S.inhaber.trim() ? e(S.inhaber) + '<br>' : ''}${company}</div>
+      </div>
+      <div class="pa-title">
+        <h1>Offerte</h1>
+        <table class="pa-meta">
+          <tr><td>Offerte-Nr.</td><td><strong>${e(o.ref || '–')}</strong></td></tr>
+          <tr><td>Datum</td><td>${dateCH(o.datum)}</td></tr>
+          ${S.gueltig > 0 ? `<tr><td>Gültig bis</td><td>${dateCH(addDays(o.datum, S.gueltig))}</td></tr>` : ''}
+        </table>
+      </div>
+    </div>
+    ${to ? `<div class="pa-to">${to}</div>` : ''}
+    ${o.projekt.trim() ? `<div class="pa-subject">${e(o.projekt)}</div>` : ''}
+    <table class="pa-table">
+      <thead><tr><th style="width:28px">Pos.</th><th>Beschreibung</th><th class="n">Menge</th><th class="n">Preis pro Stück</th><th class="n">Total</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <table class="pa-sum">${sumRows}<tr class="tot"><td>Total</td><td>${chf(t.total)}</td></tr></table>
+    ${o.notiz.trim() ? `<div class="pa-notes">${e(o.notiz)}</div>` : ''}
+    ${terms ? `<div class="pa-terms">${terms}</div>` : ''}
+    <div class="pa-foot">${[S.fusszeile, [S.firma, S.inhaber].filter(Boolean).join(' · ')].filter(s => s && s.trim()).map(e).join(' – ')}</div>`;
+
+  const prevTitle = document.title;
+  document.title = `Offerte ${o.ref || ''}${o.kunde ? ' – ' + o.kunde : ''}`.trim();
+  window.addEventListener('afterprint', () => { document.title = prevTitle; }, { once: true });
+  window.print();
 }
 
 // ═══ Import ══════════════════════════════════════════════════════
@@ -1032,13 +1345,11 @@ async function handleFiles(files) {
     renderImports();
   }
 }
-
 function impWeight(it) {
   if (it.kind === 'exact') return it.weightG || 0;
   const d = (MATS.find(m => m.id === it.mat) || MATS[0]).density;
   return it.volume / 1000 * d * ((it.infill / 100) * 0.65 + 0.35);
 }
-
 function renderImports() {
   el('impList').innerHTML = imports.map(it => {
     if (it.loading) return `<div class="card imp"><div class="imp-loading"><div class="spinner"></div>Lese ${escHtml(it.name)} …</div></div>`;
@@ -1051,7 +1362,7 @@ function renderImports() {
           <select onchange="updImport(${it.id},'mat',this.value)">${MATS.map(m => `<option${m.id === it.mat ? ' selected' : ''}>${m.id}</option>`).join('')}</select></div>
         <div class="field"><label>Infill</label>
           <div class="ig"><input type="number" min="0" max="100" step="5" value="${it.infill}" oninput="updImport(${it.id},'infill',this.value)"><span class="unit">%</span></div></div>
-        <span class="hint" style="font-size:12px;color:var(--fg3);padding-bottom:10px">Volumen ${(it.volume / 1000).toFixed(1)} cm³ – grobe Schätzung inkl. Wände</span>
+        <span class="hint" style="padding-bottom:10px">Volumen ${(it.volume / 1000).toFixed(1)} cm³ – grobe Schätzung inkl. Wände</span>
       </div>`;
     return `<div class="card imp">
       <div>
@@ -1072,7 +1383,6 @@ function renderImports() {
     </div>`;
   }).join('');
 }
-
 function updImport(id, key, val) {
   const it = imports.find(x => x.id === id);
   if (!it) return;
@@ -1081,32 +1391,24 @@ function updImport(id, key, val) {
   el('impW_' + id).textContent = w > 0 ? w.toFixed(1) + ' g' : '–';
 }
 function removeImport(id) { imports = imports.filter(x => x.id !== id); renderImports(); }
-
 function useImport(id) {
   const it = imports.find(x => x.id === id);
   if (!it) return;
-  editId = null;
   resetForm();
   fillForm({
     desc: it.name.replace(/\.gcode\.3mf$|\.3mf$|\.stl$/i, '').replace(/[_-]+/g, ' ').trim(),
-    mat:  it.mat,
-    gew:  impWeight(it),
-    dt:   it.timeH || 0,
-    nb:   0,
-    mng:  1,
-    src:  /\.stl$/i.test(it.name) ? 'STL' : '3MF',
+    mat: it.mat, gew: impWeight(it), dt: it.timeH || 0, nb: 0, mng: 1, multi: false,
+    src: /\.stl$/i.test(it.name) ? 'STL' : '3MF',
   });
   show('kalkulator');
   toast(it.timeH ? '✓ Werte übernommen – Nachbearbeitung und Menge prüfen' : '✓ Gewicht übernommen – Druckzeit bitte eintragen');
 }
 
-// ─── 3MF ───
 async function parse3mf(file) {
   const JSZip = await loadJszip();
   const zip = await JSZip.loadAsync(file);
   const names = Object.keys(zip.files).filter(n => !zip.files[n].dir);
-
-  // Bambu/Orca: slice_info.config holds slicer results per plate
+  // Bambu/Orca store slicer results per plate in slice_info.config
   const si = names.find(n => /slice_info\.config$/i.test(n));
   if (si) {
     const doc = new DOMParser().parseFromString(await zip.file(si).async('string'), 'application/xml');
@@ -1125,19 +1427,16 @@ async function parse3mf(file) {
     }
     if (plates) return { kind: 'exact', weightG: w || null, timeH: t > 0 ? t / 3600 : null, matType, plates };
   }
-
   const gc = names.find(n => /\.gcode$/i.test(n));
   if (gc) {
     const u8 = await zip.file(gc).async('uint8array');
     const r = parseGcodeHeader(new TextDecoder().decode(u8.subarray(0, 32768)));
     if (r.weightG || r.timeH) return { kind: 'exact', ...r, plates: 1 };
   }
-
   let volume = 0;
   for (const n of names.filter(n => /\.model$/i.test(n))) volume += volumeFrom3mfXml(await zip.file(n).async('string'));
   return volume > 0 ? { kind: 'estimate', volume } : null;
 }
-
 function parseGcodeHeader(text) {
   const w = text.match(/;\s*total filament weight \[g\]\s*:\s*([\d.]+)/i)
          || text.match(/;\s*filament used \[g\]\s*=\s*([\d.]+)/i)
@@ -1155,7 +1454,6 @@ function parseGcodeHeader(text) {
   }
   return { weightG: w ? parseFloat(w[1]) : null, timeH };
 }
-
 function volumeFrom3mfXml(xml) {
   const doc = new DOMParser().parseFromString(xml, 'application/xml');
   let total = 0;
@@ -1170,8 +1468,6 @@ function volumeFrom3mfXml(xml) {
   }
   return total;
 }
-
-// ─── STL ───
 function tetra(a, b, c) {
   return (a[0] * (b[1] * c[2] - b[2] * c[1]) + b[0] * (c[1] * a[2] - c[2] * a[1]) + c[0] * (a[1] * b[2] - a[2] * b[1])) / 6;
 }
@@ -1197,8 +1493,6 @@ async function stlVolume(buf) {
   for (let i = 0; i + 2 < v.length; i += 3) vol += tetra(v[i], v[i + 1], v[i + 2]);
   return Math.abs(vol);
 }
-
-// ─── JSZip (lazy, with CDN fallbacks) ───
 let _jszip = null;
 async function loadJszip() {
   if (_jszip) return _jszip;
@@ -1209,11 +1503,7 @@ async function loadJszip() {
   ];
   for (const url of urls) {
     try {
-      await new Promise((res, rej) => {
-        const s = document.createElement('script');
-        s.src = url; s.onload = res; s.onerror = rej;
-        document.head.appendChild(s);
-      });
+      await new Promise((res, rej) => { const s = document.createElement('script'); s.src = url; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
       if (window.JSZip) return (_jszip = window.JSZip);
     } catch {}
   }
@@ -1231,25 +1521,23 @@ function toast(msg) {
 }
 
 // ═══ Persistence ═════════════════════════════════════════════════
+let saveWarned = false;
 function saveAll() {
-  ST.set('kp_settings_v2', JSON.stringify(S));
-  ST.set('kp_positions', JSON.stringify(P));
-  ST.set('kp_meta', JSON.stringify(meta));
-  if (meta.ref) ST.set('kp_lastRef', meta.ref);
+  const ok = ST.set('kp_settings_v2', JSON.stringify(S)) &&
+             ST.set('kp_store_v3', JSON.stringify({ offers, currentId }));
+  const o = cur();
+  if (o && o.ref) ST.set('kp_lastRef', o.ref);
+  if (!ok && !saveWarned) { saveWarned = true; toast('⚠ Speichern im Browser nicht möglich – bitte Backup herunterladen'); }
 }
-
 function loadAll() {
   try {
     const s2 = JSON.parse(ST.get('kp_settings_v2') || 'null');
-    if (s2) {
-      Object.keys(DEFAULTS).forEach(k => { if (typeof s2[k] === 'number') S[k] = s2[k]; });
-    } else {
-      // Migrate settings saved by the previous calculator version
+    if (s2) applySettings(s2);
+    else {
       const s1 = JSON.parse(ST.get('kp_settings') || 'null');
       if (s1) {
         const pick = (...ks) => { for (const k of ks) { const v = parseFloat(s1[k]); if (isFinite(v) && s1[k] !== '') return v; } return null; };
-        const map = { lohn: ['s_lohn', 's_stundenlohn'], masch: ['s_masch', 's_maschine'], leist: ['s_leist', 's_leistung'],
-                      strom: ['s_strom'], marge: ['s_marge'] };
+        const map = { lohn: ['s_lohn', 's_stundenlohn'], masch: ['s_masch', 's_maschine'], leist: ['s_leist', 's_leistung'], strom: ['s_strom'], marge: ['s_marge'] };
         Object.entries(map).forEach(([k, ks]) => { const v = pick(...ks); if (v != null) S[k] = v; });
         if (S.marge <= 5) S.marge = Math.round(S.marge * 100);
         MATS.forEach(m => { const v = pick('fp_' + m.id); if (v != null) S[m.id] = v; });
@@ -1257,27 +1545,32 @@ function loadAll() {
     }
   } catch {}
   try {
-    const p = JSON.parse(ST.get('kp_positions') || '[]');
-    if (Array.isArray(p)) P = p.filter(x => x && typeof x === 'object').map(x => ({
-      id: ++seq, desc: String(x.desc || ''), mat: MATS.some(m => m.id === x.mat) ? x.mat : 'PLA',
-      gew: num(x.gew), dt: num(x.dt), nb: num(x.nb), mng: Math.max(1, Math.round(num(x.mng)) || 1),
-      src: x.src === 'STL' || x.src === '3MF' ? x.src : null,
-    }));
+    const st = JSON.parse(ST.get('kp_store_v3') || 'null');
+    if (st && Array.isArray(st.offers)) {
+      offers = st.offers.map(normOffer);
+      currentId = offers.some(o => o.id === st.currentId) ? st.currentId : null;
+    } else {
+      // Migrate the single offer of the previous version
+      const pos = JSON.parse(ST.get('kp_positions') || '[]');
+      const meta = JSON.parse(ST.get('kp_meta') || 'null');
+      if ((Array.isArray(pos) && pos.length) || meta) {
+        const o = normOffer({ id: uid(), ref: meta?.ref, datum: meta?.datum, kunde: meta?.kunde, positions: Array.isArray(pos) ? pos : [] });
+        if (!o.ref) o.ref = nextRef();
+        offers.push(o);
+      }
+    }
   } catch {}
-  try {
-    const m = JSON.parse(ST.get('kp_meta') || 'null');
-    if (m) meta = { kunde: String(m.kunde || ''), datum: String(m.datum || ''), ref: String(m.ref || '') };
-  } catch {}
-  if (!meta.datum) meta.datum = today();
-  if (!meta.ref) meta.ref = nextRef();
+  if (!offers.length) createOffer();
+  if (!currentId) currentId = [...offers].sort((a, b) => b.updated - a.updated)[0].id;
 }
 
 // ═══ Init ════════════════════════════════════════════════════════
 loadAll();
 renderMatTiles();
 bindSettings();
+bindOfferFields();
 renderMatSeg();
-fillMeta();
+fillOfferFields();
 resetForm();
 renderAll();
 renderImports();
