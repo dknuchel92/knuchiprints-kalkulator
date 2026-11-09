@@ -8,19 +8,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:       #090E0B;
-      --bg2:      #0D1510;
-      --card:     #111A14;
-      --card2:    #162019;
-      --border:   rgba(22,212,160,.10);
-      --border2:  rgba(22,212,160,.20);
-      --accent:   #16D4A0;
-      --accent-d: #0FA87E;
-      --accent-s: rgba(22,212,160,.08);
-      --accent-g: rgba(22,212,160,.35);
-      --fg:       #E4F2EC;
-      --fg2:      #8FADA1;
-      --fg3:      #4A6558;
+      --bg:       #0d0d14;
+      --bg2:      #0a0a10;
+      --card:     #12121e;
+      --card2:    #1a1a2e;
+      --border:   rgba(0,191,255,.10);
+      --border2:  rgba(0,191,255,.22);
+      --accent:   #00BFFF;
+      --accent-d: #0099CC;
+      --accent-s: rgba(0,191,255,.07);
+      --accent-g: rgba(0,191,255,.35);
+      --fg:       #f0f0f0;
+      --fg2:      #a3b1c2;
+      --fg3:      #64748b;
       --red:      #F05252;
       --warn:     #F2C94C;
       --r:        10px;
@@ -46,7 +46,7 @@
     /* ── Header ── */
     .topbar {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(9,14,11,.92);
+      background: rgba(13,13,20,.92);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 24px;
@@ -125,21 +125,25 @@
     /* ── Settings ── */
     .settings-cols {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      grid-template-columns: repeat(2, minmax(0, 400px));
+      gap: 48px;
     }
     .sg-label {
       font-size: 10px; font-weight: 700; text-transform: uppercase;
       letter-spacing: .08em; color: var(--fg3);
-      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border2);
     }
     .sg-row {
       display: flex; align-items: center;
-      justify-content: space-between; gap: 8px;
-      margin-bottom: 8px;
+      justify-content: space-between; gap: 12px;
+      padding: 6px 4px;
+      border-bottom: 1px solid var(--border);
+      transition: background .1s;
     }
+    .sg-row:hover { background: var(--accent-s); }
     .sg-row label { font-size: 12px; color: var(--fg2); white-space: nowrap; }
-    .sg-row input { width: 100px; }
+    .sg-row input { width: 100px; padding: 5px 10px; }
 
     /* ── Inputs ── */
     input, select {
@@ -155,7 +159,7 @@
     }
     input:focus, select:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(22,212,160,.12);
+      box-shadow: 0 0 0 3px rgba(0,191,255,.14);
     }
     input::placeholder { color: var(--fg3); }
     input[type=number] { -moz-appearance: textfield; text-align: right; }
@@ -334,7 +338,7 @@
     .btn:hover { opacity: .85; }
     .btn:active { transform: scale(.97); }
     .btn-primary {
-      background: var(--accent); color: #07100C;
+      background: var(--accent); color: #000;
       box-shadow: 0 0 0 0 var(--accent-g);
     }
     .btn-primary:hover { box-shadow: 0 0 16px 0 var(--accent-g); opacity: 1; }
@@ -404,15 +408,15 @@
   <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <pattern id="ls" x="0" y="28" width="200" height="12" patternUnits="userSpaceOnUse">
-        <rect y="0" width="200" height="8" fill="#16D4A0"/>
+        <rect y="0" width="200" height="8" fill="#00BFFF"/>
       </pattern>
       <clipPath id="lk">
         <path d="M40 28 L68 28 L68 80 L160 28 L160 50 L86 100 L160 150 L160 172 L68 120 L68 172 L40 172Z"/>
       </clipPath>
     </defs>
-    <rect width="200" height="200" fill="#0D1510"/>
+    <rect width="200" height="200" fill="#0d0d14"/>
     <rect width="200" height="200" fill="url(#ls)" clip-path="url(#lk)"/>
-    <rect x="6" y="6" width="188" height="188" rx="18" fill="none" stroke="#16D4A0" stroke-width="3"/>
+    <rect x="6" y="6" width="188" height="188" rx="18" fill="none" stroke="#00BFFF" stroke-width="3"/>
   </svg>
   <div>
     <div class="topbar-title">Knuchi Prints</div>
@@ -452,11 +456,10 @@
 
   <!-- ── Einstellungen ── -->
   <div class="section settings-section">
-    <div class="sec-head" onclick="toggleSec('sbody','sch')">
+    <div class="sec-head sec-head-static">
       <span class="sec-label">Einstellungen</span>
-      <span class="sec-chevron" id="sch">▼</span>
     </div>
-    <div class="sec-body collapsed" id="sbody">
+    <div class="sec-body" id="sbody">
       <div class="settings-cols">
         <div>
           <div class="sg-label">Betriebskosten</div>
@@ -487,9 +490,7 @@
           <div class="sg-row"><label>PETG</label>  <input type="number" id="fp_PETG"  value="25"   step="0.5" min="0" onchange="recalcAll()"></div>
           <div class="sg-row"><label>ABS</label>   <input type="number" id="fp_ABS"   value="28"   step="0.5" min="0" onchange="recalcAll()"></div>
           <div class="sg-row"><label>TPU</label>   <input type="number" id="fp_TPU"   value="35"   step="0.5" min="0" onchange="recalcAll()"></div>
-          <div class="sg-row"><label>ASA</label>   <input type="number" id="fp_ASA"   value="30"   step="0.5" min="0" onchange="recalcAll()"></div>
-          <div class="sg-row"><label>Resin</label> <input type="number" id="fp_Resin" value="45"   step="0.5" min="0" onchange="recalcAll()"></div>
-        </div>
+          <div class="sg-row"><label>ASA</label>   <input type="number" id="fp_ASA"   value="30"   step="0.5" min="0" onchange="recalcAll()"></div>        </div>
       </div>
     </div>
   </div>
@@ -574,8 +575,8 @@
 // ═══════════════════════════════════════════════════════════════
 // Constants & state
 // ═══════════════════════════════════════════════════════════════
-const MATS = ['PLA','PETG','ABS','TPU','ASA','Resin'];
-const MAT_DENSITY = { PLA:1.24, PETG:1.27, ABS:1.05, TPU:1.20, ASA:1.07, Resin:1.20 }; // g/cm³
+const MATS = ['PLA','PETG','ABS','TPU','ASA'];
+const MAT_DENSITY = { PLA:1.24, PETG:1.27, ABS:1.05, TPU:1.20, ASA:1.07 }; // g/cm³
 let rowId = 0;
 
 // ═══════════════════════════════════════════════════════════════
@@ -1119,7 +1120,9 @@ const ST = {
 };
 
 const SIDS = ['s_lohn','s_strom','s_masch','s_leist','s_marge',
-              'fp_PLA','fp_PETG','fp_ABS','fp_TPU','fp_ASA','fp_Resin'];
+              'fp_PLA','fp_PETG','fp_ABS','fp_TPU','fp_ASA'];
+// Keys used by the previous calculator version
+const LEGACY_SIDS = { s_lohn:'s_stundenlohn', s_masch:'s_maschine', s_leist:'s_leistung' };
 
 function saveState() {
   try {
@@ -1152,7 +1155,11 @@ function saveState() {
 function loadState() {
   try {
     const settings = JSON.parse(ST.get('kp_settings') || 'null');
-    if (settings) SIDS.forEach(k => { const e = el(k); if (e && settings[k] !== '') e.value = settings[k]; });
+    if (settings) SIDS.forEach(k => {
+      const e = el(k);
+      const v = settings[k] || settings[LEGACY_SIDS[k]];
+      if (e && typeof v === 'string' && v !== '') e.value = v;
+    });
 
     const meta = JSON.parse(ST.get('kp_meta') || 'null');
     if (meta) {
