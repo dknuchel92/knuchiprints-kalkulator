@@ -317,37 +317,59 @@
 
     /* ── Print: customer offer ── */
     @media print {
-      @page { size: A4; margin: 16mm 16mm 18mm; }
-      body { background: #fff; color: #111; font-size: 10pt; }
+      /* Margins live inside the page so the layout survives "no margins" print settings */
+      @page { size: A4; margin: 0; }
+      html, body { background: #fff !important; }
+      body { color: #1c1c1c; font: 9.5pt/1.5 "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif; }
       .app, .toast { display: none !important; }
-      .print-area { display: block; }
-      .print-area th, .print-area td { background: none !important; border: none; color: #111; white-space: normal; vertical-align: top; }
-      .pa-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
-      .pa-brand { display: flex; gap: 12px; align-items: flex-start; }
-      .pa-brand svg { width: 46px; height: 46px; }
-      .pa-company { font-size: 9pt; line-height: 1.45; color: #333; }
-      .pa-company strong { font-size: 13pt; color: #111; display: block; margin-bottom: 2px; }
-      .pa-title { text-align: right; }
-      .pa-title h1 { font-size: 24pt; color: #0077aa; letter-spacing: -.01em; }
-      .pa-meta { margin-top: 6px; border-collapse: collapse; margin-left: auto; }
-      .pa-meta td { padding: 1px 0 1px 14px; font-size: 9.5pt; text-align: right; white-space: nowrap; }
-      .pa-meta td:first-child, .pa-table th { color: #555; }
-      .pa-to { margin-top: 28px; font-size: 10.5pt; line-height: 1.45; white-space: pre-line; }
-      .pa-subject { margin-top: 22px; font-size: 12pt; font-weight: 700; }
-      .pa-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 9.5pt; }
-      .pa-table th { text-align: left; border-bottom: 1.5px solid #111; padding: 6px 6px; font-weight: 600; }
-      .pa-table td { padding: 8px 6px; border-bottom: 1px solid #ddd; vertical-align: top; }
-      .pa-table .n { text-align: right; white-space: nowrap; }
-      .pa-table .sub { color: #666; font-size: 8.5pt; margin-top: 1px; }
-      .pa-sum { margin-left: auto; margin-top: 10px; border-collapse: collapse; min-width: 260px; font-size: 10pt; }
-      .pa-sum td { padding: 4px 6px; }
-      .pa-sum td:last-child { text-align: right; white-space: nowrap; }
-      .pa-sum .tot td { border-top: 1.5px solid #111; font-weight: 700; font-size: 12pt; padding-top: 7px; }
-      .pa-notes { margin-top: 22px; font-size: 9.5pt; white-space: pre-line; }
-      .pa-terms { margin-top: 18px; font-size: 9pt; color: #333; line-height: 1.55; }
-      .pa-terms strong { color: #111; }
-      .pa-foot { margin-top: 30px; padding-top: 8px; border-top: 1px solid #ddd; font-size: 8pt; color: #777; }
+      .print-area { display: flex; flex-direction: column; min-height: 296mm; padding: 15mm 20mm 10mm; }
+      .print-area * { font-family: inherit; }
+      .print-area th, .print-area td { background: none !important; border: none; color: inherit; white-space: normal; vertical-align: top; padding: 0; text-align: left; font-variant-numeric: tabular-nums; }
+      .pa-brandfont { font-family: 'Space Grotesk', "Segoe UI", sans-serif !important; letter-spacing: -.01em; }
+      .pa-label { font-size: 7pt; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #8a8a8a; margin-bottom: 1.2mm; }
+
+      .pa-top { display: flex; justify-content: space-between; align-items: flex-start; }
+      .pa-logo { display: flex; align-items: center; gap: 3mm; }
+      .pa-logo svg { width: 10mm; height: 10mm; }
+      .pa-brand { font-size: 14pt; font-weight: 600; line-height: 1.1; }
+      .pa-brand-sub { font-size: 8pt; color: #8a8a8a; margin-top: .6mm; }
+      .pa-doc { text-align: right; }
+      .pa-doc .pa-label { color: #0091c2; letter-spacing: .2em; }
+      .pa-doc-nr { font-size: 17pt; font-weight: 600; line-height: 1.1; }
+
+      .pa-addr { display: grid; grid-template-columns: 1fr 58mm; gap: 12mm; margin-top: 12mm; align-items: end; }
+      .pa-sender { font-size: 7pt; color: #8a8a8a; padding-bottom: 1.2mm; margin-bottom: 3mm; border-bottom: .5pt solid #d4d4d4; display: inline-block; }
+      .pa-to { font-size: 10.5pt; line-height: 1.45; white-space: pre-line; }
+      .pa-meta { width: 100%; border-collapse: collapse; }
+      .pa-meta td { padding: 1.4mm 0; border-bottom: .5pt solid #e6e6e6; font-size: 9pt; }
+      .pa-meta tr:last-child td { border-bottom: none; }
+      .pa-meta td:first-child { color: #8a8a8a; }
+      .pa-meta td:last-child { text-align: right; }
+
+      .pa-subject { margin-top: 10mm; font-size: 15pt; font-weight: 600; line-height: 1.25; }
+
+      .pa-table { width: 100%; border-collapse: collapse; margin-top: 7mm; }
+      .pa-table th { font-size: 7pt; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #8a8a8a; padding-bottom: 2.4mm; border-bottom: .75pt solid #1c1c1c; }
+      .pa-table td { padding: 2.4mm 0; border-bottom: .5pt solid #e6e6e6; }
+      .pa-table .pos { width: 9mm; color: #8a8a8a; }
+      .pa-table .n { text-align: right; white-space: nowrap; padding-left: 6mm; }
+      .pa-table .sub { color: #8a8a8a; font-size: 8pt; margin-top: .4mm; }
       .pa-table tr { page-break-inside: avoid; }
+
+      .pa-sum { width: 78mm; margin: 4mm 0 0 auto; border-collapse: collapse; page-break-inside: avoid; }
+      .pa-sum td { padding: 1.3mm 0; }
+      .pa-sum td:first-child { color: #5a5a5a; }
+      .pa-sum td:last-child { text-align: right; white-space: nowrap; }
+      .pa-sum .tot td { border-top: .75pt solid #1c1c1c; padding-top: 3mm; font-size: 12.5pt; font-weight: 700; color: #1c1c1c; }
+      .pa-sum .tot td:last-child { color: #0091c2; }
+
+      .pa-notes { margin-top: 7mm; white-space: pre-line; page-break-inside: avoid; }
+      .pa-terms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8mm; margin-top: 7mm; font-size: 9pt; page-break-inside: avoid; }
+      .pa-thanks { margin-top: 6mm; color: #5a5a5a; }
+
+      .pa-foot { margin-top: auto; padding-top: 4mm; border-top: .5pt solid #d4d4d4; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8mm; font-size: 7.5pt; line-height: 1.55; color: #8a8a8a; }
+      .pa-foot strong { color: #1c1c1c; font-weight: 600; }
+      .pa-spacer { height: 8mm; flex-shrink: 0; }
     }
   </style>
 </head>
@@ -1259,11 +1281,14 @@ function printOffer() {
   if (!o.positions.length) { toast('Die Offerte hat noch keine Positionen'); return; }
   const t = offerSum(o);
   const e = escHtml;
-  const company = [S.strasse, S.ort, S.email, S.tel, S.web].filter(s => s.trim()).map(e).join('<br>');
+  const has = s => !!(s && String(s).trim());
+  const firma = S.firma.trim() || 'Knuchi Prints';
+  const gueltigBis = S.gueltig > 0 ? dateCH(addDays(o.datum, S.gueltig)) : '';
+
   const rows = o.positions.map((p, i) => {
     const c = calc(p);
     const sub = [p.mat, p.multi ? 'mehrfarbig' : '', c.stPct ? `inkl. Mengenrabatt ${c.stPct} %` : ''].filter(Boolean).join(' · ');
-    return `<tr><td>${i + 1}</td><td>${e(p.desc)}<div class="sub">${e(sub)}</div></td>
+    return `<tr><td class="pos">${i + 1}</td><td>${e(p.desc)}<div class="sub">${e(sub)}</div></td>
       <td class="n">${p.mng}</td><td class="n">${chf(c.einzel)}</td><td class="n">${chf(c.gesamt)}</td></tr>`;
   }).join('');
   const sumRows = [
@@ -1272,42 +1297,66 @@ function printOffer() {
     t.einrichtung > 0 ? ['Einrichtungspauschale', chf(t.einrichtung)] : null,
     o.versand !== 'keiner' ? ['Versand', t.versandFrei ? 'kostenlos' : chf(t.versand)] : null,
   ].filter(Boolean).map(([l, v]) => `<tr><td>${l}</td><td>${v}</td></tr>`).join('');
+
+  const term = (label, text) => `<div><div class="pa-label">${label}</div>${text}</div>`;
   const terms = [
-    S.lieferzeit.trim() ? `<strong>Lieferzeit:</strong> ${e(S.lieferzeit)}` : '',
-    S.gueltig > 0 ? `<strong>Gültig bis:</strong> ${dateCH(addDays(o.datum, S.gueltig))}` : '',
-    S.zahlung > 0 ? `<strong>Zahlung:</strong> innert ${S.zahlung} Tagen nach Rechnungsstellung${S.iban.trim() ? ` auf ${e(S.iban)}${S.firma || S.inhaber ? ' (' + e([S.inhaber, S.firma].filter(Boolean).join(', ')) + ')' : ''}` : ''}` : '',
-  ].filter(Boolean).join('<br>');
-  const to = [o.kunde, o.adresse].filter(s => s.trim()).map(e).join('\n');
+    has(S.lieferzeit) ? term('Lieferzeit', e(S.lieferzeit)) : '',
+    gueltigBis ? term('Gültigkeit', `Diese Offerte ist gültig bis ${gueltigBis}.`) : '',
+    S.zahlung > 0 ? term('Zahlung', `Innert ${S.zahlung} Tagen nach Rechnungsstellung${has(S.iban) ? ', Bankverbindung siehe unten' : ''}.`) : '',
+  ].join('');
+
+  const sender = [firma, S.inhaber, S.strasse, S.ort].filter(has).map(e).join(' · ');
+  const to = [o.kunde, o.adresse].filter(has).map(e).join('\n');
+  const col = (title, lines) => { const l = lines.filter(has); return l.length ? `<div><strong>${title}</strong><br>${l.map(e).join('<br>')}</div>` : '<div></div>'; };
+  const foot = col(firma, [S.inhaber, S.strasse, S.ort]) +
+               col('Kontakt', [S.tel, S.email, S.web]) +
+               col('Bankverbindung', has(S.iban) ? [S.iban, 'lautend auf ' + ([S.inhaber, firma].filter(has).join(', '))] : []);
 
   el('printArea').innerHTML = `
-    <div class="pa-head">
-      <div class="pa-brand">
+    <div class="pa-top">
+      <div class="pa-logo">
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs>
-          <pattern id="pls" x="0" y="28" width="200" height="12" patternUnits="userSpaceOnUse"><rect width="200" height="8" fill="#0099CC"/></pattern>
+          <pattern id="pls" x="0" y="28" width="200" height="12" patternUnits="userSpaceOnUse"><rect width="200" height="8" fill="#0091c2"/></pattern>
           <clipPath id="plk"><path d="M40 28 L68 28 L68 80 L160 28 L160 50 L86 100 L160 150 L160 172 L68 120 L68 172 L40 172Z"/></clipPath></defs>
           <rect width="200" height="200" fill="url(#pls)" clip-path="url(#plk)"/>
-          <rect x="5" y="5" width="190" height="190" rx="20" fill="none" stroke="#0099CC" stroke-width="6"/></svg>
-        <div class="pa-company"><strong>${e(S.firma || 'Knuchi Prints')}</strong>${S.inhaber.trim() ? e(S.inhaber) + '<br>' : ''}${company}</div>
+          <rect x="6" y="6" width="188" height="188" rx="22" fill="none" stroke="#0091c2" stroke-width="7"/></svg>
+        <div>
+          <div class="pa-brand pa-brandfont">${e(firma)}</div>
+          <div class="pa-brand-sub">3D-Druck aus der Schweiz</div>
+        </div>
       </div>
-      <div class="pa-title">
-        <h1>Offerte</h1>
-        <table class="pa-meta">
-          <tr><td>Offerte-Nr.</td><td><strong>${e(o.ref || '–')}</strong></td></tr>
-          <tr><td>Datum</td><td>${dateCH(o.datum)}</td></tr>
-          ${S.gueltig > 0 ? `<tr><td>Gültig bis</td><td>${dateCH(addDays(o.datum, S.gueltig))}</td></tr>` : ''}
-        </table>
+      <div class="pa-doc">
+        <div class="pa-label">Offerte</div>
+        <div class="pa-doc-nr pa-brandfont">${e(o.ref || '–')}</div>
       </div>
     </div>
-    ${to ? `<div class="pa-to">${to}</div>` : ''}
-    ${o.projekt.trim() ? `<div class="pa-subject">${e(o.projekt)}</div>` : ''}
+
+    <div class="pa-addr">
+      <div>
+        ${sender ? `<div class="pa-sender">${sender}</div>` : ''}
+        <div class="pa-to">${to || '&nbsp;'}</div>
+      </div>
+      <table class="pa-meta">
+        <tr><td>Datum</td><td>${dateCH(o.datum)}</td></tr>
+        ${gueltigBis ? `<tr><td>Gültig bis</td><td>${gueltigBis}</td></tr>` : ''}
+        ${has(S.inhaber) ? `<tr><td>Kontakt</td><td>${e(S.inhaber)}</td></tr>` : ''}
+      </table>
+    </div>
+
+    <div class="pa-subject pa-brandfont">${has(o.projekt) ? e(o.projekt) : 'Offerte ' + e(o.ref || '')}</div>
+
     <table class="pa-table">
-      <thead><tr><th style="width:28px">Pos.</th><th>Beschreibung</th><th class="n">Menge</th><th class="n">Preis pro Stück</th><th class="n">Total</th></tr></thead>
+      <thead><tr><th class="pos">Pos.</th><th>Beschreibung</th><th class="n">Menge</th><th class="n">Preis pro Stück</th><th class="n">Betrag</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
-    <table class="pa-sum">${sumRows}<tr class="tot"><td>Total</td><td>${chf(t.total)}</td></tr></table>
-    ${o.notiz.trim() ? `<div class="pa-notes">${e(o.notiz)}</div>` : ''}
+    <table class="pa-sum">${sumRows}<tr class="tot"><td>Total CHF</td><td>${chf(t.total).replace('CHF ', '')}</td></tr></table>
+
+    ${has(o.notiz) ? `<div class="pa-notes"><div class="pa-label">Bemerkungen</div>${e(o.notiz)}</div>` : ''}
     ${terms ? `<div class="pa-terms">${terms}</div>` : ''}
-    <div class="pa-foot">${[S.fusszeile, [S.firma, S.inhaber].filter(Boolean).join(' · ')].filter(s => s && s.trim()).map(e).join(' – ')}</div>`;
+    ${has(S.fusszeile) ? `<div class="pa-thanks">${e(S.fusszeile)}</div>` : ''}
+
+    <div class="pa-spacer"></div>
+    <div class="pa-foot">${foot}</div>`;
 
   const prevTitle = document.title;
   document.title = `Offerte ${o.ref || ''}${o.kunde ? ' – ' + o.kunde : ''}`.trim();
